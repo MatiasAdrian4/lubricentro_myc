@@ -19,6 +19,10 @@ class Producto(models.Model):
     precio_venta_contado = models.FloatField(blank=True, default=0.0)
     precio_venta_cta_cte = models.FloatField(blank=True, default=0.0)
     categoria = models.CharField(max_length=50)
+    desc1 = models.FloatField(blank=True, default=0.0)
+    desc2 = models.FloatField(blank=True, default=0.0)
+    desc3 = models.FloatField(blank=True, default=0.0)
+    desc4 = models.FloatField(blank=True, default=0.0)
 
     def __str__(self):
         return self.detalle
