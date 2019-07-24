@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.list import ListView
 from rest_framework import viewsets
 
 from .models import Cliente, Producto
@@ -11,3 +12,7 @@ class ClienteViewSet(viewsets.ModelViewSet):
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
+
+class ProductoTemplateView(ListView):
+    model = Producto
+    template_name = 'productos.html'
