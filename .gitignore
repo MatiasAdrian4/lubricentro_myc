@@ -1,2 +1,3 @@
-django_project/migraciones_old_database/txt
 django_project/scripts/txt
+*.pyc
+__pycache__/
