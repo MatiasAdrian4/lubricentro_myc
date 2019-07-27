@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
-from lubricentro_myc.views import ClienteViewSet, ProductoViewSet, ProductoTemplateView
+from lubricentro_myc.views import ClienteViewSet, ProductoViewSet, ProductoListView
 
 router = DefaultRouter()
 #router.register(r'Clientes', ClienteViewSet)
@@ -8,7 +8,7 @@ router = DefaultRouter()
 
 urlpatterns = [
     url(r'productos/', 
-        ProductoTemplateView.as_view(),
+        ProductoListView.as_view(),
         name='productos'
     ),
     url('', include(router.urls))

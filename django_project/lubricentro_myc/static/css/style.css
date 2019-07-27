@@ -1,6 +1,45 @@
+
 body {
+    background-color: #E4E9E3;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-h1 {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+button {
+    background-color: #F0AD14;
+    color: #E4E9E3;
+    padding: 4px;
+    border-radius: 10%;
+    border: none;
+}
+
+/* productos */
+
+#productos h1{
+    text-align: center;
+}
+
+.tipos_de_busqueda {
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.productos-table {
+    margin: 0 auto;
+    margin-top: 25px;
+    border-collapse: collapse;
+}
+
+.productos-table, .productos-table thead, .productos-table td {
+    border: 1px solid black;
+}
+
+.productos-table thead td{
+    height: 50px;
+}
+
+/* encabezado */
+
+#encabezado img {
+    max-height: 30px;
+    margin: 10px 0px 0px 10px;
 }

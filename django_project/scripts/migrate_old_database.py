@@ -22,7 +22,7 @@ def leer_archivo(archivo):
             precio_costo=valores[3],
             precio_venta_contado=valores[5],
             precio_venta_cta_cte=valores[5],
-            categoria=productos.name[12:len(productos.name)-4]
+            categoria=productos.name[12:len(productos.name)-4].replace("_","")
         )
         p.save()
 
