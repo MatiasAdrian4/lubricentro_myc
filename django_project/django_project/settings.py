@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
+    'crispy_forms',
+    'corsheaders',
     'lubricentro_myc',
 ]
 
@@ -49,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',   
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -125,3 +127,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:8080",
+    "http://127.0.0.1:8000"
+)
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)

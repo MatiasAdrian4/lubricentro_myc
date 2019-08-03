@@ -1,0 +1,130 @@
+{% load static %}
+
+{% include "encabezado.html" %}
+
+{% block content %}
+    <head>
+        <script src="{% static 'vue_libs/vue-2.6.10/package/dist/vue.js' %}"></script>
+        <script src="{% static 'vue_libs/axios-0.19.0/axios-0.19.0/dist/axios.js' %}"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    </head>
+
+    <div id="productos">
+
+        <h1>Productos</h1>
+        
+        <table class="operaciones">
+            <tr>
+                <td>Buscar por Código</td>
+                <td><input type="text" id="codigo" style="margin: 0px 5px;"></td>
+                <td><button onClick="buscar_producto('codigo')">Buscar</button></td>
+            </tr>
+            <tr>
+                <td>Buscar por Detalle</td>
+                <td><input type="text" id="detalle" style="margin: 0px 5px;"></td>
+                <td><button onClick="buscar_producto('detalle')">Buscar</button></td>
+            </tr>
+            <tr>
+                <td>Buscar por Categoría</td>
+                <td>
+                    <select style="margin: 0px 5px;">
+                        <option value=""></option>
+                        {% for item in categorias %}
+                            <option value="{{ item.categoria }}">{{ item.categoria }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td><button onClick="buscar_producto('categoria')">Buscar</button></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button id="nuevo-producto">Ingresar Nuevo Producto</button><td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="productos-table">
+            <thead>
+                <td>Código</td>
+                <td>Detalle</td>
+                <td>Stock</td>
+                <td>Precio Costo</td>
+                <td>Precio Venta Contado</td>
+                <td>Precio Vta Cta. Cte.</td>
+                <td>Categoría</td>
+            </thead>
+            {% for obj in object_list %}
+                <tr>
+                    <td>{{ obj.codigo }}</td>
+                    <td>{{ obj.detalle }}</td>
+                    <td>{{ obj.stock }}</td>
+                    <td>{{ obj.precio_costo }}</td>
+                    <td>{{ obj.precio_venta_contado }}</td>
+                    <td>{{ obj.precio_venta_cta_cte }}</td>
+                    <td>{{ obj.categoria }}</td>
+                    <td style="display:none;">{{ obj.desc1 }}</td>
+                    <td style="display:none;">{{ obj.desc2 }}</td>
+                    <td style="display:none;">{{ obj.desc3 }}</td>
+                    <td style="display:none;">{{ obj.desc4 }}</td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#editar-producto-modal" onClick="$(this).addClass('prod-selected');">Editar</button></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <script type="text/javascript">
+        function buscar_producto(tipo_busqueda) {
+            var valor;
+            if (tipo_busqueda == 'categoria') {
+                valor = $('.operaciones select').val()
+            } else {
+                valor = document.getElementById(tipo_busqueda).value;
+                if (tipo_busqueda == 'codigo') {
+                    if (isNaN(valor) || valor=="") {
+                        alert("Código debe ser un número");
+                        return
+                    }
+                } else {
+                }
+            }
+            window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
+        }
+        
+        $(function(){
+            $( "#editar-producto-modal" ).on('show.bs.modal', function(){
+                var codigo = $('.productos-table tr:has(.prod-selected) td:nth-child(1)')[0].innerText;
+                var detalle = $('.productos-table tr:has(.prod-selected) td:nth-child(2)')[0].innerText;
+                var stock = $('.productos-table tr:has(.prod-selected) td:nth-child(3)')[0].innerText;
+                var precioCosto = $('.productos-table tr:has(.prod-selected) td:nth-child(4)')[0].innerText;
+                var precioVentaContado = $('.productos-table tr:has(.prod-selected) td:nth-child(5)')[0].innerText;
+                var precioVentaCtaCte = $('.productos-table tr:has(.prod-selected) td:nth-child(6)')[0].innerText;
+                var categoria = $('.productos-table tr:has(.prod-selected) td:nth-child(7)')[0].innerText;
+                var desc1 = $('.productos-table tr:has(.prod-selected) td:nth-child(8)')[0].innerText;
+                var desc2 = $('.productos-table tr:has(.prod-selected) td:nth-child(9)')[0].innerText;
+                var desc3 = $('.productos-table tr:has(.prod-selected) td:nth-child(10)')[0].innerText;
+                var desc4 = $('.productos-table tr:has(.prod-selected) td:nth-child(11)')[0].innerText;
+                $('#editar-producto-modal .modal-body table tr:nth-child(1) td input').val(codigo);
+                $('#editar-producto-modal .modal-body table tr:nth-child(2) td input').val(detalle);
+                $('#editar-producto-modal .modal-body table tr:nth-child(3) td input').val(stock);
+                $('#editar-producto-modal .modal-body table tr:nth-child(4) td input').val(precioCosto);
+                $('#editar-producto-modal .modal-body table tr:nth-child(5) td input').val(precioVentaContado);
+                $('#editar-producto-modal .modal-body table tr:nth-child(6) td input').val(precioVentaCtaCte);
+                $('#editar-producto-modal .modal-body table tr:nth-child(7) td input').val(desc1);
+                $('#editar-producto-modal .modal-body table tr:nth-child(8) td input').val(desc2);
+                $('#editar-producto-modal .modal-body table tr:nth-child(9) td input').val(desc3);
+                $('#editar-producto-modal .modal-body table tr:nth-child(10) td input').val(desc4);
+                $('#editar-producto-modal .modal-body table tr:nth-child(11) td select').val(categoria);
+            });
+        });
+
+    </script>
+
+{% endblock %}
+
+{% include "editar_producto.html" %}

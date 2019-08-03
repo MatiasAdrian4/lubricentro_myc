@@ -5,27 +5,46 @@ body {
 }
 
 button {
-    background-color: #F0AD14;
+    background-color: #F0AD14!important;
     color: #E4E9E3;
-    padding: 4px;
-    border-radius: 10%;
-    border: none;
 }
 
-/* productos */
+/* encabezado */
+
+#encabezado {
+    margin: 30px 10px;
+}
+
+#encabezado img {
+    max-height: 30px;
+    margin: 10px 0px 0px 10px;
+}
+
+/* inventario */
 
 #productos h1{
     text-align: center;
+    margin: 30px 0px;
 }
 
-.tipos_de_busqueda {
-    margin: 0 auto;
+.operaciones {
+    margin: 30px auto;
     padding: 10px;
 }
 
+.operaciones input, .operaciones select {
+    width: 95%;
+}
+
+#nuevo-producto {
+    margin-top: 10px;
+    width: 100%;
+}
+
 .productos-table {
-    margin: 0 auto;
+    margin: 30px auto;
     margin-top: 25px;
+    width: 80%;
     border-collapse: collapse;
 }
 
@@ -37,9 +56,21 @@ button {
     height: 50px;
 }
 
-/* encabezado */
-
-#encabezado img {
-    max-height: 30px;
-    margin: 10px 0px 0px 10px;
+.productos-table button {
+    padding: 4px;
+    border-radius: 10%;
+    border: none;
+    width: 100%;
 }
+
+/* editar_productos */
+
+.modal-body table {
+    margin: 0px auto;
+}
+
+.modal-body table tr td input, .modal-body table tr td select {
+    margin-left: 20px;
+}
+
+

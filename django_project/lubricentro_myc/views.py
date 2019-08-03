@@ -13,29 +13,32 @@ class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
 
-class ProductoListView(ListView):
+class InventarioView(ListView):
     model = Producto
-    template_name = 'productos.html'
+    template_name = 'inventario.html'
 
     def get_queryset(self):
         args = self.request.GET
+        queryset = []
         if 'codigo' in args.keys():
-            queryset = []
             try:
                 producto = Producto.objects.get(codigo=args['codigo'])
             except Producto.DoesNotExist:
-                print('no existe')
                 return []
             queryset.append(producto)
             return queryset
         elif 'detalle' in args.keys():
-           return Producto.objects.filter(detalle__contains=args['detalle'])
+            if len(args['detalle'].strip()) == 0:
+                return []
+            return Producto.objects.filter(detalle__icontains=args['detalle'])
         elif 'categoria' in args.keys():
             return Producto.objects.filter(categoria=args['categoria'])
         else:
-            return Producto.objects.all()
+            return queryset
 
     def get_context_data(self, **kwargs):
-        context = super(ProductoListView,self).get_context_data(**kwargs)
+        context = super(InventarioView,self).get_context_data(**kwargs)
         context['url'] = self.request.build_absolute_uri(self.request.path)
+        categorias = Producto.objects.order_by().values('categoria').distinct()
+        context['categorias'] = categorias
         return context
