@@ -36,8 +36,9 @@ button {
     width: 95%;
 }
 
-#nuevo-producto {
+.operaciones tr:nth-child(4) td button {
     margin-top: 10px;
+    padding: 0!important;
     width: 100%;
 }
 
@@ -63,7 +64,7 @@ button {
     width: 100%;
 }
 
-/* editar_productos */
+/* producto_modal */
 
 .modal-body table {
     margin: 0px auto;

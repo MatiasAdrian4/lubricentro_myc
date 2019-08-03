@@ -12,7 +12,7 @@ class Cliente(models.Model):
         return self.nombre
 
 class Producto(models.Model):
-    codigo = models.IntegerField(primary_key=True)
+    codigo = models.AutoField(primary_key=True)
     detalle = models.CharField(max_length=200)
     stock = models.IntegerField(blank=True, default=0)
     precio_costo = models.FloatField(blank=True, default=0.0)

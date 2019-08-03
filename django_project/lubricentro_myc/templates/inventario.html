@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><button id="nuevo-producto">Ingresar Nuevo Producto</button><td>
+                <td><button type="button" class="btn btn-primary vue-btn"  data-toggle="modal" data-target="#producto-modal" onClick="$(this).addClass('nuevo-producto');">Ingresar Nuevo Producto</button><td>
                 <td></td>
             </tr>
         </table>
@@ -71,7 +71,7 @@
                     <td style="display:none;">{{ obj.desc2 }}</td>
                     <td style="display:none;">{{ obj.desc3 }}</td>
                     <td style="display:none;">{{ obj.desc4 }}</td>
-                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#editar-producto-modal" onClick="$(this).addClass('prod-selected');">Editar</button></td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#producto-modal" onClick="$(this).addClass('prod-selected');">Editar</button></td>
                 </tr>
             {% endfor %}
         </table>
@@ -97,29 +97,43 @@
         }
         
         $(function(){
-            $( "#editar-producto-modal" ).on('show.bs.modal', function(){
-                var codigo = $('.productos-table tr:has(.prod-selected) td:nth-child(1)')[0].innerText;
-                var detalle = $('.productos-table tr:has(.prod-selected) td:nth-child(2)')[0].innerText;
-                var stock = $('.productos-table tr:has(.prod-selected) td:nth-child(3)')[0].innerText;
-                var precioCosto = $('.productos-table tr:has(.prod-selected) td:nth-child(4)')[0].innerText;
-                var precioVentaContado = $('.productos-table tr:has(.prod-selected) td:nth-child(5)')[0].innerText;
-                var precioVentaCtaCte = $('.productos-table tr:has(.prod-selected) td:nth-child(6)')[0].innerText;
-                var categoria = $('.productos-table tr:has(.prod-selected) td:nth-child(7)')[0].innerText;
-                var desc1 = $('.productos-table tr:has(.prod-selected) td:nth-child(8)')[0].innerText;
-                var desc2 = $('.productos-table tr:has(.prod-selected) td:nth-child(9)')[0].innerText;
-                var desc3 = $('.productos-table tr:has(.prod-selected) td:nth-child(10)')[0].innerText;
-                var desc4 = $('.productos-table tr:has(.prod-selected) td:nth-child(11)')[0].innerText;
-                $('#editar-producto-modal .modal-body table tr:nth-child(1) td input').val(codigo);
-                $('#editar-producto-modal .modal-body table tr:nth-child(2) td input').val(detalle);
-                $('#editar-producto-modal .modal-body table tr:nth-child(3) td input').val(stock);
-                $('#editar-producto-modal .modal-body table tr:nth-child(4) td input').val(precioCosto);
-                $('#editar-producto-modal .modal-body table tr:nth-child(5) td input').val(precioVentaContado);
-                $('#editar-producto-modal .modal-body table tr:nth-child(6) td input').val(precioVentaCtaCte);
-                $('#editar-producto-modal .modal-body table tr:nth-child(7) td input').val(desc1);
-                $('#editar-producto-modal .modal-body table tr:nth-child(8) td input').val(desc2);
-                $('#editar-producto-modal .modal-body table tr:nth-child(9) td input').val(desc3);
-                $('#editar-producto-modal .modal-body table tr:nth-child(10) td input').val(desc4);
-                $('#editar-producto-modal .modal-body table tr:nth-child(11) td select').val(categoria);
+            $( "#producto-modal" ).on('show.bs.modal', function(){
+                if ($('.nuevo-producto').length != 0) {
+                    $('#producto-modal .modal-body table tr:nth-child(1) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(2) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(3) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(4) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(5) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(6) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(7) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(8) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(9) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(10) td input').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(11) td select').val("");
+                } else if ($('.prod-selected').length != 0) {
+                    var codigo = $('.productos-table tr:has(.prod-selected) td:nth-child(1)')[0].innerText;
+                    var detalle = $('.productos-table tr:has(.prod-selected) td:nth-child(2)')[0].innerText;
+                    var stock = $('.productos-table tr:has(.prod-selected) td:nth-child(3)')[0].innerText;
+                    var precioCosto = $('.productos-table tr:has(.prod-selected) td:nth-child(4)')[0].innerText;
+                    var precioVentaContado = $('.productos-table tr:has(.prod-selected) td:nth-child(5)')[0].innerText;
+                    var precioVentaCtaCte = $('.productos-table tr:has(.prod-selected) td:nth-child(6)')[0].innerText;
+                    var categoria = $('.productos-table tr:has(.prod-selected) td:nth-child(7)')[0].innerText;
+                    var desc1 = $('.productos-table tr:has(.prod-selected) td:nth-child(8)')[0].innerText;
+                    var desc2 = $('.productos-table tr:has(.prod-selected) td:nth-child(9)')[0].innerText;
+                    var desc3 = $('.productos-table tr:has(.prod-selected) td:nth-child(10)')[0].innerText;
+                    var desc4 = $('.productos-table tr:has(.prod-selected) td:nth-child(11)')[0].innerText;
+                    $('#producto-modal .modal-body table tr:nth-child(1) td input').val(codigo);
+                    $('#producto-modal .modal-body table tr:nth-child(2) td input').val(detalle);
+                    $('#producto-modal .modal-body table tr:nth-child(3) td input').val(stock);
+                    $('#producto-modal .modal-body table tr:nth-child(4) td input').val(precioCosto);
+                    $('#producto-modal .modal-body table tr:nth-child(5) td input').val(precioVentaContado);
+                    $('#producto-modal .modal-body table tr:nth-child(6) td input').val(precioVentaCtaCte);
+                    $('#producto-modal .modal-body table tr:nth-child(7) td input').val(desc1);
+                    $('#producto-modal .modal-body table tr:nth-child(8) td input').val(desc2);
+                    $('#producto-modal .modal-body table tr:nth-child(9) td input').val(desc3);
+                    $('#producto-modal .modal-body table tr:nth-child(10) td input').val(desc4);
+                    $('#producto-modal .modal-body table tr:nth-child(11) td select').val(categoria);
+                }
             });
         });
 
@@ -127,4 +141,4 @@
 
 {% endblock %}
 
-{% include "editar_producto.html" %}
+{% include "producto_modal.html" %}
