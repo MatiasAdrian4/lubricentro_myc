@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>stock_{{ categoria }}</title>
+    </head>
+    <div id="stock">
+        <h1>Categoría: {{ categoria | upper }}</h1>
+    </div>
+
+
+    {% for producto in productos %}
+        {{ producto.codigo }}
+        <br>
+    {% endfor %}
+</html>
