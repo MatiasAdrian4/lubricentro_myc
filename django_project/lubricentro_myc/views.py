@@ -46,7 +46,7 @@ class InventarioView(ListView):
         context['categorias'] = categorias
         return context
 
-def generate_stock_pdf(request, *args, **kwargs):
+def generar_stock_pdf(request, *args, **kwargs):
     categoria = request.GET['categoria']
     if categoria is not None:
         productos = Producto.objects.filter(categoria=categoria)

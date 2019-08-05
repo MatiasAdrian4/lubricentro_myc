@@ -1,14 +1,30 @@
 <html>
     <head>
-        <title>stock_{{ categoria }}</title>
+        <title>stock-{{ categoria }}</title>
+        <style type="text/css">
+            body {
+                font-size: 12px;
+            }
+        </style>
     </head>
-    <div id="stock">
-        <h1>Categoría: {{ categoria | upper }}</h1>
-    </div>
+    <body>
+        <div id="stock">
+            <h1>Categoría: {{ categoria | upper }}</h1>
+        </div>
+        <table>
+            <thead>
+                <td style="width: 25%">Código</td>
+                <td style="width: 50%">Detalle</td>
+                <td style="width: 25%">Stock</td>
+            </thead>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.codigo }}</td>
+                    <td>{{ producto.detalle }}</td>
+                    <td>{{ producto.stock }}</td>
+                </tr>
+            {% endfor %}
+        </table>
 
-
-    {% for producto in productos %}
-        {{ producto.codigo }}
-        <br>
-    {% endfor %}
+    </body>
 </html>
