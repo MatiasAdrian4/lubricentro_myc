@@ -15,16 +15,34 @@ button {
     margin: 30px 10px;
 }
 
-#encabezado img {
+#encabezado header img {
     max-height: 30px;
-    margin: 10px 0px 0px 10px;
+    margin: 10px;
 }
 
-/* inventario */
+#encabezado .menu {
+    padding: 20px 10px 0px 0px;
+}
 
-#productos h1{
+#encabezado .menu ul {
+    display: inline-block;
+}
+
+#encabezado .menu li {
+    background-color: #F0AD14;
+    list-style-type: none;
+    border: 1px solid white;
+}
+
+#encabezado .menu li a {
+    color: white;
+    padding: 10px;
+}
+
+/* inventario y clientes */
+
+#productos h1, #clientes h1 {
     text-align: center;
-    margin: 30px 0px;
 }
 
 .operaciones {
@@ -36,28 +54,32 @@ button {
     width: 95%;
 }
 
-.operaciones tr:nth-child(4) td button {
+#productos .operaciones tr:nth-child(4) td button,
+#clientes .operaciones tr:nth-child(3) td button,
+#clientes .operaciones tr:nth-child(4) td button {
     margin-top: 10px;
     padding: 0!important;
     width: 100%;
 }
 
-.productos-table {
+.productos-table, .clientes-table {
     margin: 30px auto;
     margin-top: 25px;
     width: 80%;
     border-collapse: collapse;
-}
-
-.productos-table, .productos-table thead, .productos-table td {
     border: 1px solid black;
 }
 
-.productos-table thead td{
+.productos-table thead, .productos-table td,
+.clientes-table thead, .clientes-table td {
+    border: 1px solid black;
+}
+
+.productos-table thead td, .clientes-table thead td {
     height: 50px;
 }
 
-.productos-table button {
+.productos-table button, .clientes-table button {
     padding: 4px;
     border-radius: 10%;
     border: none;

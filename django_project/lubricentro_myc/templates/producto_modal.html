@@ -4,7 +4,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Ingresar/Editar Producto</h4>
+        <h4 class="modal-title">Ingresar/Editar Producto</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -94,7 +94,6 @@ new Vue({
             "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
           }
         }
-        // preguntar si se crea un producto o se edita otro
         if ($('.nuevo-producto').length != 0) {
           axios.post("/lubricentro_myc/productos/", producto, opts)
             .then((response)=> {
@@ -122,8 +121,6 @@ new Vue({
             }
           )
         }
-
-        
       },
       close() {
         $('#producto-modal .modal-footer p').text("");

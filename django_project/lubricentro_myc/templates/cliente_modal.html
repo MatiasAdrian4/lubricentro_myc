@@ -1,0 +1,117 @@
+{% block vue_modal %}
+{% csrf_token %}
+<div id="cliente-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cliente-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Ingresar/Editar Cliente</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td>Código</td>
+            <td><input readonly type="text"></td>
+          </tr>
+          <tr>
+            <td>Nombre</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Dirección</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Localidad</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Código Postal</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Teléfono</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Cuit</td>
+            <td><input type="text"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <p style="margin:auto auto"></p>
+        <button type="button" class="btn btn-default" @click="edit()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+new Vue({
+    el: "#cliente-modal",
+    delimiters: ['${', '}'],
+    components: {},
+    methods: {
+      edit() {
+        var cliente = {
+          nombre : $('#cliente-modal .modal-body table tr:nth-child(2) td input').val(),
+          direccion : $('#cliente-modal .modal-body table tr:nth-child(3) td input').val(),
+          localidad : $('#cliente-modal .modal-body table tr:nth-child(4) td input').val(),
+          codigo_postal : $('#cliente-modal .modal-body table tr:nth-child(5) td input').val(),
+          telefono : $('#cliente-modal .modal-body table tr:nth-child(6) td input').val(),
+          cuit : $('#cliente-modal .modal-body table tr:nth-child(7) td input').val()
+        }
+        var codigo = $('#cliente-modal .modal-body table tr:nth-child(1) td input').val();
+        var texto_resultado = $('#cliente-modal .modal-footer p')
+        let opts = {
+          headers: {
+            "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
+          }
+        }
+        if ($('.nuevo-cliente').length != 0) {
+          axios.post("/lubricentro_myc/clientes/", cliente, opts)
+            .then((response)=> {
+              texto_resultado.css("color","green")
+              texto_resultado.css("font-weight","bold")
+              texto_resultado.text("Ok: Creado Satisfactoriamente")
+            }
+            ).catch((error) => {
+              texto_resultado.css("color","red")
+              texto_resultado.css("font-weight","bold")
+              texto_resultado.text("Error!")
+            }
+          )
+        } else if ($('.cli-selected').length != 0) {
+          axios.patch("/lubricentro_myc/clientes/" + codigo + "/", cliente, opts)
+            .then((response)=> {
+              texto_resultado.css("color","green")
+              texto_resultado.css("font-weight","bold")
+              texto_resultado.text("Ok: Guardado Satisfactoriamente")
+            }
+            ).catch((error) => {
+              texto_resultado.css("color","red")
+              texto_resultado.css("font-weight","bold")
+              texto_resultado.text("Error!")
+            }
+          )
+        }
+      },
+      close() {
+        $('#cliente-modal .modal-footer p').text("");
+        $('.nuevo-cliente').removeClass('nuevo-cliente');
+        $('.cli-selected').removeClass('cli-selected');
+      },
+    },
+    data: {
+    },
+    mounted() {
+      axios.defaults.xsrfHeaderName = "X-CSRFToken";
+      axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
+
+      $('#cliente-modal').on('hidden.bs.modal', this.close);
+    }
+  })
+</script>
+
+{% endblock %}

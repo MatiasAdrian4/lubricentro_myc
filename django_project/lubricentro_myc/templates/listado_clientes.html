@@ -1,0 +1,108 @@
+{% load static %}
+
+{% include "encabezado.html" %}
+
+{% block content %}
+    <body>
+        <div id="clientes">
+
+            <h1>Clientes</h1>
+
+            <table class="operaciones">
+                <tr>
+                    <td>Buscar por Código</td>
+                    <td><input type="text" id="codigo" style="margin: 0px 5px;"></td>
+                    <td><button onClick="buscar_cliente('codigo')">Buscar</button></td>
+                </tr>
+                <tr>
+                    <td>Buscar por Nombre</td>
+                    <td><input type="text" id="nombre" style="margin: 0px 5px;"></td>
+                    <td><button onClick="buscar_cliente('nombre')">Buscar</button></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" class="btn btn-primary vue-btn"  data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('nuevo-cliente');">Ingresar Nuevo Cliente</button><td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary vue-btn" onClick="buscar_cliente()">Listar Todos</button><td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <table class="clientes-table">
+                <thead>
+                    <td>Código</td>
+                    <td>Nombre</td>
+                    <td>Dirección</td>
+                    <td>Localidad</td>
+                    <td>Código Postal</td>
+                    <td>Teléfono</td>
+                    <td>Cuit</td>
+                </thead>
+                {% for obj in object_list %}
+                    <tr>
+                        <td>{{ obj.id}}</td>
+                        <td>{{ obj.nombre }}</td>
+                        <td>{{ obj.direccion }}</td>
+                        <td>{{ obj.localidad }}</td>
+                        <td>{{ obj.codigo_postal }}</td>
+                        <td>{{ obj.telefono }}</td>
+                        <td>{{ obj.cuit }}</td>
+                        <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('cli-selected');">Editar</button></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    
+    </body>
+
+    <script type="text/javascript">
+        function buscar_cliente(tipo_busqueda) {
+            if(tipo_busqueda) {
+                var valor = document.getElementById(tipo_busqueda).value;
+                if (tipo_busqueda == 'codigo') {
+                    if (isNaN(valor) || valor=="") {
+                        alert("Código debe ser un número");
+                        return
+                    }
+                }
+            }
+            window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
+        }
+
+        $(function(){
+            $("#cliente-modal" ).on('show.bs.modal', function(){
+                if ($('.nuevo-cliente').length != 0) {
+                    $('#cliente-modal .modal-body table tr:nth-child(1) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(2) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(3) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(4) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(5) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(6) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(7) td input').val("");
+                } else if ($('.cli-selected').length != 0) {
+                    var codigo = $('.clientes-table tr:has(.cli-selected) td:nth-child(1)')[0].innerText;
+                    var nombre = $('.clientes-table tr:has(.cli-selected) td:nth-child(2)')[0].innerText;
+                    var direccion = $('.clientes-table tr:has(.cli-selected) td:nth-child(3)')[0].innerText;
+                    var localidad = $('.clientes-table tr:has(.cli-selected) td:nth-child(4)')[0].innerText;
+                    var codigo_postal = $('.clientes-table tr:has(.cli-selected) td:nth-child(5)')[0].innerText;
+                    var telefono = $('.clientes-table tr:has(.cli-selected) td:nth-child(6)')[0].innerText;
+                    var cuit = $('.clientes-table tr:has(.cli-selected) td:nth-child(7)')[0].innerText;
+                    $('#cliente-modal .modal-body table tr:nth-child(1) td input').val(codigo);
+                    $('#cliente-modal .modal-body table tr:nth-child(2) td input').val(nombre);
+                    $('#cliente-modal .modal-body table tr:nth-child(3) td input').val(direccion);
+                    $('#cliente-modal .modal-body table tr:nth-child(4) td input').val(localidad);
+                    $('#cliente-modal .modal-body table tr:nth-child(5) td input').val(codigo_postal);
+                    $('#cliente-modal .modal-body table tr:nth-child(6) td input').val(telefono);
+                    $('#cliente-modal .modal-body table tr:nth-child(7) td input').val(cuit);
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% include "cliente_modal.html" %}

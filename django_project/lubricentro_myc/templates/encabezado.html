@@ -1,7 +1,25 @@
 {% load static %}
 
 {% block content %}
-    <div id="encabezado">
-        <img src="{% static 'img/logo.png'%}">
-    </div>
+    <head>
+        <script src="{% static 'vue_libs/vue-2.6.10/package/dist/vue.js' %}"></script>
+        <script src="{% static 'vue_libs/axios-0.19.0/axios-0.19.0/dist/axios.js' %}"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    </head>
+    <body id="encabezado">
+        <header>
+            <img src="{% static 'img/logo.png'%}">
+        </header>
+        <nav class="menu">
+            <ul>
+                <li><a href="/lubricentro_myc/inventario">Inventario de Productos</a></li>
+                <li><a href="/lubricentro_myc/listado_clientes">Listado de Clientes</a></li>
+            </ul>
+        </nav>
+    </body>
 {% endblock %}
