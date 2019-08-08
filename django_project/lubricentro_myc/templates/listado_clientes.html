@@ -76,6 +76,7 @@
         $(function(){
             $("#cliente-modal" ).on('show.bs.modal', function(){
                 if ($('.nuevo-cliente').length != 0) {
+                    $('#cliente-modal .modal-header .modal-title').text("Ingresar Cliente")
                     $('#cliente-modal .modal-body table tr:nth-child(1) td input').val("");
                     $('#cliente-modal .modal-body table tr:nth-child(2) td input').val("");
                     $('#cliente-modal .modal-body table tr:nth-child(3) td input').val("");
@@ -84,6 +85,7 @@
                     $('#cliente-modal .modal-body table tr:nth-child(6) td input').val("");
                     $('#cliente-modal .modal-body table tr:nth-child(7) td input').val("");
                 } else if ($('.cli-selected').length != 0) {
+                    $('#cliente-modal .modal-header .modal-title').text("Editar Cliente")
                     var codigo = $('.clientes-table tr:has(.cli-selected) td:nth-child(1)')[0].innerText;
                     var nombre = $('.clientes-table tr:has(.cli-selected) td:nth-child(2)')[0].innerText;
                     var direccion = $('.clientes-table tr:has(.cli-selected) td:nth-child(3)')[0].innerText;

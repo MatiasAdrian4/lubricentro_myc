@@ -89,6 +89,7 @@
         $(function(){
             $( "#producto-modal" ).on('show.bs.modal', function(){
                 if ($('.nuevo-producto').length != 0) {
+                    $('#producto-modal .modal-header .modal-title').text("Ingresar Producto")
                     $('#producto-modal .modal-body table tr:nth-child(1) td input').val("");
                     $('#producto-modal .modal-body table tr:nth-child(2) td input').val("");
                     $('#producto-modal .modal-body table tr:nth-child(3) td input').val("0");
@@ -101,6 +102,7 @@
                     $('#producto-modal .modal-body table tr:nth-child(10) td input').val("0.0");
                     $('#producto-modal .modal-body table tr:nth-child(11) td select').val("");
                 } else if ($('.prod-selected').length != 0) {
+                    $('#producto-modal .modal-header .modal-title').text("Editar Producto")
                     var codigo = $('.productos-table tr:has(.prod-selected) td:nth-child(1)')[0].innerText;
                     var detalle = $('.productos-table tr:has(.prod-selected) td:nth-child(2)')[0].innerText;
                     var stock = $('.productos-table tr:has(.prod-selected) td:nth-child(3)')[0].innerText;
