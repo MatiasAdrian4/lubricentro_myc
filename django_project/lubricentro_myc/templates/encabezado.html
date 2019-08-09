@@ -11,16 +11,18 @@
     
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     </head>
-    <body id="encabezado">
-        <header>
-            <img src="{% static 'img/logo.png'%}">
-        </header>
-        <nav class="menu">
-            <ul>
-                <li><a href="/lubricentro_myc/ventas">Ventas</a></li>
-                <li><a href="/lubricentro_myc/inventario">Inventario de Productos</a></li>
-                <li><a href="/lubricentro_myc/listado_clientes">Listado de Clientes</a></li>
-            </ul>
-        </nav>
+    <body>
+        <div id="encabezado">
+            <header>
+                <img src="{% static 'img/logo.png'%}">
+            </header>
+            <nav class="menu">
+                <ul>
+                    <li><a href="/lubricentro_myc/ventas">Ventas</a></li>
+                    <li><a href="/lubricentro_myc/inventario">Inventario de Productos</a></li>
+                    <li><a href="/lubricentro_myc/listado_clientes">Listado de Clientes</a></li>
+                </ul>
+            </nav>
+        </div>
     </body>
 {% endblock %}
