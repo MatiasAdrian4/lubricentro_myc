@@ -8,13 +8,17 @@ router.register(r'clientes', views.ClienteViewSet)
 router.register(r'productos', views.ProductoViewSet)
 
 urlpatterns = [
-    url(r'listado_clientes/', 
-        views.ListadoClientes.as_view(),
-        name='listado_clientes'
+    url(r'ventas/',
+        views.ventas,
+        name='ventas'
     ),
     url(r'inventario/', 
         views.Inventario.as_view(),
         name='inventario'
+    ),
+    url(r'listado_clientes/', 
+        views.ListadoClientes.as_view(),
+        name='listado_clientes'
     ),
     url(r'generar_stock_pdf/',
         views.generar_stock_pdf,

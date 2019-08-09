@@ -16,31 +16,8 @@ class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
 
-class ListadoClientes(ListView):
-    model = Cliente
-    template_name = 'listado_clientes.html'
-
-    def get_queryset(self):
-        args = self.request.GET
-        queryset = []
-        if 'codigo' in args.keys():
-            try:
-                cliente = Cliente.objects.get(id=args['codigo'])
-            except Cliente.DoesNotExist:
-                return []
-            queryset.append(cliente)
-            return queryset
-        elif 'nombre' in args.keys():
-            if len(args['nombre'].strip()) == 0:
-                return []
-            return Cliente.objects.filter(nombre__icontains=args['nombre'])
-        else:
-            return Cliente.objects.all()
-
-    def get_context_data(self, **kwargs):
-        context = super(ListadoClientes,self).get_context_data(**kwargs)
-        context['url'] = self.request.build_absolute_uri(self.request.path)
-        return context
+def ventas(request):
+    return render(request, 'ventas.html', {})
 
 class Inventario(ListView):
     model = Producto
@@ -70,6 +47,32 @@ class Inventario(ListView):
         context['url'] = self.request.build_absolute_uri(self.request.path)
         categorias = Producto.objects.order_by().values('categoria').distinct()
         context['categorias'] = categorias
+        return context
+
+class ListadoClientes(ListView):
+    model = Cliente
+    template_name = 'listado_clientes.html'
+
+    def get_queryset(self):
+        args = self.request.GET
+        queryset = []
+        if 'codigo' in args.keys():
+            try:
+                cliente = Cliente.objects.get(id=args['codigo'])
+            except Cliente.DoesNotExist:
+                return []
+            queryset.append(cliente)
+            return queryset
+        elif 'nombre' in args.keys():
+            if len(args['nombre'].strip()) == 0:
+                return []
+            return Cliente.objects.filter(nombre__icontains=args['nombre'])
+        else:
+            return Cliente.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ListadoClientes,self).get_context_data(**kwargs)
+        context['url'] = self.request.build_absolute_uri(self.request.path)
         return context
 
 def generar_stock_pdf(request, *args, **kwargs):

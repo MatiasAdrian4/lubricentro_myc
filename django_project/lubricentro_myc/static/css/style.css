@@ -39,9 +39,23 @@ button {
     padding: 10px;
 }
 
+/* ventas */
+
+.carrito-table {
+    margin: 30px auto;
+    margin-top: 25px;
+    width: 55%;
+    border-collapse: collapse;
+}
+
+.carrito-table thead td {
+    padding: 5px;
+    border: 1px solid black;    
+}
+
 /* inventario y clientes */
 
-#productos h1, #clientes h1 {
+#ventas h1, #productos h1, #clientes h1 {
     text-align: center;
 }
 
@@ -72,15 +86,13 @@ button {
 
 .productos-table thead, .productos-table td,
 .clientes-table thead, .clientes-table td {
+    text-align: center;
+    padding: 1px;
     border: 1px solid black;
 }
 
-.productos-table thead td, .clientes-table thead td {
-    height: 50px;
-}
-
 .productos-table button, .clientes-table button {
-    padding: 4px;
+    padding: 5px;
     border-radius: 10%;
     border: none;
     width: 100%;
@@ -95,4 +107,3 @@ button {
 .modal-body table tr td input, .modal-body table tr td select {
     margin-left: 20px;
 }
-
