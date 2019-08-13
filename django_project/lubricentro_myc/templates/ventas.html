@@ -3,32 +3,70 @@
 {% include "encabezado.html" %}
 
 {% block content %}
-    
-    <head>
-        <script type="text/javascript" src="{% static 'js/ventas.js' %}"></script>
-    </head>
-
     <body>
         <div id="ventas">
+        
             <h1>Ventas</h1>
+            
+            <table class="operaciones">
+                <tr>
+                    <td>Buscar Producto por Código</td>
+                    <td><input type="text" id="codigo" style="margin: 0px 5px;"></td>
+                    <td><button onClick="buscar_producto()">Añadir</button></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#buscador-productos-modal">Abrir buscador de productos</button><td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <table class="carrito-table">
+                <thead>
+                    <td style="width: 10%;">Código</td>
+                    <td style="width: 60%;">Detalle</td>
+                    <td style="width: 10%;">Precio</td>
+                    <td style="width: 10%;">Cantidad</td>
+                    <td style="width: 10%;">Total</td>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
-        <table class="carrito-table">
-            <thead>
-                <td style="width: 10%;">Código</td>
-                <td style="width: 60%;">Detalle</td>
-                <td style="width: 10%;">Precio</td>
-                <td style="width: 10%;">Cantidad</td>
-                <td style="width: 10%;">Total</td>
-            </thead>
-            <tr> <!--ejemplo-->
-                <td>70824</td>
-                <td>CANDADO BULIT 40 MM. TRABA LARGA(891102)</td>
-                <td>196.0</td>
-                <td>1</td>
-                <td>196.0</td> 
-            </tr>
-        </table>
     </body>
 
+    <script type="text/javascript">
+        function buscar_producto() {
+            var codigo = document.getElementById('codigo').value
+            if (codigo.replace(/\s/g, "") == "") {
+              console.log("asdasd")
+              return
+            }
+            if (isNaN(codigo)) {
+              alert("Código debe ser un número");
+              return
+            }
+            axios({
+              method:'get',
+              url: `/lubricentro_myc/productos/` + codigo,
+            }).then(response => {
+              $('.carrito-table tbody')[0].innerHTML += `
+                <tr>
+                  <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
+                  <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
+                  <td><input type="text" value="` + response.data['precio_venta_contado'] + `"></td>
+                  <td><input type="text" value="1.0"></td>
+                  <td><input type="text" value="` + response.data['precio_venta_contado'] + `"></td> 
+                </tr>
+              `
+              $('.operaciones tr:nth-child(1) td input')[0].value = "";
+            }).catch(function (error) {
+              console.error(error);
+            })
+        }
+    </script>
+
 {% endblock %}
+
+{% include "buscador_productos_modal.html" %}

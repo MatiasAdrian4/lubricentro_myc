@@ -1,0 +1,103 @@
+{% block vue_modal %}
+{% csrf_token %}
+<div id="buscador-productos-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buscador-productos-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Buscador de Productos</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td>Buscar por Detalle</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td><button type="button" class="btn btn-default" style="margin-top: 10px;" @click="listar_resultados()">Listar Resultados</td>
+            <td></td>
+          </tr>
+        </table>
+
+        <br>
+        <table class="resultados">
+        </table>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+new Vue({
+    el: "#buscador-productos-modal",
+    delimiters: ['${', '}'],
+    components: {},
+    methods: {
+        listar_resultados() {
+          var detalle = $('#buscador-productos-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val()
+          if(detalle.length < 4) {
+            alert("La búsqueda debe de contener al menos 4 caracteres")
+          } else {
+            axios({
+              method:'get',
+              url: `/lubricentro_myc/productos/buscar?detalle=` + detalle,
+            }).then(response => {
+              var resultados = $('#buscador-productos-modal .modal-body .resultados')[0]
+              resultados.innerHTML = ``
+
+              var productos = response.data.productos
+              for(var producto in productos) {
+                var codigo = productos[producto].codigo;
+                var detalle = productos[producto].detalle;
+                resultados.innerHTML += `
+                  <tr>
+                    <td style="padding: 5px;">` + codigo + `</td>
+                    <td>` + detalle + `</td>
+                    <td><button type="button" class="btn btn-default" data-dismiss="modal" onClick="$(this).addClass('prod-selected');"">Seleccionar</button></td>
+                  </tr>
+                `
+              }
+            }).catch(function (error) {
+              console.error(error);
+            })
+          }
+        },
+        close() {
+          if($('.prod-selected').length > 0) {
+            var codigo = $('.resultados tr:has(.prod-selected) td:nth-child(1)')[0].innerText
+            axios({
+              method:'get',
+              url: `/lubricentro_myc/productos/` + codigo,
+            }).then(response => {
+              $('.carrito-table tbody')[0].innerHTML += `
+                <tr>
+                  <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
+                  <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
+                  <td><input type="text" value="` + response.data['precio_venta_contado'] + `"></td>
+                  <td><input type="text" value="1.0"></td>
+                  <td><input type="text" value="` + response.data['precio_venta_contado'] + `"></td> 
+                </tr>
+              `
+            }).catch(function (error) {
+              console.error(error);
+            })
+          }
+          var detalle = $('#buscador-productos-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("")
+          var resultados = $('#buscador-productos-modal .modal-body .resultados')[0].innerHTML = ``
+        }
+    },
+    data: {
+    },
+    mounted() {
+      axios.defaults.xsrfHeaderName = "X-CSRFToken";
+      axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
+
+      $('#buscador-productos-modal').on('hidden.bs.modal', this.close);
+    }
+  })
+</script>
+
+{% endblock %}

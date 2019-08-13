@@ -6,7 +6,7 @@ body {
 
 button {
     background-color: #F0AD14!important;
-    color: #E4E9E3;
+    color: white;
 }
 
 /* encabezado */
@@ -51,7 +51,7 @@ button {
 .carrito-table {
     margin: 30px auto;
     margin-top: 25px;
-    width: 55%;
+    width: 50%;
     border-collapse: collapse;
 }
 
@@ -76,6 +76,7 @@ button {
     width: 95%;
 }
 
+#ventas .operaciones tr:nth-child(2) td button,
 #productos .operaciones tr:nth-child(4) td button,
 #clientes .operaciones tr:nth-child(3) td button,
 #clientes .operaciones tr:nth-child(4) td button {
@@ -106,7 +107,7 @@ button {
     width: 100%;
 }
 
-/* producto_modal */
+/* modales */
 
 .modal-body table {
     margin: 0px auto;
@@ -114,4 +115,8 @@ button {
 
 .modal-body table tr td input, .modal-body table tr td select {
     margin-left: 20px;
+}
+
+.carrito-table tbody tr td input {
+    width: 100%;
 }

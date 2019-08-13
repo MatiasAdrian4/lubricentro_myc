@@ -1,8 +1,9 @@
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.template.loader import get_template
 from rest_framework import viewsets
+from rest_framework.decorators import action
 
 from .models import Cliente, Producto
 from .serializers import ClienteSerializer, ProductoSerializer
@@ -15,6 +16,19 @@ class ClienteViewSet(viewsets.ModelViewSet):
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
+
+    @action(detail=False, methods=['get'])
+    def buscar(self, request):
+        resultado = []
+        detalle = request.GET.get('detalle', '')
+        if detalle == '':
+            return JsonResponse(data={'productos': resultado})
+        for producto in Producto.objects.filter(detalle__icontains=detalle).values():
+            resultado.append({
+                "codigo": producto['codigo'],
+                "detalle": producto['detalle']
+            })
+        return JsonResponse(data={'productos': resultado})
 
 def ventas(request):
     return render(request, 'ventas.html', {})
