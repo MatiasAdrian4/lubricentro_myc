@@ -11,8 +11,8 @@
             <table class="operaciones">
                 <tr>
                     <td>Buscar por Código</td>
-                    <td><input type="text" id="codigo" style="margin: 0px 5px;"></td>
-                    <td><button onClick="buscar_cliente('codigo')">Buscar</button></td>
+                    <td><input type="text" id="codigo" class="allownumericwithoutdecimal" style="margin: 0px 5px;"></td>
+                    <td><button name="numeric" onClick="buscar_cliente('codigo')">Buscar</button></td>
                 </tr>
                 <tr>
                     <td>Buscar por Nombre</td>
@@ -60,15 +60,19 @@
     </body>
 
     <script type="text/javascript">
+
+        function reload_js(){
+          var head= document.getElementsByTagName('head')[0];
+          var script= document.createElement('script');
+          script.src= "{% static 'js/script.js' %}";
+          head.appendChild(script);
+        }
+        
+        reload_js();
+        
         function buscar_cliente(tipo_busqueda) {
             if(tipo_busqueda) {
                 var valor = document.getElementById(tipo_busqueda).value;
-                if (tipo_busqueda == 'codigo') {
-                    if (isNaN(valor) || valor=="") {
-                        alert("Código debe ser un número");
-                        return
-                    }
-                }
             }
             window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
         }
@@ -103,6 +107,7 @@
                 }
             });
         });
+
     </script>
 
 {% endblock %}

@@ -11,7 +11,7 @@
             <table class="operaciones">
                 <tr>
                     <td>Buscar por Código</td>
-                    <td><input type="text" id="codigo" style="margin: 0px 5px;"></td>
+                    <td><input type="text" id="codigo" class='allownumericwithoutdecimal' style="margin: 0px 5px;"></td>
                     <td><button onClick="buscar_producto('codigo')">Buscar</button></td>
                 </tr>
                 <tr>
@@ -70,18 +70,22 @@
     </body>
 
     <script type="text/javascript">
+
+        function reload_js(){
+          var head= document.getElementsByTagName('head')[0];
+          var script= document.createElement('script');
+          script.src= "{% static 'js/script.js' %}";
+          head.appendChild(script);
+        }
+
+        reload_js();
+
         function buscar_producto(tipo_busqueda) {
             var valor;
             if (tipo_busqueda == 'categoria') {
                 valor = $('.operaciones select').val()
             } else {
                 valor = document.getElementById(tipo_busqueda).value;
-                if (tipo_busqueda == 'codigo') {
-                    if (isNaN(valor) || valor=="") {
-                        alert("Código debe ser un número");
-                        return
-                    }
-                }
             }
             window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
         }
@@ -128,6 +132,8 @@
                 }
             });
         });
+
+        reload_js();
 
     </script>
 

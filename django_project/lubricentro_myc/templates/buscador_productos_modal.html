@@ -72,13 +72,14 @@ new Vue({
               method:'get',
               url: `/lubricentro_myc/productos/` + codigo,
             }).then(response => {
+              reload_js();
               $('.carrito-table tbody')[0].innerHTML += `
                 <tr>
                   <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
                   <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
-                  <td><input type="text" value="` + response.data['precio_venta_contado'] + `"></td>
-                  <td><input type="text" value="1.0"></td>
-                  <td><input type="text" value="` + response.data['precio_venta_contado'] + `"></td> 
+                  <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
+                  <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
+                  <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
                 </tr>
               `
             }).catch(function (error) {

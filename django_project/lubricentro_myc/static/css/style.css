@@ -48,6 +48,15 @@ button {
 
 /* ventas */
 
+.resumen-venta {
+    margin: 30px auto;
+    width: 50%;
+}
+
+.resumen-venta tr:nth-child(1) {
+    float: right;
+}
+
 .carrito-table {
     margin: 30px auto;
     margin-top: 25px;
