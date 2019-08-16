@@ -31,7 +31,7 @@ $(function(){
         $('.carrito-table tr td:nth-child(5) input').each(function() {
             total += parseFloat(this.value)
         });
-        $('.resumen-venta td input').val(total.toFixed(2))
+        $('.resumen-venta tr:nth-child(2) td input').val(total.toFixed(2))
     });
 
     // si la cantidad cambia
@@ -46,7 +46,7 @@ $(function(){
         $('.carrito-table tr td:nth-child(5) input').each(function() {
             total += parseFloat(this.value)
         });
-        $('.resumen-venta td input').val(total.toFixed(2))
+        $('.resumen-venta tr:nth-child(2) td input').val(total.toFixed(2))
     });
 
 });

@@ -12,19 +12,12 @@
               <tr>
                 <td>Buscar Producto por Código</td>
                 <td><input type="text" id="codigo" class='allownumericwithoutdecimal' style="margin: 0px 5px;"></td>
-                <td><button onClick="buscar_producto()">Añadir</button></td>
+                <td><button class="btn btn-default" onClick="buscar_producto()">Añadir</button></td>
               </tr>
               <tr>
                 <td></td>
                 <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#buscador-productos-modal">Abrir buscador de productos</button><td>
                 <td></td>
-              </tr>
-            </table>
-
-            <table class="resumen-venta">
-              <tr> 
-                <td>Total</td>
-                <td><input readonly ype="text" style="margin-left: 10px" value="0"></td>
               </tr>
             </table>
 
@@ -39,6 +32,24 @@
                 <tbody>
                 </tbody>
             </table>
+
+            <table class="resumen-venta">
+              <tr>
+                <td><input type="radio" name="pago" value="Efectivo">Efectivo</td>
+                <td><input type="radio" name="pago" value="Cta.Cte.">Cta.Cte.</td>
+              </tr>
+              <tr> 
+                <td>Total</td>
+                <td><input readonly ype="text" value="0"></td>
+              </tr>
+              <tr>
+                <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#buscador-clientes-modal">Buscar Cliente</button></td>
+              </tr>
+              <tr>
+                <td><button class="btn btn-default" onClick="generar_remito()">Remito</button></td>
+              </tr>
+            </table>
+  
         </div>
 
     </body>
@@ -65,9 +76,9 @@
             }).then(response => {
               reload_js();
               
-              var total = parseFloat($('.resumen-venta td input').val())
+              var total = parseFloat($('.resumen-venta tr:nth-child(2) td input').val())
               total += parseFloat(response.data['precio_venta_contado'])
-              $('.resumen-venta td input').val(total.toFixed(2))
+              $('.resumen-venta tr:nth-child(2) td input').val(total.toFixed(2))
               
               if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
                 $('.carrito-table tbody')[0].innerHTML += `

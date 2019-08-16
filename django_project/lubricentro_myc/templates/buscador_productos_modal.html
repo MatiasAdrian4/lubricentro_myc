@@ -74,9 +74,9 @@ new Vue({
             }).then(response => {
               reload_js();
 
-              var total = parseFloat($('.resumen-venta td input').val())
+              var total = parseFloat($('.resumen-venta tr:nth-child(2) td input').val())
               total += parseFloat(response.data['precio_venta_contado'])
-              $('.resumen-venta td input').val(total.toFixed(2))
+              $('.resumen-venta tr:nth-child(2) td input').val(total.toFixed(2))
               
               if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
                 $('.carrito-table tbody')[0].innerHTML += `

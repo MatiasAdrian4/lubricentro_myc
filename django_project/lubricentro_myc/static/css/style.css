@@ -6,7 +6,9 @@ body {
 
 button {
     background-color: #F0AD14!important;
-    color: white;
+    color: #212529db!important;
+    padding: 5px!important;
+    border: 1px solid #212529db!important;
 }
 
 /* encabezado */
@@ -48,15 +50,6 @@ button {
 
 /* ventas */
 
-.resumen-venta {
-    margin: 30px auto;
-    width: 50%;
-}
-
-.resumen-venta tr:nth-child(1) {
-    float: right;
-}
-
 .carrito-table {
     margin: 30px auto;
     margin-top: 25px;
@@ -67,6 +60,39 @@ button {
 .carrito-table thead td {
     padding: 5px;
     border: 1px solid black;    
+}
+
+.resumen-venta {
+    margin: 30px auto;
+    width: 50%;
+}
+
+.resumen-venta tr:nth-child(1) {
+    float: left;
+    display: grid;
+}
+
+.resumen-venta tr:nth-child(1) td input {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.resumen-venta tr {
+    margin-bottom: 10px;
+}
+
+.resumen-venta tr:nth-child(1) td {
+    display: inline;
+}
+
+.resumen-venta tr:nth-child(2), .resumen-venta tr:nth-child(4) {
+    float: right;
+}
+
+.resumen-venta tr:nth-child(2) input {
+    width: 80px; 
+    margin-left: 10px;
+    text-align: right;
 }
 
 /* inventario y clientes */
@@ -90,7 +116,6 @@ button {
 #clientes .operaciones tr:nth-child(3) td button,
 #clientes .operaciones tr:nth-child(4) td button {
     margin-top: 10px;
-    padding: 0!important;
     width: 100%;
 }
 

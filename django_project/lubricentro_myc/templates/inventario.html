@@ -12,12 +12,12 @@
                 <tr>
                     <td>Buscar por Código</td>
                     <td><input type="text" id="codigo" class='allownumericwithoutdecimal' style="margin: 0px 5px;"></td>
-                    <td><button onClick="buscar_producto('codigo')">Buscar</button></td>
+                    <td><button class="btn btn-default" onClick="buscar_producto('codigo')">Buscar</button></td>
                 </tr>
                 <tr>
                     <td>Buscar por Detalle</td>
                     <td><input type="text" id="detalle" style="margin: 0px 5px;"></td>
-                    <td><button onClick="buscar_producto('detalle')">Buscar</button></td>
+                    <td><button class="btn btn-default" onClick="buscar_producto('detalle')">Buscar</button></td>
                 </tr>
                 <tr>
                     <td>Buscar por Categoría</td>
@@ -29,11 +29,11 @@
                             {% endfor %}
                         </select>
                     </td>
-                    <td><button onClick="buscar_producto('categoria')">Buscar</button></td>
+                    <td><button class="btn btn-default" onClick="buscar_producto('categoria')">Buscar</button></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button type="button" class="btn btn-primary vue-btn"  data-toggle="modal" data-target="#producto-modal" onClick="$(this).addClass('nuevo-producto');">Ingresar Nuevo Producto</button><td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#producto-modal" onClick="$(this).addClass('nuevo-producto');">Ingresar Nuevo Producto</button><td>
                     <td></td>
                 </tr>
             </table>

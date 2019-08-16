@@ -12,21 +12,21 @@
                 <tr>
                     <td>Buscar por Código</td>
                     <td><input type="text" id="codigo" class="allownumericwithoutdecimal" style="margin: 0px 5px;"></td>
-                    <td><button name="numeric" onClick="buscar_cliente('codigo')">Buscar</button></td>
+                    <td><button name="numeric" class="btn btn-default" onClick="buscar_cliente('codigo')">Buscar</button></td>
                 </tr>
                 <tr>
                     <td>Buscar por Nombre</td>
                     <td><input type="text" id="nombre" style="margin: 0px 5px;"></td>
-                    <td><button onClick="buscar_cliente('nombre')">Buscar</button></td>
+                    <td><button class="btn btn-default" onClick="buscar_cliente('nombre')">Buscar</button></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button type="button" class="btn btn-primary vue-btn"  data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('nuevo-cliente');">Ingresar Nuevo Cliente</button><td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('nuevo-cliente');">Ingresar Nuevo Cliente</button><td>
                     <td></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button class="btn btn-primary vue-btn" onClick="buscar_cliente()">Listar Todos</button><td>
+                    <td><button class="btn btn-default" onClick="buscar_cliente()">Listar Todos</button><td>
                     <td></td>
                 </tr>
             </table>
