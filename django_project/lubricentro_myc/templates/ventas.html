@@ -24,7 +24,7 @@
             <table class="resumen-venta">
               <tr> 
                 <td>Total</td>
-                <td><input readonly ype="text" style="margin-left: 10px"></td>
+                <td><input readonly ype="text" style="margin-left: 10px" value="0"></td>
               </tr>
             </table>
 
@@ -48,7 +48,7 @@
         function reload_js(){
           var head= document.getElementsByTagName('head')[0];
           var script= document.createElement('script');
-          script.src= "{% static 'js/script.js' %}";
+          script.src= "{% static 'js/arithmetic_operations.js' %}";
           head.appendChild(script);
         }
         
@@ -64,20 +64,30 @@
               url: `/lubricentro_myc/productos/` + codigo,
             }).then(response => {
               reload_js();
-              $('.carrito-table tbody')[0].innerHTML += `
-                <tr>
-                  <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
-                  <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
-                  <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
-                  <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
-                  <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
-                </tr>
-              `
-              $('.operaciones tr:nth-child(1) td input')[0].value = "";
+              
+              var total = parseFloat($('.resumen-venta td input').val())
+              total += parseFloat(response.data['precio_venta_contado'])
+              $('.resumen-venta td input').val(total.toFixed(2))
+              
+              if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
+                $('.carrito-table tbody')[0].innerHTML += `
+                  <tr>
+                    <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
+                    <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
+                    <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
+                    <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
+                    <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
+                  </tr>
+                `
+                $('.operaciones tr:nth-child(1) td input')[0].value = "";
+              } else {
+                alert("El producto ya esta cargado al carrito")
+              }
             }).catch(function (error) {
               console.error(error);
             })
         }
+
     </script>
 
 {% endblock %}

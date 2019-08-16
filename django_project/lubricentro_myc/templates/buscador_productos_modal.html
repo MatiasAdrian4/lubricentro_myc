@@ -73,15 +73,24 @@ new Vue({
               url: `/lubricentro_myc/productos/` + codigo,
             }).then(response => {
               reload_js();
-              $('.carrito-table tbody')[0].innerHTML += `
-                <tr>
-                  <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
-                  <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
-                  <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
-                  <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
-                  <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
-                </tr>
-              `
+
+              var total = parseFloat($('.resumen-venta td input').val())
+              total += parseFloat(response.data['precio_venta_contado'])
+              $('.resumen-venta td input').val(total.toFixed(2))
+              
+              if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
+                $('.carrito-table tbody')[0].innerHTML += `
+                  <tr>
+                    <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
+                    <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
+                    <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
+                    <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
+                    <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
+                  </tr>
+                `
+              } else {
+                alert("El producto ya esta cargado al carrito")
+              }
             }).catch(function (error) {
               console.error(error);
             })
