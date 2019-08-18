@@ -21,6 +21,8 @@
 
         <br>
         <table class="resultados">
+          <tbody>
+          </tbody>
         </table>
 
       </div>
@@ -45,7 +47,7 @@ new Vue({
               method:'get',
               url: `/lubricentro_myc/productos/buscar?detalle=` + detalle,
             }).then(response => {
-              var resultados = $('#buscador-productos-modal .modal-body .resultados')[0]
+              var resultados = $('#buscador-productos-modal .modal-body .resultados tbody')[0]
               resultados.innerHTML = ``
 
               var productos = response.data.productos
@@ -133,7 +135,7 @@ new Vue({
             })
           }
           var detalle = $('#buscador-productos-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("")
-          var resultados = $('#buscador-productos-modal .modal-body .resultados')[0].innerHTML = ``
+          var resultados = $('#buscador-productos-modal .modal-body .resultados tbody')[0].innerHTML = ``
         }
     },
     data: {},
