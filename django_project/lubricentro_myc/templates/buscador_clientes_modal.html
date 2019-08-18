@@ -1,0 +1,54 @@
+{% block vue_modal %}
+{% csrf_token %}
+<div id="buscador-clientes-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="buscador-clientes-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Buscador de Clientes</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td>Buscar por Nombre</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td><button type="button" class="btn btn-default" style="margin-top: 10px;" @click="listar_resultados()">Listar Resultados</td>
+            <td></td>
+          </tr>
+        </table>
+
+        <br>
+        <table class="resultados">
+        </table>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+new Vue({
+    el: "#buscador-clientes-modal",
+    delimiters: ['${', '}'],
+    components: {},
+    methods: {
+      listar_resultados() {
+      },
+      close() {
+      }
+    },
+    data: {},
+    mounted() {
+      axios.defaults.xsrfHeaderName = "X-CSRFToken";
+      axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
+
+      $('#buscador-clientes-modal').on('hidden.bs.modal', this.close);
+    }
+  })
+</script>
+
+{% endblock %}

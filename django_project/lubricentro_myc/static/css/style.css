@@ -67,32 +67,22 @@ button {
     width: 50%;
 }
 
-.resumen-venta tr:nth-child(1) {
+.resumen-venta tr:nth-child(1) td:nth-child(1){
     float: left;
-    display: grid;
+    display: block;
 }
 
-.resumen-venta tr:nth-child(1) td input {
-    margin-right: 10px;
-    margin-bottom: 10px;
+.resumen-venta tr:nth-child(1) td:nth-child(1) input {
+    margin-bottom: 15px;
 }
 
-.resumen-venta tr {
-    margin-bottom: 10px;
-}
-
-.resumen-venta tr:nth-child(1) td {
-    display: inline;
-}
-
-.resumen-venta tr:nth-child(2), .resumen-venta tr:nth-child(4) {
+.resumen-venta tr:nth-child(1) td:nth-child(2) span {
     float: right;
 }
 
-.resumen-venta tr:nth-child(2) input {
+.resumen-venta tr:nth-child(1) td:nth-child(2) span input {
     width: 80px; 
     margin-left: 10px;
-    text-align: right;
 }
 
 /* inventario y clientes */

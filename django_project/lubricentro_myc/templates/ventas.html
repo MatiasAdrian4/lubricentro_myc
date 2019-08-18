@@ -35,18 +35,18 @@
 
             <table class="resumen-venta">
               <tr>
-                <td><input type="radio" name="pago" value="Efectivo">Efectivo</td>
-                <td><input type="radio" name="pago" value="Cta.Cte.">Cta.Cte.</td>
-              </tr>
-              <tr> 
-                <td>Total</td>
-                <td><input readonly ype="text" value="0"></td>
-              </tr>
-              <tr>
-                <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#buscador-clientes-modal">Buscar Cliente</button></td>
+                <td>
+                  <input type="radio" name="pago" value="Efectivo">Efectivo<br>
+                  <input type="radio" name="pago" value="Cta.Cte.">Cta.Cte.<br>
+                </td>
+                <td><span>Total<input readonly type="text" value="0"></span></td>
               </tr>
               <tr>
-                <td><button class="btn btn-default" onClick="generar_remito()">Remito</button></td>
+                <td>
+                  <button type="button" class="btn btn-primary vue-btn" style="margin-right: 10px" data-toggle="modal" data-target="#buscador-clientes-modal">Buscar Cliente</button>
+                  <input readonly type="text">
+                  <input hidden type="text"></td>
+                <td><button class="btn btn-default" style="float: right" onClick="generar_remito()">Remito</button></td>
               </tr>
             </table>
   
@@ -76,20 +76,58 @@
             }).then(response => {
               reload_js();
               
-              var total = parseFloat($('.resumen-venta tr:nth-child(2) td input').val())
+              var total = parseFloat($('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val())
               total += parseFloat(response.data['precio_venta_contado'])
-              $('.resumen-venta tr:nth-child(2) td input').val(total.toFixed(2))
+              $('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val(total.toFixed(2))
               
               if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
-                $('.carrito-table tbody')[0].innerHTML += `
-                  <tr>
-                    <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
-                    <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
-                    <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
-                    <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
-                    <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
-                  </tr>
-                `
+                var carrito = $('.carrito-table tbody')[0]
+                var tr = document.createElement('tr')
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("readonly", true)
+                input.setAttribute("value", response.data['codigo']);
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("readonly", true)
+                input.setAttribute("value", response.data['detalle']);
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("value", response.data['precio_venta_contado']);
+                input.setAttribute("class", "allownumericwithdecimal");
+                td.appendChild(input)
+                tr.appendChild(td)
+                
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("value", "1.0");
+                input.setAttribute("class", "allownumericwithdecimal");
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("readonly", true)
+                input.setAttribute("value", response.data['precio_venta_contado']);
+                input.setAttribute("class", "allownumericwithdecimal");
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                tr.appendChild(td)
+                carrito.appendChild(tr)
+
                 $('.operaciones tr:nth-child(1) td input')[0].value = "";
               } else {
                 alert("El producto ya esta cargado al carrito")
@@ -104,3 +142,4 @@
 {% endblock %}
 
 {% include "buscador_productos_modal.html" %}
+{% include "buscador_clientes_modal.html" %}

@@ -74,20 +74,57 @@ new Vue({
             }).then(response => {
               reload_js();
 
-              var total = parseFloat($('.resumen-venta tr:nth-child(2) td input').val())
+              var total = parseFloat($('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val())
               total += parseFloat(response.data['precio_venta_contado'])
-              $('.resumen-venta tr:nth-child(2) td input').val(total.toFixed(2))
+              $('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val(total.toFixed(2))
               
               if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
-                $('.carrito-table tbody')[0].innerHTML += `
-                  <tr>
-                    <td><input readonly type="text" value="` + response.data['codigo'] +`"></td>
-                    <td><input readonly type="text" value="` + response.data['detalle'] + `"></td>
-                    <td><input type="text" class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td>
-                    <td><input type="text" class='allownumericwithdecimal' value="1.0"></td>
-                    <td><input type="text" readonly class='allownumericwithdecimal' value="` + response.data['precio_venta_contado'] + `"></td> 
-                  </tr>
-                `
+                var carrito = $('.carrito-table tbody')[0]
+                var tr = document.createElement('tr')
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("readonly", true)
+                input.setAttribute("value", response.data['codigo']);
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("readonly", true)
+                input.setAttribute("value", response.data['detalle']);
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("value", response.data['precio_venta_contado']);
+                input.setAttribute("class", "allownumericwithdecimal");
+                td.appendChild(input)
+                tr.appendChild(td)
+                
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("value", "1.0");
+                input.setAttribute("class", "allownumericwithdecimal");
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                var td = document.createElement("td")
+                var input = document.createElement('input')
+                input.type = "text";
+                input.setAttribute("readonly", true)
+                input.setAttribute("value", response.data['precio_venta_contado']);
+                input.setAttribute("class", "allownumericwithdecimal");
+                td.appendChild(input)
+                tr.appendChild(td)
+
+                tr.appendChild(td)
+                carrito.appendChild(tr)
               } else {
                 alert("El producto ya esta cargado al carrito")
               }
@@ -99,8 +136,7 @@ new Vue({
           var resultados = $('#buscador-productos-modal .modal-body .resultados')[0].innerHTML = ``
         }
     },
-    data: {
-    },
+    data: {},
     mounted() {
       axios.defaults.xsrfHeaderName = "X-CSRFToken";
       axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
