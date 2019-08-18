@@ -36,16 +36,16 @@
             <table class="resumen-venta">
               <tr>
                 <td>
-                  <input type="radio" name="pago" value="Efectivo">Efectivo<br>
-                  <input type="radio" name="pago" value="Cta.Cte.">Cta.Cte.<br>
+                  <input type="radio" checked name="pago" value="E" style="margin-right: 10px" onClick="check($(this))">Efectivo<br>
+                  <input type="radio" name="pago" value="CC" style="margin-right: 10px" onClick="check($(this))">Cta.Cte.<br>
                 </td>
                 <td><span>Total<input readonly type="text" value="0"></span></td>
               </tr>
               <tr>
                 <td>
-                  <button type="button" class="btn btn-primary vue-btn" style="margin-right: 10px" data-toggle="modal" data-target="#buscador-clientes-modal">Buscar Cliente</button>
+                  <button type="button" disabled class="btn btn-primary vue-btn" style="margin-right: 10px" data-toggle="modal" data-target="#buscador-clientes-modal">Buscar Cliente</button>
                   <input hidden type="text">
-                  <input readonly type="text" style="width: 200px">
+                  <input readonly disabled type="text" style="width: 200px">
                 </td>
                 <td><button class="btn btn-default" style="float: right" onClick="generar_remito()">Remito</button></td>
               </tr>
@@ -57,86 +57,98 @@
 
     <script type="text/javascript">
 
-        function reload_js(){
-          var head= document.getElementsByTagName('head')[0];
-          var script= document.createElement('script');
-          script.src= "{% static 'js/arithmetic_operations.js' %}";
-          head.appendChild(script);
-        }
-        
-        reload_js();
+      function reload_js(){
+        var head= document.getElementsByTagName('head')[0];
+        var script= document.createElement('script');
+        script.src= "{% static 'js/arithmetic_operations.js' %}";
+        head.appendChild(script);
+      }
+      
+      reload_js();
 
-        function buscar_producto() {
-            var codigo = document.getElementById('codigo').value
-            if (codigo.replace(/\s/g, "") == "") {
-              return
+      function check(opcion) {
+        if(opcion.val() == "E") {
+          $('.resumen-venta tr:nth-child(2) td:nth-child(1) button')[0].disabled = true
+          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].disabled = true
+          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value = ""
+          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].value = ""
+        } else if(opcion.val() == "CC") {
+          $('.resumen-venta tr:nth-child(2) td:nth-child(1) button')[0].disabled = false
+          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].disabled = false
+        }
+      }
+
+      function buscar_producto() {
+          var codigo = document.getElementById('codigo').value
+          if (codigo.replace(/\s/g, "") == "") {
+            return
+          }
+          axios({
+            method:'get',
+            url: `/lubricentro_myc/productos/` + codigo,
+          }).then(response => {
+            reload_js();
+            
+            var total = parseFloat($('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val())
+            total += parseFloat(response.data['precio_venta_contado'])
+            $('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val(total.toFixed(2))
+            
+            if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
+              var carrito = $('.carrito-table tbody')[0]
+              var tr = document.createElement('tr')
+
+              var td = document.createElement("td")
+              var input = document.createElement('input')
+              input.type = "text";
+              input.setAttribute("readonly", true)
+              input.setAttribute("value", response.data['codigo']);
+              td.appendChild(input)
+              tr.appendChild(td)
+
+              var td = document.createElement("td")
+              var input = document.createElement('input')
+              input.type = "text";
+              input.setAttribute("readonly", true)
+              input.setAttribute("value", response.data['detalle']);
+              td.appendChild(input)
+              tr.appendChild(td)
+
+              var td = document.createElement("td")
+              var input = document.createElement('input')
+              input.type = "text";
+              input.setAttribute("value", response.data['precio_venta_contado']);
+              input.setAttribute("class", "allownumericwithdecimal");
+              td.appendChild(input)
+              tr.appendChild(td)
+              
+              var td = document.createElement("td")
+              var input = document.createElement('input')
+              input.type = "text";
+              input.setAttribute("value", "1.0");
+              input.setAttribute("class", "allownumericwithdecimal");
+              td.appendChild(input)
+              tr.appendChild(td)
+
+              var td = document.createElement("td")
+              var input = document.createElement('input')
+              input.type = "text";
+              input.setAttribute("readonly", true)
+              input.setAttribute("value", response.data['precio_venta_contado']);
+              input.setAttribute("class", "allownumericwithdecimal");
+              td.appendChild(input)
+              tr.appendChild(td)
+
+              tr.appendChild(td)
+              carrito.appendChild(tr)
+
+              $('.operaciones tr:nth-child(1) td input')[0].value = "";
+            } else {
+              alert("El producto ya esta cargado al carrito")
             }
-            axios({
-              method:'get',
-              url: `/lubricentro_myc/productos/` + codigo,
-            }).then(response => {
-              reload_js();
-              
-              var total = parseFloat($('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val())
-              total += parseFloat(response.data['precio_venta_contado'])
-              $('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val(total.toFixed(2))
-              
-              if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
-                var carrito = $('.carrito-table tbody')[0]
-                var tr = document.createElement('tr')
-
-                var td = document.createElement("td")
-                var input = document.createElement('input')
-                input.type = "text";
-                input.setAttribute("readonly", true)
-                input.setAttribute("value", response.data['codigo']);
-                td.appendChild(input)
-                tr.appendChild(td)
-
-                var td = document.createElement("td")
-                var input = document.createElement('input')
-                input.type = "text";
-                input.setAttribute("readonly", true)
-                input.setAttribute("value", response.data['detalle']);
-                td.appendChild(input)
-                tr.appendChild(td)
-
-                var td = document.createElement("td")
-                var input = document.createElement('input')
-                input.type = "text";
-                input.setAttribute("value", response.data['precio_venta_contado']);
-                input.setAttribute("class", "allownumericwithdecimal");
-                td.appendChild(input)
-                tr.appendChild(td)
-                
-                var td = document.createElement("td")
-                var input = document.createElement('input')
-                input.type = "text";
-                input.setAttribute("value", "1.0");
-                input.setAttribute("class", "allownumericwithdecimal");
-                td.appendChild(input)
-                tr.appendChild(td)
-
-                var td = document.createElement("td")
-                var input = document.createElement('input')
-                input.type = "text";
-                input.setAttribute("readonly", true)
-                input.setAttribute("value", response.data['precio_venta_contado']);
-                input.setAttribute("class", "allownumericwithdecimal");
-                td.appendChild(input)
-                tr.appendChild(td)
-
-                tr.appendChild(td)
-                carrito.appendChild(tr)
-
-                $('.operaciones tr:nth-child(1) td input')[0].value = "";
-              } else {
-                alert("El producto ya esta cargado al carrito")
-              }
-            }).catch(function (error) {
-              console.error(error);
-            })
-        }
+          }).catch(function (error) {
+            console.error(error);
+          })
+      }
 
     </script>
 
