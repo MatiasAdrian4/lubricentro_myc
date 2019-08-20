@@ -27,3 +27,12 @@ class Producto(models.Model):
     def __str__(self):
         return self.detalle
 
+class ElementoRemito(models.Model):
+    numero_remito = models.IntegerField(null=False)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(null=False)
+
+    def __str__(self):
+        return self.numero_remito
+
+
