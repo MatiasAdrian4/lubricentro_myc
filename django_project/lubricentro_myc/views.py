@@ -44,7 +44,9 @@ class ProductoViewSet(viewsets.ModelViewSet):
         return JsonResponse(data={'productos': resultado})
 
 def ventas(request):
-    return render(request, 'ventas.html', {})
+    host = request.scheme + "://" + request.META['HTTP_HOST']
+    context = {'host': host}
+    return render(request, 'ventas.html', context=context)
 
 class Inventario(ListView):
     model = Producto
@@ -126,3 +128,21 @@ def generar_stock_pdf(request, *args, **kwargs):
         response['Content-Disposition'] = content
         return response
     return HttpResponse("Not found")
+
+def generar_remito_pdf(request, *args, **kwargs):
+    template = get_template('remito.html')
+    context = {
+    }
+    html = template.render(context)
+    pdf = render_to_pdf('remito.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = 'remito_%s.pdf' %('editar_aca')
+        content = "inline; filename='%s'" %(filename)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename=%s" %(filename)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse("Not found")
+    

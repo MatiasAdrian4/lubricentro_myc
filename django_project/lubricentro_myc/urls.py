@@ -20,6 +20,10 @@ urlpatterns = [
         views.ListadoClientes.as_view(),
         name='listado_clientes'
     ),
+    url(r'generar_remito_pdf/',
+        views.generar_remito_pdf,
+        name='generar_remito_pdf'
+    ),
     url(r'generar_stock_pdf/',
         views.generar_stock_pdf,
         name='generar_stock_pdf'
