@@ -6,6 +6,8 @@ from lubricentro_myc import views
 router = DefaultRouter()
 router.register(r'clientes', views.ClienteViewSet)
 router.register(r'productos', views.ProductoViewSet)
+router.register(r'remito', views.RemitoViewSet)
+router.register(r'elementos_remito', views.ElementoRemitoViewSet)
 
 urlpatterns = [
     url(r'ventas/',

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
@@ -27,12 +28,14 @@ class Producto(models.Model):
     def __str__(self):
         return self.detalle
 
-class ElementoRemito(models.Model):
-    numero_remito = models.IntegerField(null=False)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cantidad = models.IntegerField(null=False)
+class Remito(models.Model):
+    codigo = models.AutoField(primary_key=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return self.numero_remito
+class ElementoRemito(models.Model):
+    remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.FloatField(null=False)
 
 

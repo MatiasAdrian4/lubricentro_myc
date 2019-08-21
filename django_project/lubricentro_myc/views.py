@@ -5,8 +5,8 @@ from django.template.loader import get_template
 from rest_framework import viewsets
 from rest_framework.decorators import action
 
-from .models import Cliente, Producto
-from .serializers import ClienteSerializer, ProductoSerializer
+from .models import Cliente, Producto, Remito, ElementoRemito
+from .serializers import ClienteSerializer, ProductoSerializer, RemitoSerializer, ElementoRemitoSerializer
 from .utils import render_to_pdf
 
 class ClienteViewSet(viewsets.ModelViewSet):
@@ -42,6 +42,14 @@ class ProductoViewSet(viewsets.ModelViewSet):
                 "detalle": producto['detalle']
             })
         return JsonResponse(data={'productos': resultado})
+
+class RemitoViewSet(viewsets.ModelViewSet):
+    queryset = Remito.objects.all()
+    serializer_class = RemitoSerializer
+
+class ElementoRemitoViewSet(viewsets.ModelViewSet):
+    queryset = ElementoRemito.objects.all()
+    serializer_class = ElementoRemitoSerializer
 
 def ventas(request):
     host = request.scheme + "://" + request.META['HTTP_HOST']

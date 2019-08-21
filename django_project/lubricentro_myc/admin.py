@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Cliente, Producto, ElementoRemito
+from .models import Cliente, Producto, Remito, ElementoRemito
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
@@ -10,6 +10,10 @@ class ClienteAdmin(admin.ModelAdmin):
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ['codigo','detalle','stock','precio_costo','precio_venta_contado','precio_venta_cta_cte', 'categoria', 'desc1', 'desc2', 'desc3', 'desc4']
 
+@admin.register(Remito)
+class RemitoAdmin(admin.ModelAdmin):
+    list_display = ['codigo','fecha']
+
 @admin.register(ElementoRemito)
 class ElementoRemitoAdmin(admin.ModelAdmin):
-    list_display = ['numero_remito','producto','cantidad']
+    list_display = ['remito','producto','cantidad']

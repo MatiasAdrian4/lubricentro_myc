@@ -1,4 +1,5 @@
 {% load static %}
+{% csrf_token %}
 
 {% include "encabezado.html" %}
 
@@ -153,7 +154,34 @@
 
       function generar_remito() {
         if(confirm("¿Almacenar y Visualizar Remito?")) {
-          window.location.href = "{{ host }}/lubricentro_myc/generar_remito_pdf"
+          var productos = $('.carrito-table tbody tr td:nth-child(1) input')
+          var cantidades = $('.carrito-table tbody tr td:nth-child(4) input')
+          let opts = {
+            headers: {
+              "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
+            }
+          }
+          let data = {
+            cliente : $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value
+          }
+          var codigo_remito;
+          axios.post("/lubricentro_myc/remito/", data, opts)
+          .then((response)=> {
+            var i;
+            for(i = 0; i < productos.length; i++) {
+              elemento_remito = {}
+              elemento_remito['remito'] = response.data['codigo']
+              elemento_remito['producto'] = productos[i].value
+              elemento_remito['cantidad'] = cantidades[i].value
+            
+              axios.post("/lubricentro_myc/elementos_remito/", elemento_remito, opts)
+              .then((response)=> {
+                window.location.href = "{{ host }}/lubricentro_myc/generar_remito_pdf"
+              }).catch((error) => {}
+              )
+            }
+          }).catch((error) => {}
+          )
         }
       }
 

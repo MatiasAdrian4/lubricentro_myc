@@ -40,8 +40,8 @@ new Vue({
     methods: {
       listar_resultados() {
         var nombre = $('#buscador-clientes-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val()
-          if(nombre.length < 4) {
-            alert("La búsqueda debe de contener al menos 4 caracteres")
+          if(nombre.length < 3) {
+            alert("La búsqueda debe de contener al menos 3 caracteres")
           } else {
             axios({
               method:'get',
