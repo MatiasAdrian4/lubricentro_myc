@@ -117,11 +117,26 @@ class Remitos(ListView):
     template_name = "remitos.html"
 
     def get_queryset(self):
-        return Remito.objects.all()
+        args = self.request.GET
+        queryset = []
+        if 'codigo' in args.keys():
+            try:
+                remito = Remito.objects.get(codigo=args['codigo'])
+            except Remito.DoesNotExist:
+                return []
+            queryset.append(remito)
+            return queryset
+        elif 'cliente' in args.keys():
+            if len(args['cliente'].strip()) == 0:
+                return []
+            return Remito.objects.filter(cliente__nombre__icontains=args['cliente'])
+        else:
+            return Remito.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(Remitos,self).get_context_data(**kwargs)
         context['host'] = self.request.scheme + "://" + self.request.META['HTTP_HOST']
+        context['url'] = self.request.build_absolute_uri(self.request.path)
         return context
 
 def generar_stock_pdf(request, *args, **kwargs):
@@ -161,7 +176,6 @@ def generar_remito_pdf(request, *args, **kwargs):
         elemento_remito['detalle'] = producto.detalle
         elemento_remito['cantidad'] = elemento.cantidad
         elementos_remito.append(elemento_remito)
-    print(elementos_remito)
     context = {
         "remito" : remito,
         "cliente" : Cliente.objects.get(id=remito.cliente_id),

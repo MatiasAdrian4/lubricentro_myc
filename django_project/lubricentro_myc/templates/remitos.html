@@ -42,6 +42,22 @@
     </body>
     <script type="text/javascript">
 
+        function reload_js(){
+            var head= document.getElementsByTagName('head')[0];
+            var script= document.createElement('script');
+            script.src= "{% static 'js/arithmetic_operations.js' %}";
+            head.appendChild(script);
+        }
+        
+        reload_js();
+
+        function buscar_remito(tipo_busqueda) {
+            if(tipo_busqueda) {
+                var valor = document.getElementById(tipo_busqueda).value;
+            }
+            window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
+        }
+
         function abrir_remito(codigo) {
             window.location.href = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + codigo
         }
