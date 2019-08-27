@@ -38,4 +38,8 @@ class ElementoRemito(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.FloatField(null=False)
 
+class Venta(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.FloatField(null=False)
+    precio_venta = models.FloatField(null=False)
 
