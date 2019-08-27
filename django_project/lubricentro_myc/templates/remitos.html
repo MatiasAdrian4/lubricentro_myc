@@ -1,0 +1,50 @@
+{% load static %}
+{% csrf_token %}
+
+{% include "encabezado.html" %}
+
+{% block content %}
+    <body>
+         <div id="remitos">
+
+            <h1>Remitos</h1>
+            <table class="operaciones">
+                <tr>
+                    <td>Buscar por Código</td>
+                    <td><input type="text" id="codigo" class='allownumericwithoutdecimal' style="margin: 0px 5px;"></td>
+                    <td><button class="btn btn-default" onClick="buscar_remito('codigo')">Buscar</button></td>
+                </tr>
+                <tr>
+                    <td>Buscar por Cliente</td>
+                    <td><input type="text" id="cliente" style="margin: 0px 5px;"></td>
+                    <td><button class="btn btn-default" onClick="buscar_remito('cliente')">Buscar</button></td>
+                </tr>
+            </table>
+
+            <table class="remitos-table">
+                <thead>
+                    <td>Código</td>
+                    <td>Cliente</td>
+                    <td>Fecha</td>
+                    <td></td>
+                </thead>
+                {% for obj in object_list %}
+                    <tr>
+                        <td>{{ obj.codigo }}</td>
+                        <td>{{ obj.cliente }}</td>
+                        <td>{{ obj.fecha | date:"d M, Y"}}</td>
+                        <td><button type="button" class="btn btn-default" onClick="abrir_remito({{ obj.codigo }})">Ver</button></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        
+        </div>
+    </body>
+    <script type="text/javascript">
+
+        function abrir_remito(codigo) {
+            window.location.href = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + codigo
+        }
+
+    </script>
+{% endblock %}

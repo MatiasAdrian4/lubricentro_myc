@@ -112,20 +112,32 @@ class ListadoClientes(ListView):
         context['url'] = self.request.build_absolute_uri(self.request.path)
         return context
 
+class Remitos(ListView):
+    model = Remito
+    template_name = "remitos.html"
+
+    def get_queryset(self):
+        return Remito.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(Remitos,self).get_context_data(**kwargs)
+        context['host'] = self.request.scheme + "://" + self.request.META['HTTP_HOST']
+        return context
+
 def generar_stock_pdf(request, *args, **kwargs):
+    template = get_template('stock_pdf.html')
+
     categoria = request.GET['categoria']
     if categoria is not None:
         productos = Producto.objects.filter(categoria=categoria)
     else:
         productos = Producto.objects.none()
-
-    template = get_template('stock.html')
     context = {
         "categoria" : categoria,
         "productos" : productos
     }
     html = template.render(context)
-    pdf = render_to_pdf('stock.html', context)
+    pdf = render_to_pdf('stock_pdf.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'stock_%s.pdf' %(categoria)
@@ -138,11 +150,25 @@ def generar_stock_pdf(request, *args, **kwargs):
     return HttpResponse("Not found")
 
 def generar_remito_pdf(request, *args, **kwargs):
-    template = get_template('remito.html')
+    template = get_template('remito_pdf.html')
+
+    remito = Remito.objects.get(codigo=request.GET['cod_remito'])
+    elementos_remito = []
+    for elemento in ElementoRemito.objects.filter(remito=remito):
+        producto = Producto.objects.get(codigo = elemento.producto_id)
+        elemento_remito = {}
+        elemento_remito['codigo'] = producto.codigo
+        elemento_remito['detalle'] = producto.detalle
+        elemento_remito['cantidad'] = elemento.cantidad
+        elementos_remito.append(elemento_remito)
+    print(elementos_remito)
     context = {
+        "remito" : remito,
+        "cliente" : Cliente.objects.get(id=remito.cliente_id),
+        "elementos_remito" : elementos_remito
     }
     html = template.render(context)
-    pdf = render_to_pdf('remito.html', context)
+    pdf = render_to_pdf('remito_pdf.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'remito_%s.pdf' %('editar_aca')

@@ -22,6 +22,10 @@ urlpatterns = [
         views.ListadoClientes.as_view(),
         name='listado_clientes'
     ),
+    url(r'remitos/',
+        views.Remitos.as_view(),
+        name='remitos'
+    ),
     url(r'generar_remito_pdf/',
         views.generar_remito_pdf,
         name='generar_remito_pdf'

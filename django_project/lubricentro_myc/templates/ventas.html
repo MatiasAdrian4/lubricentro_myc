@@ -164,9 +164,9 @@
           let data = {
             cliente : $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value
           }
-          var codigo_remito;
           axios.post("/lubricentro_myc/remito/", data, opts)
           .then((response)=> {
+            var next_url = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + response.data['codigo']
             var i;
             for(i = 0; i < productos.length; i++) {
               elemento_remito = {}
@@ -176,10 +176,10 @@
             
               axios.post("/lubricentro_myc/elementos_remito/", elemento_remito, opts)
               .then((response)=> {
-                window.location.href = "{{ host }}/lubricentro_myc/generar_remito_pdf"
               }).catch((error) => {}
               )
             }
+            window.location.href = next_url
           }).catch((error) => {}
           )
         }

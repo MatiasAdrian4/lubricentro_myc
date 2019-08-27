@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 class Cliente(models.Model):
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, unique=True)
     direccion = models.CharField(max_length=100, blank=True, default='')
     localidad = models.CharField(max_length=100, blank=True, default='')
     codigo_postal = models.CharField(max_length=4, blank=True, default="")
