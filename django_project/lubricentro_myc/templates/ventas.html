@@ -48,7 +48,10 @@
                   <input hidden type="text">
                   <input readonly disabled type="text" style="width: 200px">
                 </td>
-                <td><button disabled class="btn btn-default" style="float: right" onClick="generar_remito()">Remito</button></td>
+                <td>
+                  <button class="btn btn-default" style="float: right" onClick="guardar_venta()">Venta</button>
+                  <button hidden class="btn btn-default" style="float: right" onClick="generar_remito()">Remito</button>
+                </td>
               </tr>
             </table>
   
@@ -71,12 +74,13 @@
         if(opcion.val() == "E") {
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) button')[0].disabled = true
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].disabled = true
-          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[0].disabled = true
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value = ""
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].value = ""
+          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[0].hidden = false
+          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[1].hidden = true
         } else if(opcion.val() == "CC") {
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) button')[0].disabled = false
-          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].disabled = false
+          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[0].hidden = true
         }
       }
 
@@ -182,6 +186,32 @@
             window.location.href = next_url
           }).catch((error) => {}
           )
+        }
+      }
+
+      function guardar_venta() {
+        if(confirm("¿Realizar Venta?")) {
+          var productos = $('.carrito-table tbody tr td:nth-child(1) input')
+          var cantidades = $('.carrito-table tbody tr td:nth-child(4) input')
+          var precios = $('.carrito-table tbody tr td:nth-child(5) input')
+          let opts = {
+            headers: {
+              "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
+            }
+          }
+          var next_url = "{{ host }}/lubricentro_myc/ventas"
+          var i;
+          for(i = 0; i < productos.length; i++) {
+              venta = {}
+              venta['producto'] = productos[i].value
+              venta['cantidad'] = cantidades[i].value
+              venta['precio'] = precios[i].value
+              axios.post("/lubricentro_myc/ventas_historial/", venta, opts)
+              .then((response)=> {
+              }).catch((error) => {}
+              )
+          }
+          window.location.href = next_url
         }
       }
 

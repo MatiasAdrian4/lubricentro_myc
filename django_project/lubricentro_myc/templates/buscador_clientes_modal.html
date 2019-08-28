@@ -73,7 +73,7 @@ new Vue({
           var nombre = $('#buscador-clientes-modal .modal-body .resultados tbody tr:has("td .cli-selected") td:nth-child(2)').text();
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value = codigo
           $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].value = nombre
-          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[0].disabled = false
+          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[1].hidden = false
         }
         $('#buscador-clientes-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("")
         $('#buscador-clientes-modal .modal-body .resultados tbody')[0].innerHTML = ``

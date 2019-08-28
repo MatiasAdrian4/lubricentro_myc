@@ -41,5 +41,6 @@ class ElementoRemito(models.Model):
 class Venta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.FloatField(null=False)
-    precio_venta = models.FloatField(null=False)
+    precio = models.FloatField(null=False)
+    fecha = models.DateTimeField(default=timezone.now)
 

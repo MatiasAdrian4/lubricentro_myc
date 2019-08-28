@@ -20,4 +20,4 @@ class ElementoRemitoAdmin(admin.ModelAdmin):
 
 @admin.register(Venta)
 class VentaAdmin(admin.ModelAdmin):
-    list_display = ['producto','cantidad','precio_venta']
+    list_display = ['producto','cantidad','precio','fecha']

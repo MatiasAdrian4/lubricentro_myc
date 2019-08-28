@@ -8,6 +8,7 @@ router.register(r'clientes', views.ClienteViewSet)
 router.register(r'productos', views.ProductoViewSet)
 router.register(r'remito', views.RemitoViewSet)
 router.register(r'elementos_remito', views.ElementoRemitoViewSet)
+router.register(r'ventas_historial', views.VentaViewSet)
 
 urlpatterns = [
     url(r'ventas/',
