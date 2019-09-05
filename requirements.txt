@@ -1,0 +1,7 @@
+django
+djangorestframework
+django_extensions
+django-crispy-forms
+django-cors-headers
+mysqlclient
+xhtml2pdf
