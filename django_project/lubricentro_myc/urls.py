@@ -8,7 +8,7 @@ router.register(r'clientes', views.ClienteViewSet)
 router.register(r'productos', views.ProductoViewSet)
 router.register(r'remito', views.RemitoViewSet)
 router.register(r'elementos_remito', views.ElementoRemitoViewSet)
-router.register(r'ventas_historial', views.VentaViewSet)
+router.register(r'ventas_realizadas', views.VentaViewSet)
 
 urlpatterns = [
     url(r'ventas/',
@@ -26,6 +26,10 @@ urlpatterns = [
     url(r'remitos/',
         views.Remitos.as_view(),
         name='remitos'
+    ),
+    url(r'ventas_historial/',
+        views.HistorialVentas.as_view(),
+        name='ventas_historial'
     ),
     url(r'generar_remito_pdf/',
         views.generar_remito_pdf,

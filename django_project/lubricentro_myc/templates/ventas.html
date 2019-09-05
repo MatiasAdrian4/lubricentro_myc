@@ -206,7 +206,7 @@
               venta['producto'] = productos[i].value
               venta['cantidad'] = cantidades[i].value
               venta['precio'] = precios[i].value
-              axios.post("/lubricentro_myc/ventas_historial/", venta, opts)
+              axios.post("/lubricentro_myc/ventas_realizadas/", venta, opts)
               .then((response)=> {
               }).catch((error) => {}
               )

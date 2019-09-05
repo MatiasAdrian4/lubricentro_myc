@@ -1,0 +1,91 @@
+{% load static %}
+{% csrf_token %}
+
+{% include "encabezado.html" %}
+
+{% block content %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    
+    <body>
+        <div id="historial-ventas">
+
+            <h1>Historial de Ventas</h1>
+
+            <table class="operaciones">
+                <tr>
+                    <td>Buscar por Fecha</td>
+                    <td>
+                        <input type="text" id="date" onClick="check('fecha')" style="padding: 2px; width: 90px; margin: 0px 5px;"/>
+                    </td>
+                    <td><button class="btn btn-default" onClick="buscar_ventas('fecha')">Buscar</button></td>
+                </tr>
+                <tr>
+                    <td>Buscar por Mes</td>
+                    <td>
+                        <input type="text" id="month" onClick="check('mes')" style="padding: 2px; width: 90px; margin: 0px 5px;"/>
+                    </td>
+                    <td><button class="btn btn-default" onClick="buscar_ventas('mes')">Buscar</button></td>
+                </tr>
+            </table>
+
+            <table class="ventas-table">
+                <thead>
+                    <td>Producto</td>
+                    <td>Cantidad</td>
+                    <td>Precio</td>
+                    <td>Fecha</td>
+                </thead>
+                {% for obj in object_list %}
+                    <tr>
+                        <td>{{ obj.producto }}</td>
+                        <td>{{ obj.cantidad }}</td>
+                        <td>{{ obj.precio }}</td>
+                        <td>{{ obj.fecha | date:"d M, Y" }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+        </div>
+    </body>
+
+    <script>
+
+        $(function(){
+            $('#date').datepicker({
+                format: 'dd-mm-yyyy',
+                todayHighlight: true,
+                autoclose: true
+            });
+            $('#month').datepicker({
+                format: "mm-yyyy",
+                startView: "months", 
+                minViewMode: "months",
+                todayHighlight: true,
+                autoclose: true
+            });
+        })
+
+        function check(busqueda) {
+            if(busqueda == 'fecha') {
+                $('#month').val("")
+            } else {
+                if(busqueda == 'mes') {
+                    $('#date').val("")
+                }
+            }
+        }
+
+        function buscar_ventas(busqueda) {
+            if(busqueda == 'fecha') {
+                window.location.href = "{{ url }}?fecha=" + $('#date').val();
+            } else {
+                if(busqueda == 'mes') {
+                    window.location.href = "{{ url }}?mes=" + $('#month').val();
+                }
+            }
+        }
+
+    </script>
+{% endblock %}

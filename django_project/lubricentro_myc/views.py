@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from django.template.loader import get_template
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from datetime import datetime
 
 from .models import Cliente, Producto, Remito, ElementoRemito, Venta
 from .serializers import ClienteSerializer, ProductoSerializer, RemitoSerializer, ElementoRemitoSerializer, VentaSerializer
@@ -198,3 +199,26 @@ def generar_remito_pdf(request, *args, **kwargs):
         return response
     return HttpResponse("Not found")
     
+class HistorialVentas(ListView):
+    model = Venta
+    template_name = "ventas_historial.html"
+
+    def get_queryset(self):
+        args = self.request.GET
+        if 'fecha' in args.keys():
+            return Venta.objects.filter(
+                fecha__day=int(args['fecha'][0:2]),
+                fecha__month=int(args['fecha'][3:5]),
+                fecha__year=int(args['fecha'][6:10])
+            )
+        elif 'mes' in args.keys():
+            return Venta.objects.filter(
+                fecha__month=int(args['mes'][0:2]),
+                fecha__year=int(args['mes'][3:7])
+            )
+        else:
+            return Venta.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(HistorialVentas,self).get_context_data(**kwargs)
+        return context
