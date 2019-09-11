@@ -5,9 +5,8 @@
 #### Clonar Repositorio
 ```bash
 git clone https://github.com/MatiasAdrian4/lubricentro_myc.git
-c
 ```
-#### Instalar Dependencias
+#### Crear Ambiente e Instalar Dependencias
 ```bash
 conda create --name lubricentro_myc python=3.7
 conda activate lubricentro_myc
