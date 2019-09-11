@@ -52,10 +52,12 @@
         reload_js();
 
         function buscar_remito(tipo_busqueda) {
-            if(tipo_busqueda) {
-                var valor = document.getElementById(tipo_busqueda).value;
+            if(document.getElementById(tipo_busqueda).value != '') {
+                if(tipo_busqueda) {
+                    var valor = document.getElementById(tipo_busqueda).value;
+                }
+                window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
             }
-            window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
         }
 
         function abrir_remito(codigo) {

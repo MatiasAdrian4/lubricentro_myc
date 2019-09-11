@@ -79,10 +79,14 @@
 
         function buscar_ventas(busqueda) {
             if(busqueda == 'fecha') {
-                window.location.href = "{{ url }}?fecha=" + $('#date').val();
+                if ($('#date').val() != '') {
+                    window.location.href = "{{ url }}?fecha=" + $('#date').val();
+                }
             } else {
                 if(busqueda == 'mes') {
-                    window.location.href = "{{ url }}?mes=" + $('#month').val();
+                    if ($('#month').val() != '') {
+                        window.location.href = "{{ url }}?mes=" + $('#month').val();
+                    }
                 }
             }
         }
