@@ -68,12 +68,20 @@ new Vue({
           }
       },
       close() {
+        // este if consulta si seleccione algun cliente, deberia de fijarme en que vista estoy, si
+        // en ventas o en facturacion de remitos, para ver donde agrego los datos del cliente
         if($('.cli-selected').length > 0) {
           var codigo = $('#buscador-clientes-modal .modal-body .resultados tbody tr:has("td .cli-selected") td:nth-child(1)').text();
           var nombre = $('#buscador-clientes-modal .modal-body .resultados tbody tr:has("td .cli-selected") td:nth-child(2)').text();
-          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value = codigo
-          $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].value = nombre
-          $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[1].hidden = false
+          if ($('#ventas').length > 0) {
+            $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[0].value = codigo
+            $('.resumen-venta tr:nth-child(2) td:nth-child(1) input')[1].value = nombre
+            $('.resumen-venta tr:nth-child(2) td:nth-child(2) button')[1].hidden = false
+          } else if ($('#remitos_facturacion').length > 0) {
+            $('.operaciones tr:nth-child(2) td:nth-child(2) input')[0].value = codigo
+            $('.operaciones tr:nth-child(3) td:nth-child(2) input')[0].value = nombre
+            $('.operaciones tr:nth-child(4) td:nth-child(2) button')[0].disabled = false
+          }
         }
         $('#buscador-clientes-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("")
         $('#buscador-clientes-modal .modal-body .resultados tbody')[0].innerHTML = ``

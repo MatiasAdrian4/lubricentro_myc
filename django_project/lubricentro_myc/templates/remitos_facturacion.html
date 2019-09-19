@@ -1,0 +1,126 @@
+{% load static %}
+{% csrf_token %}
+
+{% include "encabezado.html" %}
+
+{% block content %}
+    <body>
+        <div id="remitos_facturacion">
+
+            <h1>Facturación de Remitos</h1>
+
+            <table class="operaciones">
+                <tr>
+                    <td></td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#buscador-clientes-modal" style="margin: 10px;">Buscar Cliente</button><td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Código</td>
+                    <td><input type="text" readonly style="margin-left: 5px"></td>
+                </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td><input type="text" readonly style="margin-left: 5px"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button disabled class="btn btn-default" onClick="listar_productos()" style="margin: 10px;">Listar Productos</button><td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <table class="resumen-productos">
+                <thead>
+                    <td style="width: 10%;">Código</td>
+                    <td style="width: 60%;">Detalle</td>
+                    <td style="width: 10%;">Precio Cta. Cte.</td>
+                    <td style="width: 5%;">Cantidad</td>
+                    <td style="width: 15%;">Total</td>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        
+        function listar_productos() {
+            var codigo = $('.operaciones tr:nth-child(2) td:nth-child(2) input')[0].value
+            axios({
+                method:'get',
+                url: `/lubricentro_myc/elementos_remito/buscar?codigo=` + codigo,
+            }).then(response => {
+                var resumen_productos = $('.resumen-productos tbody')[0]
+                resumen_productos.innerHTML = ``
+                var total = 0;
+                for(var elemento_remito in response.data.elementos_remito) {
+                    var elem = response.data.elementos_remito[elemento_remito]
+                    resumen_productos.innerHTML += `
+                        <tr>
+                            <td><input readonly type="text" value="` + elem['codigo'] + `" style="padding: 2px"></td>
+                            <td><input readonly type="text" value="` + elem['detalle'] + `" style="padding: 2px"></td>
+                            <td><input readonly type="text" value="` + elem['precio_cta_cte'] + `" style="padding: 2px"></td>
+                            <td><input readonly type="text" value="` + elem['cantidad'] + `" style="padding: 2px"></td>
+                            <td><input readonly type="text" value="` + elem['precio_cta_cte'] * elem['cantidad'] + `" style="padding: 2px"></td>
+                        </tr>
+                    `
+                    total += elem['precio_cta_cte'] * elem['cantidad']
+                }
+
+                resumen_productos.innerHTML += `
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><button class="btn btn-default" onClick="facturar()" style="margin: 10px">Facturar</button></td>
+                        <td><input type="text" value="` + total + `" style="padding: 2px"></td>
+                    </tr>
+                `
+
+            }).catch(function (error) {
+                console.error(error);
+            })
+        }
+
+        function facturar() {
+            if(confirm("¿Facturar Remitos?")) {
+
+                // crear "ventas" 
+                var productos = $('.resumen-productos tbody td:nth-child(1) input')
+                var cantidades = $('.resumen-productos tbody td:nth-child(4) input')
+                var precios = $('.resumen-productos tbody td:nth-child(5) input')
+                let opts = {
+                    headers: {
+                        "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
+                    }
+                }
+                var i;
+                for(i = 0; i < productos.length; i++) {
+                    venta = {}
+                    venta['producto'] = productos[i].value
+                    venta['cantidad'] = cantidades[i].value
+                    venta['precio'] = precios[i].value
+                    axios.post("/lubricentro_myc/ventas_realizadas/", venta, opts)
+                    .then((response)=> {
+                    }).catch((error) => {}
+                    )
+                }
+
+                // eliminar remitos
+                var codigo_cliente = $('.operaciones tr:nth-child(2) td:nth-child(2) input')[0].value
+                axios.delete("/lubricentro_myc/elementos_remito/borrar?codigo_cliente=" + codigo_cliente, opts)
+                .then(response => {
+                    window.location.href = "{{ url }}"
+                }).catch(function (error) {
+                    console.error(error);
+                })
+            }
+        }
+       
+    </script>
+{% endblock %}
+
+{% include "buscador_clientes_modal.html" %}

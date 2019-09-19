@@ -83,14 +83,12 @@
 
         function buscar_producto(tipo_busqueda) {
             var valor;
-            if(document.getElementById(tipo_busqueda).value != '') {
-                if (tipo_busqueda == 'categoria') {
-                    valor = $('.operaciones select').val()
-                } else {
-                    valor = document.getElementById(tipo_busqueda).value;
-                }
-                window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
+            if (tipo_busqueda == 'categoria') {
+               valor = $('.operaciones select').val()
+            } else if(document.getElementById(tipo_busqueda).value != '') {
+                valor = document.getElementById(tipo_busqueda).value;
             }
+            window.location.href = "{{ url }}?" + tipo_busqueda + "=" + valor;
         }
         
         $(function(){

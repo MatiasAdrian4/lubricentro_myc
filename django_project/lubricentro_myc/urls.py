@@ -27,6 +27,10 @@ urlpatterns = [
         views.Remitos.as_view(),
         name='remitos'
     ),
+    url(r'remitos_facturacion/',
+        views.remitos_facturacion,
+        name='remitos_facturacion'
+    ),
     url(r'ventas_historial/',
         views.HistorialVentas.as_view(),
         name='ventas_historial'

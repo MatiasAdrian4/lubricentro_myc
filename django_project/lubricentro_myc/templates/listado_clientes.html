@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button class="btn btn-default" onClick="buscar_cliente()">Listar Todos</button><td>
+                    <td><button class="btn btn-default" onClick="buscar_cliente('todos')">Listar Todos</button><td>
                     <td></td>
                 </tr>
             </table>
@@ -71,7 +71,9 @@
         reload_js();
         
         function buscar_cliente(tipo_busqueda) {
-            if(document.getElementById(tipo_busqueda).value != '') {
+            if (tipo_busqueda == 'todos') {
+                window.location.href = "{{ url }}";
+            } else if(document.getElementById(tipo_busqueda).value != '') {
                 if(tipo_busqueda) {
                     var valor = document.getElementById(tipo_busqueda).value;
                 }

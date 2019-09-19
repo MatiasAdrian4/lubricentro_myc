@@ -43,4 +43,3 @@ class Venta(models.Model):
     cantidad = models.FloatField(null=False)
     precio = models.FloatField(null=False)
     fecha = models.DateTimeField(default=timezone.now)
-

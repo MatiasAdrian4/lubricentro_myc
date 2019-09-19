@@ -52,6 +52,34 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
     queryset = ElementoRemito.objects.all()
     serializer_class = ElementoRemitoSerializer
 
+    @action(detail=False, methods=['get'])
+    def buscar(self, request):
+        lista_productos = {}
+        codigo = request.GET.get('codigo', '')
+        elementos_remito = ElementoRemito.objects.filter(remito__cliente=codigo)
+        for elem in elementos_remito:
+            if elem.producto_id in lista_productos:
+                lista_productos[elem.producto_id] = lista_productos[elem.producto_id] + elem.cantidad
+            else:
+                lista_productos[elem.producto_id] = elem.cantidad
+
+        resultado = []
+        for producto in lista_productos:
+            prod = Producto.objects.get(codigo=producto)
+            resultado.append({
+                "codigo": producto,
+                "detalle": prod.detalle,
+                "precio_cta_cte" : prod.precio_venta_cta_cte,
+                "cantidad": lista_productos[producto]
+            })
+        return JsonResponse(data={'elementos_remito': resultado})
+
+    @action(detail=False, methods=['delete'])
+    def borrar(self, request):
+        codigo_cliente = request.GET.get('codigo_cliente', '')
+        Remito.objects.filter(cliente=codigo_cliente).delete()
+        return HttpResponse(status=200)
+
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all()
     serializer_class = VentaSerializer
@@ -143,6 +171,10 @@ class Remitos(ListView):
         context['host'] = self.request.scheme + "://" + self.request.META['HTTP_HOST']
         context['url'] = self.request.build_absolute_uri(self.request.path)
         return context
+
+def remitos_facturacion(request):
+    context = {}
+    return render(request, 'remitos_facturacion.html', context=context)
 
 def generar_stock_pdf(request, *args, **kwargs):
     template = get_template('stock_pdf.html')
