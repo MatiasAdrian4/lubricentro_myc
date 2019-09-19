@@ -22,9 +22,12 @@ button {
     margin-top: -30px;
 }
 
-#encabezado header img {
-    max-height: 30px;
-    margin: 20px;
+#encabezado header h1 {
+    padding: 15px;
+    margin-left: 15px;
+    font: oblique bold 120% cursive;
+    font-size: 40px;
+    color: black;
 }
 
 #encabezado .menu {
