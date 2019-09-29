@@ -1,5 +1,4 @@
 django_project/scripts/txt
-django_project/lubricentro_myc/static/vue_libs
 *.pyc
 __pycache__/
-notes
+lubricentro_myc
