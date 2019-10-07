@@ -180,10 +180,12 @@
             
               axios.post("/lubricentro_myc/elementos_remito/", elemento_remito, opts)
               .then((response)=> {
+                  if(i == productos.length) {
+                    window.location.href = next_url
+                  }
               }).catch((error) => {}
               )
             }
-            window.location.href = next_url
           }).catch((error) => {}
           )
         }
