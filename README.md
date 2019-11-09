@@ -1,12 +1,12 @@
 # Lubricentro M&C
 
-## Instalación
+## Installation
 
-#### Clonar Repositorio
+#### Clone Repository
 ```bash
 git clone https://github.com/MatiasAdrian4/lubricentro_myc.git
 ```
-#### Crear Ambiente e Instalar Dependencias
+#### Create Environment and Install Dependencies
 
 ##### conda
 ```bash
@@ -22,13 +22,13 @@ source lubricentro_myc/bin/activate
 pip install -r requirements.txt
 ```
 
-#### Correr Migraciones y Levantar el Servidor
+#### Run Migrations and Run Server
 ```bash
 python manage.py migrate
 python manage.py runserver
 ```
 
-#### Migrar Antigua Base de Datos
+#### Migrate Old Database
 ```bash
 python manage.py runscript migrate_old_database
 ```
