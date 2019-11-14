@@ -3,5 +3,5 @@ djangorestframework
 django_extensions
 django-crispy-forms
 django-cors-headers
-mysqlclient
+psycopg2
 xhtml2pdf
