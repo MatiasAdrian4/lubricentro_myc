@@ -145,3 +145,13 @@ button {
 .carrito-table tbody tr td input, .resumen-productos tbody tr td input {
     width: 100%;
 }
+
+#lubricentro-login {
+    background-color: white;
+    margin: auto;
+    width: 30%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #212529db!important;
+    margin-top: 150px;
+}

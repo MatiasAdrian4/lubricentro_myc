@@ -29,8 +29,8 @@ DEBUG = False
 #ALLOWED_HOSTS = []
 
 ALLOWED_HOSTS = [
-    'ec2-3-134-61-181.us-east-2.compute.amazonaws.com',
     '3.134.61.181'
+    '127.0.0.1'
 ]
 
 # Application definition
@@ -56,8 +56,15 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',   
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'global_login_required.GlobalLoginRequiredMiddleware',   
 ]
+
+PUBLIC_PATHS = [
+    r'^/accounts/.*',
+]
+
+LOGIN_REDIRECT_URL = "/lubricentro_myc/ventas"
 
 ROOT_URLCONF = 'django_project.urls'
 
