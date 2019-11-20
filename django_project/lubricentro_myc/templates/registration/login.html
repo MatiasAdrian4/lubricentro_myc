@@ -1,0 +1,20 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+
+<div id="lubricentro-login">
+    <h2>Lubricentro M&C</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: #F0AD14;
+    }
+</style>
