@@ -23,10 +23,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^1@t*gv-1(8x00r37zz%q^z7f4c!8bg=la6$6zth#sf#9y&xb3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = [
+    'ec2-3-134-61-181.us-east-2.compute.amazonaws.com',
+    '3.134.61.181'
+]
 
 # Application definition
 
@@ -82,13 +87,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', 
         'NAME': 'lubricentro_myc',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        #'USER': 'postgres',
+        #'PASSWORD': 'password',
+        'USER': 'matiasadrian4',
+        'PASSWORD': 'matiasadrian4',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
