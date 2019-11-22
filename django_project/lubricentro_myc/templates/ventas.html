@@ -170,7 +170,7 @@
           }
           axios.post("/lubricentro_myc/remito/", data, opts)
           .then((response)=> {
-            var next_url = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + response.data['codigo']
+            var remito_pdf = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + response.data['codigo']
             var i;
             for(i = 0; i < productos.length; i++) {
               elemento_remito = {}
@@ -180,12 +180,11 @@
             
               axios.post("/lubricentro_myc/elementos_remito/", elemento_remito, opts)
               .then((response)=> {
-                  if(i == productos.length) {
-                    window.location.href = next_url
-                  }
               }).catch((error) => {}
               )
             }
+            window.open(remito_pdf, '_blank');
+            window.location.href = "{{ host }}/lubricentro_myc/ventas";
           }).catch((error) => {}
           )
         }

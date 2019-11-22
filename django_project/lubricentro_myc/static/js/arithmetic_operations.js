@@ -13,10 +13,6 @@ $(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {
     }
 });
 
-function actualizar_total() {
-    console.log(1)
-}
-
 $(function(){
     
     // si el precio cambia

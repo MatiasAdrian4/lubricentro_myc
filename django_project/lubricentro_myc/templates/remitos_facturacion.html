@@ -37,6 +37,7 @@
                     <td style="width: 10%;">Precio Cta. Cte.</td>
                     <td style="width: 5%;">Cantidad</td>
                     <td style="width: 15%;">Total</td>
+                    <td style="border: none!important" onClick="all_checkboxes()"><input class="principal-checkbox" type="checkbox"></td>
                 </thead>
                 <tbody>
                 </tbody>
@@ -55,7 +56,6 @@
             }).then(response => {
                 var resumen_productos = $('.resumen-productos tbody')[0]
                 resumen_productos.innerHTML = ``
-                var total = 0;
                 for(var elemento_remito in response.data.elementos_remito) {
                     var elem = response.data.elementos_remito[elemento_remito]
                     resumen_productos.innerHTML += `
@@ -65,9 +65,9 @@
                             <td><input readonly type="text" value="` + elem['precio_cta_cte'] + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + elem['cantidad'] + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + elem['precio_cta_cte'] * elem['cantidad'] + `" style="padding: 2px"></td>
+                            <td><input type="checkbox" id="` + elem['elem_remito'] + `" onClick="actualizar_total()"></td>
                         </tr>
                     `
-                    total += elem['precio_cta_cte'] * elem['cantidad']
                 }
 
                 resumen_productos.innerHTML += `
@@ -76,7 +76,7 @@
                         <td></td>
                         <td></td>
                         <td><button class="btn btn-default" onClick="facturar()" style="margin: 10px">Facturar</button></td>
-                        <td><input type="text" value="` + total + `" style="padding: 2px"></td>
+                        <td><input id="total" readonly type="text" value="0" style="padding: 2px; width: 100px"></td>
                     </tr>
                 `
 
@@ -98,7 +98,7 @@
                     }
                 }
                 var i;
-                for(i = 0; i < productos.length; i++) {
+                for(i = 0; i < productos.length; i++) { // cambiar aca. No usar todos los productos, solos los seleccionados
                     venta = {}
                     venta['producto'] = productos[i].value
                     venta['cantidad'] = cantidades[i].value
@@ -118,6 +118,28 @@
                     console.error(error);
                 })
             }
+        }
+
+        function all_checkboxes() {
+            var checkbox = $('.resumen-productos .principal-checkbox')[0]
+            if (checkbox.checked) {
+                $('.resumen-productos tr td:nth-child(6) input').prop('checked', true)
+            } else {
+                $('.resumen-productos tr td:nth-child(6) input').prop('checked', false)
+            }
+            actualizar_total()
+        }
+
+        function actualizar_total(checkbox) {
+            var total = 0;
+            precio_total = $('.resumen-productos tr td:nth-child(5) input')
+            checkbox = $('.resumen-productos tr td:nth-child(6) input')
+            for (var i=1; i<checkbox.length; i++) {
+                if(checkbox[i].checked) {
+                    total += parseFloat(precio_total[i-1].value)
+                }
+            }
+            $('#total')[0].value = String(total)
         }
        
     </script>

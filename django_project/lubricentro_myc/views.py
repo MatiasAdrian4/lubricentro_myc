@@ -57,25 +57,20 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
         lista_productos = {}
         codigo = request.GET.get('codigo', '')
         elementos_remito = ElementoRemito.objects.filter(remito__cliente=codigo)
-        for elem in elementos_remito:
-            if elem.producto_id in lista_productos:
-                lista_productos[elem.producto_id] = lista_productos[elem.producto_id] + elem.cantidad
-            else:
-                lista_productos[elem.producto_id] = elem.cantidad
-
         resultado = []
-        for producto in lista_productos:
-            prod = Producto.objects.get(codigo=producto)
+        for elem in elementos_remito:
+            prod = Producto.objects.get(codigo=elem.producto_id)
             resultado.append({
-                "codigo": producto,
+                "elem_remito": elem.id,
+                "codigo": prod.codigo,
                 "detalle": prod.detalle,
                 "precio_cta_cte" : prod.precio_venta_cta_cte,
-                "cantidad": lista_productos[producto]
+                "cantidad": elem.cantidad
             })
         return JsonResponse(data={'elementos_remito': resultado})
 
     @action(detail=False, methods=['delete'])
-    def borrar(self, request):
+    def borrar(self, request): #cambiar codigo acá
         codigo_cliente = request.GET.get('codigo_cliente', '')
         Remito.objects.filter(cliente=codigo_cliente).delete()
         return HttpResponse(status=200)

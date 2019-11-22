@@ -33,10 +33,14 @@ class Remito(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return "Remito n°" + str(self.codigo)
+
 class ElementoRemito(models.Model):
     remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.FloatField(null=False)
+    pagado = models.BooleanField(default=False)
 
 class Venta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)

@@ -16,7 +16,7 @@ class RemitoAdmin(admin.ModelAdmin):
 
 @admin.register(ElementoRemito)
 class ElementoRemitoAdmin(admin.ModelAdmin):
-    list_display = ['remito','producto','cantidad']
+    list_display = ['id','remito','producto','cantidad','pagado']
 
 @admin.register(Venta)
 class VentaAdmin(admin.ModelAdmin):
