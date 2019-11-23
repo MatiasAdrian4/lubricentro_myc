@@ -56,7 +56,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
     def buscar(self, request):
         lista_productos = {}
         codigo = request.GET.get('codigo', '')
-        elementos_remito = ElementoRemito.objects.filter(remito__cliente=codigo)
+        elementos_remito = ElementoRemito.objects.filter(remito__cliente=codigo, pagado=False)
         resultado = []
         for elem in elementos_remito:
             prod = Producto.objects.get(codigo=elem.producto_id)
@@ -69,10 +69,11 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
             })
         return JsonResponse(data={'elementos_remito': resultado})
 
-    @action(detail=False, methods=['delete'])
-    def borrar(self, request): #cambiar codigo acá
-        codigo_cliente = request.GET.get('codigo_cliente', '')
-        Remito.objects.filter(cliente=codigo_cliente).delete()
+    @action(methods=['post'], detail=False)
+    def marcar_pagado(self, request):
+        elem_remito = ElementoRemito.objects.get(id=self.request.data['id'])
+        elem_remito.pagado = True
+        elem_remito.save()
         return HttpResponse(status=200)
 
 class VentaViewSet(viewsets.ModelViewSet):

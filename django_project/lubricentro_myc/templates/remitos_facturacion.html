@@ -38,6 +38,7 @@
                     <td style="width: 5%;">Cantidad</td>
                     <td style="width: 15%;">Total</td>
                     <td style="border: none!important" onClick="all_checkboxes()"><input class="principal-checkbox" type="checkbox"></td>
+                    <td hidden></td>
                 </thead>
                 <tbody>
                 </tbody>
@@ -65,7 +66,8 @@
                             <td><input readonly type="text" value="` + elem['precio_cta_cte'] + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + elem['cantidad'] + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + elem['precio_cta_cte'] * elem['cantidad'] + `" style="padding: 2px"></td>
-                            <td><input type="checkbox" id="` + elem['elem_remito'] + `" onClick="actualizar_total()"></td>
+                            <td><input type="checkbox" onClick="actualizar_total()"></td>
+                            <td><input hidden type="text" value="` + elem['elem_remito'] + `"></td>
                         </tr>
                     `
                 }
@@ -86,38 +88,39 @@
         }
 
         function facturar() {
-            if(confirm("¿Facturar Remitos?")) {
-
+            if(confirm("¿Facturar Productos Seleccionados?")) {
                 // crear "ventas" 
                 var productos = $('.resumen-productos tbody td:nth-child(1) input')
                 var cantidades = $('.resumen-productos tbody td:nth-child(4) input')
                 var precios = $('.resumen-productos tbody td:nth-child(5) input')
+                var checkboxes = $('.resumen-productos tbody td:nth-child(6) input')
+                var elem_remito_ids = $('.resumen-productos tbody td:nth-child(7) input')
                 let opts = {
                     headers: {
                         "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
                     }
                 }
                 var i;
-                for(i = 0; i < productos.length; i++) { // cambiar aca. No usar todos los productos, solos los seleccionados
-                    venta = {}
-                    venta['producto'] = productos[i].value
-                    venta['cantidad'] = cantidades[i].value
-                    venta['precio'] = precios[i].value
-                    axios.post("/lubricentro_myc/ventas_realizadas/", venta, opts)
-                    .then((response)=> {
-                    }).catch((error) => {}
-                    )
+                for(i = 0; i < productos.length; i++) {
+                    if(checkboxes[i].checked) {
+                        venta = {}
+                        venta['producto'] = productos[i].value
+                        venta['cantidad'] = cantidades[i].value
+                        venta['precio'] = precios[i].value
+                        axios.post("/lubricentro_myc/ventas_realizadas/", venta, opts)
+                        .then((response)=> {
+                        }).catch((error) => {}
+                        )
+                        elem_remito = {}
+                        elem_remito['id'] = elem_remito_ids[i].value
+                        axios.post("/lubricentro_myc/elementos_remito/marcar_pagado/", elem_remito, opts)
+                        .then((response)=> {
+                        }).catch((error) => {}
+                        )
+                    }
                 }
-
-                // eliminar remitos
-                var codigo_cliente = $('.operaciones tr:nth-child(2) td:nth-child(2) input')[0].value
-                axios.delete("/lubricentro_myc/elementos_remito/borrar?codigo_cliente=" + codigo_cliente, opts)
-                .then(response => {
-                    window.location.href = "{{ url }}"
-                }).catch(function (error) {
-                    console.error(error);
-                })
             }
+            window.location.href = "{{ url }}";
         }
 
         function all_checkboxes() {
