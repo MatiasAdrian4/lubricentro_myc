@@ -147,12 +147,12 @@ button {
 }
 
 #lubricentro-login {
-    background-color: white;
+    background-color: #E4E9E3;
     margin: auto;
     width: 30%;
     text-align: center;
     padding: 10px;
-    border: 1px solid #212529db!important;
+    border: 1px solid black!important;
     margin-top: 150px;
 }
 
