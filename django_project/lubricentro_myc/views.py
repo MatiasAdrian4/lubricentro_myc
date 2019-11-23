@@ -250,4 +250,9 @@ class HistorialVentas(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HistorialVentas,self).get_context_data(**kwargs)
+        ventas = self.get_queryset()
+        total = 0
+        for venta in ventas:
+            total += venta.precio
+        context['total'] = total
         return context
