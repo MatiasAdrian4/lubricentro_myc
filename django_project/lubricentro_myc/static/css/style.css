@@ -155,3 +155,14 @@ button {
     border: 1px solid #212529db!important;
     margin-top: 150px;
 }
+
+.boton-remito {
+    border: none!important;
+    background-color: #E4E9E3!important;
+    cursor: pointer;
+    width: 100px;
+}
+
+.boton-remito:hover {
+    text-decoration: underline;
+}

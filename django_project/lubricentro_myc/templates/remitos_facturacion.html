@@ -37,8 +37,9 @@
                     <td style="width: 10%;">Precio Cta. Cte.</td>
                     <td style="width: 5%;">Cantidad</td>
                     <td style="width: 15%;">Total</td>
-                    <td style="border: none!important" onClick="all_checkboxes()"><input class="principal-checkbox" type="checkbox"></td>
+                    <td style="border: none!important; padding: 20px" onClick="all_checkboxes()"><input class="principal-checkbox" type="checkbox"></td>
                     <td hidden></td>
+                    <td style="border: none!important"></td>
                 </thead>
                 <tbody>
                 </tbody>
@@ -68,6 +69,7 @@
                             <td><input readonly type="text" value="` + elem['precio_cta_cte'] * elem['cantidad'] + `" style="padding: 2px"></td>
                             <td><input type="checkbox" onClick="actualizar_total()"></td>
                             <td><input hidden type="text" value="` + elem['elem_remito'] + `"></td>
+                            <td><button class="boton-remito" onClick="abrir_remito(` + elem['remito'] + `)">Remito n°` + elem['remito'] + `</button></td>
                         </tr>
                     `
                 }
@@ -143,6 +145,10 @@
                 }
             }
             $('#total')[0].value = String(total)
+        }
+
+        function abrir_remito(codigo) {
+            window.open("{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + codigo, '_blank');
         }
        
     </script>

@@ -61,7 +61,7 @@
         }
 
         function abrir_remito(codigo) {
-            window.location.href = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + codigo
+            window.open("{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + codigo, '_blank');
         }
 
     </script>

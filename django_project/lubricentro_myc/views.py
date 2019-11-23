@@ -62,6 +62,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
             prod = Producto.objects.get(codigo=elem.producto_id)
             resultado.append({
                 "elem_remito": elem.id,
+                "remito": elem.remito.codigo,
                 "codigo": prod.codigo,
                 "detalle": prod.detalle,
                 "precio_cta_cte" : prod.precio_venta_cta_cte,
