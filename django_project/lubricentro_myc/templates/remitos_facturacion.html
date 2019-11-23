@@ -79,7 +79,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button class="btn btn-default" onClick="facturar()" style="margin: 10px">Facturar</button></td>
+                        <td><button id="facturar" class="btn btn-default" onClick="facturar()" style="margin: 10px">Facturar</button></td>
                         <td><input id="total" readonly type="text" value="0" style="padding: 2px; width: 100px"></td>
                     </tr>
                 `
@@ -122,7 +122,7 @@
                     }
                 }
             }
-            window.location.href = "{{ url }}";
+            $('#facturar').attr("disabled", true);
         }
 
         function all_checkboxes() {
