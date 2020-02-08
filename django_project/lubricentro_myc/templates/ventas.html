@@ -95,10 +95,6 @@
           }).then(response => {
             reload_js();
             
-            var total = parseFloat($('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val())
-            total += parseFloat(response.data['precio_venta_contado'])
-            $('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val(total.toFixed(2))
-            
             if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
               var carrito = $('.carrito-table tbody')[0]
               var tr = document.createElement('tr')
@@ -130,7 +126,7 @@
               var td = document.createElement("td")
               var input = document.createElement('input')
               input.type = "text";
-              input.setAttribute("value", "1.0");
+              input.setAttribute("value", "0.0");
               input.setAttribute("class", "allownumericwithdecimal");
               td.appendChild(input)
               tr.appendChild(td)
@@ -139,7 +135,7 @@
               var input = document.createElement('input')
               input.type = "text";
               input.setAttribute("readonly", true)
-              input.setAttribute("value", response.data['precio_venta_contado']);
+              input.setAttribute("value", "0.0");
               input.setAttribute("class", "allownumericwithdecimal");
               td.appendChild(input)
               tr.appendChild(td)
