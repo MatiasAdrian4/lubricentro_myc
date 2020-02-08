@@ -24,7 +24,7 @@ SECRET_KEY = '^1@t*gv-1(8x00r37zz%q^z7f4c!8bg=la6$6zth#sf#9y&xb3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1'
@@ -91,10 +91,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', 
         'NAME': 'lubricentro_myc',
-        #'USER': 'postgres',
-        #'PASSWORD': 'password',
-        'USER': 'matiasadrian4',
-        'PASSWORD': 'matiasadrian4',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        #'USER': 'matiasadrian4',
+        #'PASSWORD': 'matiasadrian4',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '5432',
     }

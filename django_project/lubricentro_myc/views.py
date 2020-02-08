@@ -174,11 +174,11 @@ def remitos_facturacion(request):
     return render(request, 'remitos_facturacion.html', context=context)
 
 def generar_stock_pdf(request, *args, **kwargs):
-    template = get_template('stock_pdf.html')
+    template = get_template('pdf/stock_pdf.html')
 
     categoria = request.GET['categoria']
     if categoria is not None:
-        productos = Producto.objects.filter(categoria=categoria)
+        productos = Producto.objects.filter(categoria__iexact=categoria)
     else:
         productos = Producto.objects.none()
     context = {
@@ -186,7 +186,7 @@ def generar_stock_pdf(request, *args, **kwargs):
         "productos" : productos
     }
     html = template.render(context)
-    pdf = render_to_pdf('stock_pdf.html', context)
+    pdf = render_to_pdf('pdf/stock_pdf.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'stock_%s.pdf' %(categoria)
@@ -199,7 +199,7 @@ def generar_stock_pdf(request, *args, **kwargs):
     return HttpResponse("Not found")
 
 def generar_remito_pdf(request, *args, **kwargs):
-    template = get_template('remito_pdf.html')
+    template = get_template('pdf/remito_pdf.html')
 
     remito = Remito.objects.get(codigo=request.GET['cod_remito'])
     elementos_remito = []
@@ -216,7 +216,7 @@ def generar_remito_pdf(request, *args, **kwargs):
         "elementos_remito" : elementos_remito
     }
     html = template.render(context)
-    pdf = render_to_pdf('remito_pdf.html', context)
+    pdf = render_to_pdf('pdf/remito_pdf.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'remito_%s.pdf' %('editar_aca')
