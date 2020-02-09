@@ -56,6 +56,10 @@ button {
     border-collapse: collapse;
 }
 
+.resumen-productos {
+    width: 70%!important;
+}
+
 .carrito-table thead td, .resumen-productos thead td {
     padding: 5px;
     border: 1px solid black;    
