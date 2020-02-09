@@ -26,7 +26,7 @@ button {
     padding: 15px;
     margin-left: 15px;
     font: oblique bold 120% cursive;
-    font-size: 40px;
+    font-size: 2.5rem;
     color: black;
 }
 
@@ -52,7 +52,7 @@ button {
 .carrito-table, .resumen-productos {
     margin: 30px auto;
     margin-top: 25px;
-    width: 50%;
+    width: 50%!important;
     border-collapse: collapse;
 }
 
@@ -115,7 +115,7 @@ button {
 }
 
 .remitos-table {
-    width: 40%;
+    width: 50%!important;
 }
 
 .productos-table thead, .productos-table td,
@@ -165,4 +165,36 @@ button {
 
 .boton-remito:hover {
     text-decoration: underline;
+}
+
+/* New Style for All Data Tables */
+
+.data-section {
+    text-align: center;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 90%;
+}
+
+.data-section td, .data-section th {
+    border: 1px solid #ddd;
+}
+
+.data-section tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.data-section thead, .carrito-table thead {
+    white-space: nowrap;
+    text-align: center;
+    background-color: #686868;
+    color: white;
+}
+
+.data-section thead td {
+    padding: 10px;
+}
+
+.data-section td {
+    white-space: nowrap;
 }
