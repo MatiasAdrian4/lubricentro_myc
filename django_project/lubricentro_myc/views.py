@@ -5,6 +5,8 @@ from django.template.loader import get_template
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from datetime import datetime
+from calendar import monthrange
+from django.db.models import Sum
 
 from .models import Cliente, Producto, Remito, ElementoRemito, Venta
 from .serializers import ClienteSerializer, ProductoSerializer, RemitoSerializer, ElementoRemitoSerializer, VentaSerializer
@@ -80,6 +82,47 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all()
     serializer_class = VentaSerializer
+
+    @action(detail=False, methods=['get'])
+    def ventas_por_mes_anio(self, request):
+        search_type = request.GET.get('search_type', '')
+        if (search_type == "year"):
+            year = request.GET.get('year', '')
+            labels = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            data = []
+            for i in range(13):
+                ventas = Venta.objects.filter(
+                    fecha__month=int(i+1),
+                    fecha__year=int(year)
+                )
+                suma_ventas = ventas.aggregate(Sum('precio'))['precio__sum']
+                if suma_ventas is not None:
+                    data.append(round(suma_ventas,2))
+                else:
+                    data.append(0)
+        elif (search_type == "month"):
+            year = request.GET.get('year', '')
+            month = request.GET.get('month', '')
+            days = monthrange(int(year), int(month))
+            labels = []
+            data = []
+            for i in range(days[1]):
+                labels.append(i+1)
+                ventas = Venta.objects.filter(
+                    fecha__day=int(i+1),
+                    fecha__month=int(month),
+                    fecha__year=int(year)
+                )
+                suma_ventas = ventas.aggregate(Sum('precio'))['precio__sum']
+                if suma_ventas is not None:
+                    data.append(round(suma_ventas,2))
+                else:
+                    data.append(0)
+        return JsonResponse(
+            data={
+                'labels': labels,
+                'data': data
+            })
 
 def ventas(request):
     host = request.scheme + "://" + request.META['HTTP_HOST']
@@ -239,14 +282,14 @@ class HistorialVentas(ListView):
                 fecha__day=int(args['fecha'][0:2]),
                 fecha__month=int(args['fecha'][3:5]),
                 fecha__year=int(args['fecha'][6:10])
-            )
+            ).order_by('fecha')
         elif 'mes' in args.keys():
             return Venta.objects.filter(
                 fecha__month=int(args['mes'][0:2]),
                 fecha__year=int(args['mes'][3:7])
-            )
+            ).order_by('fecha')
         else:
-            return Venta.objects.all()
+            return Venta.objects.all().order_by('fecha')
 
     def get_context_data(self, **kwargs):
         context = super(HistorialVentas,self).get_context_data(**kwargs)

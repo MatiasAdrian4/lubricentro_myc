@@ -27,6 +27,13 @@
                     </td>
                     <td><button class="btn btn-default" onClick="buscar_ventas('mes')">Buscar</button></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#grafico-ventas-modal">Gráfico</button>
+                    </td>
+                    <td></td>
+                </tr>
             </table>
 
             <table class="ventas-table data-section">
@@ -49,7 +56,7 @@
             <table class="operaciones">
                 <tr>
                     <td>Total</td>
-                    <td><input readonly type="text" style="margin-left: 10px; width: 100px; text-align: right" value="{{ total }}"></td>
+                    <td><input readonly type="text" style="margin-left: 10px; width: 100px; text-align: right" value="{{ total|floatformat:2 }}"></td>
                 <tr>
             </table>
 
@@ -99,3 +106,5 @@
 
     </script>
 {% endblock %}
+
+{% include "vue_modal/grafico_ventas_modal.html" %}

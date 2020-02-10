@@ -1,0 +1,147 @@
+{% block vue_modal %}
+{% load static %}
+{% csrf_token %}
+<div id="grafico-ventas-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="grafico-ventas-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Gráfico de Ventas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td><input type="radio" name="type" value="Mes" @click="month_selected()"> Mes</td>
+            <td><input disabled type="text" id="month-modal" style="width: 90px; margin: 0px 5px;"/></td>
+            <td><button type="button" @click="graphic_month()">Ver</button></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="type" value="Año" @click="year_selected()"> Año</td>
+            <td><input disabled type="text" id="year-modal" style="width: 90px; margin: 0px 5px;"/></td>
+            <td><button type="button" @click="graphic_year()">Ver</button></td>
+          </tr>
+        </table>
+        <div id="graph">
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+<script type="application/javascript">
+
+$(function(){
+  $('#month-modal').datepicker({
+    format: "mm-yyyy",
+    startView: "months", 
+    minViewMode: "months",
+    todayHighlight: true,
+    autoclose: true
+  });
+  $("#year-modal").datepicker( {
+    format: " yyyy",
+    viewMode: "years", 
+    minViewMode: "years",
+    autoclose: true
+});
+})
+
+new Vue({
+    el: "#grafico-ventas-modal",
+    delimiters: ['${', '}'],
+    components: {},
+    methods: {
+      month_selected() {
+        $('#month-modal').prop('disabled', false);
+        $('#year-modal').prop('disabled', true);
+        $('#year-modal').val('');
+      },
+      year_selected() {
+        $('#year-modal').prop('disabled', false);
+        $('#month-modal').prop('disabled', true);
+        $('#month-modal').val('');
+      },
+      graphic_month() {
+        if ($('#month-modal').val() == "") {
+          alert("Ningun mes seleccionado");
+        } else {
+          let month = $('#month-modal').val().slice(0, 2);
+          let year = $('#month-modal').val().slice(3, 7);
+          axios.get("/lubricentro_myc/ventas_realizadas/ventas_por_mes_anio?search_type=month&month=" + month + "&year=" + year)
+          .then((response)=> {
+            this.labels = response.data.labels;
+            this.data = response.data.data;
+            this.create_graphic();
+          }).catch((error) => {}
+          )
+        }
+      },
+      graphic_year() {
+        if ($('#year-modal').val() == "") {
+          alert("Ningun año seleccionado");
+        } else {
+          $('#month-modal').prop('disabled', true);
+          $('#month-modal').val('');
+          let year = $('#year-modal').val();
+          axios.get("/lubricentro_myc/ventas_realizadas/ventas_por_mes_anio?search_type=year&year=" + year)
+          .then((response)=> {
+            this.labels = response.data.labels;
+            this.data = response.data.data;
+            this.create_graphic();
+          }).catch((error) => {}
+          )
+        }
+      },
+      create_graphic() {
+        var old_graph = document.getElementById("lineChart");
+        if (old_graph != null) {
+          old_graph.remove()
+        }
+        var graph = document.createElement("canvas");
+        graph.id = "lineChart";
+        document.getElementById("graph").appendChild(graph);
+        var ctxL = document.getElementById("lineChart").getContext('2d');
+        var myLineChart = new Chart(ctxL, {
+          type: 'line',
+          data: {
+            labels: this.labels,
+            datasets: [{
+                label: "Ventas",
+                data: this.data,
+                backgroundColor: 'rgba(105, 0, 132, .2)',
+                borderColor: 'rgba(200, 99, 132, .7)',
+                borderWidth: 2
+              }
+            ]},
+            options: {
+              responsive: true
+            }
+          }
+        );
+      },
+      close() {
+        $('#month-modal').val("")
+        $('#year-modal').val("")
+        var graph = document.getElementById("lineChart");
+        if (graph != null) {
+          graph.remove()
+        }
+      }
+    },
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      data: [65, 59, 80, 81, 56, 55, 40],
+    },
+    mounted() {
+      axios.defaults.xsrfHeaderName = "X-CSRFToken";
+      axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
+
+      $('#grafico-ventas-modal').on('hidden.bs.modal', this.close);
+    }
+  })
+</script>
+
+{% endblock %}
