@@ -36,7 +36,7 @@
                         <td>{{ obj.cliente }}</td>
                         <td>{{ obj.fecha | date:"d M, Y"}}</td>
                         <td><button type="button" class="btn btn-default" onClick="abrir_remito({{ obj.codigo }})">Ver</button></td>
-                        {% check_pagado request obj.codigo as pago%}
+                        {% check_pagado request obj.codigo as pago %}
                         {% if pago %}
                             <td><i class="fas fa-check-circle" style="color: green"></i></td>
                         {% else %}

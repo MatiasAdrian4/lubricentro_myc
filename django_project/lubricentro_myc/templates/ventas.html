@@ -118,7 +118,7 @@
               var td = document.createElement("td")
               var input = document.createElement('input')
               input.type = "text";
-              input.setAttribute("value", response.data['precio_venta_contado']);
+              input.setAttribute("value", response.data['precio_venta_contado'].toFixed(2));
               input.setAttribute("class", "allownumericwithdecimal");
               td.appendChild(input)
               tr.appendChild(td)

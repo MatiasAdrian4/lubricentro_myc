@@ -55,8 +55,8 @@
                         <td>{{ obj.detalle }}</td>
                         <td>{{ obj.stock }}</td>
                         <td>{{ obj.precio_costo }}</td>
-                        <td>{{ obj.precio_venta_contado }}</td>
-                        <td>{{ obj.precio_venta_cta_cte }}</td>
+                        <td>{{ obj.precio_venta_contado|floatformat:2 }}</td>
+                        <td>{{ obj.precio_venta_cta_cte|floatformat:2 }}</td>
                         <td>{{ obj.categoria }}</td>
                         <td style="display:none;">{{ obj.desc1 }}</td>
                         <td style="display:none;">{{ obj.desc2 }}</td>
