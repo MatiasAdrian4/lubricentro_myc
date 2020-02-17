@@ -12,6 +12,7 @@ from .models import Cliente, Producto, Remito, ElementoRemito, Venta
 from .serializers import ClienteSerializer, ProductoSerializer, RemitoSerializer, ElementoRemitoSerializer, VentaSerializer
 from .utils import render_to_pdf
 
+
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
@@ -28,6 +29,7 @@ class ClienteViewSet(viewsets.ModelViewSet):
                 "nombre": cliente['nombre']
             })
         return JsonResponse(data={'clientes': resultado})
+
 
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
@@ -46,9 +48,11 @@ class ProductoViewSet(viewsets.ModelViewSet):
             })
         return JsonResponse(data={'productos': resultado})
 
+
 class RemitoViewSet(viewsets.ModelViewSet):
     queryset = Remito.objects.all()
     serializer_class = RemitoSerializer
+
 
 class ElementoRemitoViewSet(viewsets.ModelViewSet):
     queryset = ElementoRemito.objects.all()
@@ -58,7 +62,8 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
     def buscar(self, request):
         lista_productos = {}
         codigo = request.GET.get('codigo', '')
-        elementos_remito = ElementoRemito.objects.filter(remito__cliente=codigo, pagado=False)
+        elementos_remito = ElementoRemito.objects.filter(
+            remito__cliente=codigo, pagado=False)
         resultado = []
         for elem in elementos_remito:
             prod = Producto.objects.get(codigo=elem.producto_id)
@@ -67,7 +72,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
                 "remito": elem.remito.codigo,
                 "codigo": prod.codigo,
                 "detalle": prod.detalle,
-                "precio_cta_cte" : prod.precio_venta_cta_cte,
+                "precio_cta_cte": prod.precio_venta_cta_cte,
                 "cantidad": elem.cantidad
             })
         return JsonResponse(data={'elementos_remito': resultado})
@@ -79,6 +84,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
         elem_remito.save()
         return HttpResponse(status=200)
 
+
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all()
     serializer_class = VentaSerializer
@@ -88,7 +94,8 @@ class VentaViewSet(viewsets.ModelViewSet):
         search_type = request.GET.get('search_type', '')
         if (search_type == "year"):
             year = request.GET.get('year', '')
-            labels = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            labels = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
             data = []
             for i in range(13):
                 ventas = Venta.objects.filter(
@@ -97,7 +104,7 @@ class VentaViewSet(viewsets.ModelViewSet):
                 )
                 suma_ventas = ventas.aggregate(Sum('precio'))['precio__sum']
                 if suma_ventas is not None:
-                    data.append(round(suma_ventas,2))
+                    data.append(round(suma_ventas, 2))
                 else:
                     data.append(0)
         elif (search_type == "month"):
@@ -115,7 +122,7 @@ class VentaViewSet(viewsets.ModelViewSet):
                 )
                 suma_ventas = ventas.aggregate(Sum('precio'))['precio__sum']
                 if suma_ventas is not None:
-                    data.append(round(suma_ventas,2))
+                    data.append(round(suma_ventas, 2))
                 else:
                     data.append(0)
         return JsonResponse(
@@ -124,10 +131,12 @@ class VentaViewSet(viewsets.ModelViewSet):
                 'data': data
             })
 
+
 def ventas(request):
     host = request.scheme + "://" + request.META['HTTP_HOST']
     context = {'host': host}
     return render(request, 'ventas.html', context=context)
+
 
 class Inventario(ListView):
     model = Producto
@@ -153,11 +162,12 @@ class Inventario(ListView):
             return queryset
 
     def get_context_data(self, **kwargs):
-        context = super(Inventario,self).get_context_data(**kwargs)
+        context = super(Inventario, self).get_context_data(**kwargs)
         context['url'] = self.request.build_absolute_uri(self.request.path)
         categorias = Producto.objects.order_by().values('categoria').distinct()
         context['categorias'] = categorias
         return context
+
 
 class ListadoClientes(ListView):
     model = Cliente
@@ -181,9 +191,10 @@ class ListadoClientes(ListView):
             return Cliente.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super(ListadoClientes,self).get_context_data(**kwargs)
+        context = super(ListadoClientes, self).get_context_data(**kwargs)
         context['url'] = self.request.build_absolute_uri(self.request.path)
         return context
+
 
 class Remitos(ListView):
     model = Remito
@@ -207,14 +218,17 @@ class Remitos(ListView):
             return Remito.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super(Remitos,self).get_context_data(**kwargs)
-        context['host'] = self.request.scheme + "://" + self.request.META['HTTP_HOST']
+        context = super(Remitos, self).get_context_data(**kwargs)
+        context['host'] = self.request.scheme + \
+            "://" + self.request.META['HTTP_HOST']
         context['url'] = self.request.build_absolute_uri(self.request.path)
         return context
+
 
 def remitos_facturacion(request):
     context = {}
     return render(request, 'remitos_facturacion.html', context=context)
+
 
 def generar_stock_pdf(request, *args, **kwargs):
     template = get_template('pdf/stock_pdf.html')
@@ -225,21 +239,22 @@ def generar_stock_pdf(request, *args, **kwargs):
     else:
         productos = Producto.objects.none()
     context = {
-        "categoria" : categoria,
-        "productos" : productos
+        "categoria": categoria,
+        "productos": productos
     }
     html = template.render(context)
     pdf = render_to_pdf('pdf/stock_pdf.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        filename = 'stock_%s.pdf' %(categoria)
-        content = "inline; filename='%s'" %(filename)
+        filename = 'stock_%s.pdf' % (categoria)
+        content = "inline; filename='%s'" % (filename)
         download = request.GET.get("download")
         if download:
-            content = "attachment; filename=%s" %(filename)
+            content = "attachment; filename=%s" % (filename)
         response['Content-Disposition'] = content
         return response
     return HttpResponse("Not found")
+
 
 def generar_remito_pdf(request, *args, **kwargs):
     template = get_template('pdf/remito_pdf.html')
@@ -247,30 +262,31 @@ def generar_remito_pdf(request, *args, **kwargs):
     remito = Remito.objects.get(codigo=request.GET['cod_remito'])
     elementos_remito = []
     for elemento in ElementoRemito.objects.filter(remito=remito):
-        producto = Producto.objects.get(codigo = elemento.producto_id)
+        producto = Producto.objects.get(codigo=elemento.producto_id)
         elemento_remito = {}
         elemento_remito['codigo'] = producto.codigo
         elemento_remito['detalle'] = producto.detalle
         elemento_remito['cantidad'] = elemento.cantidad
         elementos_remito.append(elemento_remito)
     context = {
-        "remito" : remito,
-        "cliente" : Cliente.objects.get(id=remito.cliente_id),
-        "elementos_remito" : elementos_remito
+        "remito": remito,
+        "cliente": Cliente.objects.get(id=remito.cliente_id),
+        "elementos_remito": elementos_remito
     }
     html = template.render(context)
     pdf = render_to_pdf('pdf/remito_pdf.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        filename = 'remito_%s.pdf' %('editar_aca')
-        content = "inline; filename='%s'" %(filename)
+        filename = 'remito_%s.pdf' % ('editar_aca')
+        content = "inline; filename='%s'" % (filename)
         download = request.GET.get("download")
         if download:
-            content = "attachment; filename=%s" %(filename)
+            content = "attachment; filename=%s" % (filename)
         response['Content-Disposition'] = content
         return response
     return HttpResponse("Not found")
-    
+
+
 class HistorialVentas(ListView):
     model = Venta
     template_name = "ventas_historial.html"
@@ -292,7 +308,7 @@ class HistorialVentas(ListView):
             return Venta.objects.all().order_by('fecha')
 
     def get_context_data(self, **kwargs):
-        context = super(HistorialVentas,self).get_context_data(**kwargs)
+        context = super(HistorialVentas, self).get_context_data(**kwargs)
         ventas = self.get_queryset()
         total = 0
         for venta in ventas:
