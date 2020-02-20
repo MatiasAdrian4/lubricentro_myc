@@ -11,6 +11,21 @@ button {
     border: 1px solid #212529db!important;
 }
 
+#lubricentro-login {
+    background-image: url('/static/img/lubricentro_myc_3~2.jpeg');
+    background-size: cover;
+}
+
+#user-section{
+    background-color: #E4E9E3;
+    margin: auto;
+    width: 30%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid black!important;
+    margin-top: 150px;
+}
+
 #encabezado {
     background: linear-gradient(to bottom, #F0AD14 90%, #E4E9E3);
     margin: 30px 10px;
@@ -148,16 +163,6 @@ button {
 
 .carrito-table tbody tr td input, .resumen-productos tbody tr td input {
     width: 100%;
-}
-
-#lubricentro-login {
-    background-color: #E4E9E3;
-    margin: auto;
-    width: 30%;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid black!important;
-    margin-top: 150px;
 }
 
 .boton-remito {

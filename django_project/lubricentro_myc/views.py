@@ -1,3 +1,4 @@
+import json
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.generic.list import ListView
@@ -7,6 +8,8 @@ from rest_framework.decorators import action
 from datetime import datetime
 from calendar import monthrange
 from django.db.models import Sum
+from django.contrib.auth.models import User
+from django.views.decorators.http import require_http_methods
 
 from .models import Cliente, Producto, Remito, ElementoRemito, Venta
 from .serializers import ClienteSerializer, ProductoSerializer, RemitoSerializer, ElementoRemitoSerializer, VentaSerializer
@@ -315,3 +318,14 @@ class HistorialVentas(ListView):
             total += venta.precio
         context['total'] = total
         return context
+
+@require_http_methods(["POST"])
+def create_user(request):
+    data = json.loads(request.body.decode('utf-8'))
+    user = User.objects.create_user(
+        username = data['nombre'],
+        password = data['password'],
+        email = data['email'],
+    )
+    user.save( )
+    return HttpResponse(status=200)
