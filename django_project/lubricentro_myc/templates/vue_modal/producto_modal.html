@@ -26,14 +26,6 @@
             <td><input type="text"></td>
           </tr>
           <tr>
-            <td>Precio Venta Contado</td>
-            <td><input type="text"></td>
-          </tr>
-          <tr>
-            <td>Precio Venta Cta. Cte.</td>
-            <td><input type="text"></td>
-          </tr>
-          <tr>
             <td>Desc. 1</td>
             <td><input type="text"></td>
           </tr>
@@ -48,6 +40,30 @@
           <tr>
             <td>Desc. 4</td>
             <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Flete</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Ganancia</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Iva</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Agregado Cta. Cte.</td>
+            <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Precio Venta Contado</td>
+            <td><input readonly type="text"></td>
+          </tr>
+          <tr>
+            <td>Precio Venta Cta. Cte.</td>
+            <td><input readonly type="text"></td>
           </tr>
           <tr>
             <td>Categoría</td>
@@ -79,13 +95,17 @@ new Vue({
           detalle : $('#producto-modal .modal-body table tr:nth-child(2) td input').val(),
           stock : $('#producto-modal .modal-body table tr:nth-child(3) td input').val(),
           precio_costo : $('#producto-modal .modal-body table tr:nth-child(4) td input').val(),
-          precio_venta_contado : $('#producto-modal .modal-body table tr:nth-child(5) td input').val(),
-          precio_venta_cta_cte : $('#producto-modal .modal-body table tr:nth-child(6) td input').val(),
-          desc1 : $('#producto-modal .modal-body table tr:nth-child(7) td input').val(),
-          desc2 : $('#producto-modal .modal-body table tr:nth-child(8) td input').val(),
-          desc3 : $('#producto-modal .modal-body table tr:nth-child(9) td input').val(),
-          desc4 : $('#producto-modal .modal-body table tr:nth-child(10) td input').val(),
-          categoria : $('#producto-modal .modal-body table tr:nth-child(11) td select').val()
+          desc1 : $('#producto-modal .modal-body table tr:nth-child(5) td input').val(),
+          desc2 : $('#producto-modal .modal-body table tr:nth-child(6) td input').val(),
+          desc3 : $('#producto-modal .modal-body table tr:nth-child(7) td input').val(),
+          desc4 : $('#producto-modal .modal-body table tr:nth-child(8) td input').val(),
+          flete : $('#producto-modal .modal-body table tr:nth-child(9) td input').val(),
+          ganancia : $('#producto-modal .modal-body table tr:nth-child(10) td input').val(),
+          iva : $('#producto-modal .modal-body table tr:nth-child(11) td input').val(),
+          agregado_cta_cte : $('#producto-modal .modal-body table tr:nth-child(12) td input').val(),
+          precio_venta_contado : $('#producto-modal .modal-body table tr:nth-child(13) td input').val(),
+          precio_venta_cta_cte : $('#producto-modal .modal-body table tr:nth-child(14) td input').val(),
+          categoria : $('#producto-modal .modal-body table tr:nth-child(15) td select').val(),
         }
         var codigo = $('#producto-modal .modal-body table tr:nth-child(1) td input').val();
         var texto_resultado = $('#producto-modal .modal-footer p')

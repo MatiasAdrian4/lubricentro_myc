@@ -12,7 +12,7 @@ class ClienteAdmin(admin.ModelAdmin):
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ['codigo', 'detalle', 'stock', 'precio_costo', 'desc1', 'desc2', 'desc3', 'desc4', 'flete',
-                    'ganancia', 'agregado_cta_cte', 'iva', 'categoria', 'precio_venta_contado', 'precio_venta_cta_cte']
+                    'ganancia', 'iva', 'agregado_cta_cte', 'categoria', 'precio_venta_contado', 'precio_venta_cta_cte']
 
 
 @admin.register(Remito)
