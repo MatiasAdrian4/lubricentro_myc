@@ -59,6 +59,7 @@ MIDDLEWARE = [
 
 PUBLIC_PATHS = [
     r'^/accounts/.*',
+    r'^/lubricentro_myc/crear_usuario/.*'
 ]
 
 LOGIN_REDIRECT_URL = "/lubricentro_myc/ventas"
@@ -91,10 +92,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', 
         'NAME': 'lubricentro_myc',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        #'USER': 'matiasadrian4',
-        #'PASSWORD': 'matiasadrian4',
+        #'USER': 'postgres',
+        #'PASSWORD': 'password',
+        'USER': 'matiasadrian4',
+        'PASSWORD': 'matiasadrian4',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '5432',
     }

@@ -11,8 +11,8 @@ router.register(r'elementos_remito', views.ElementoRemitoViewSet)
 router.register(r'ventas_realizadas', views.VentaViewSet)
 
 urlpatterns = [
-    url(r'crear_usuario',
-        views.create_user,
+    url(r'crear_usuario/',
+        views.crear_usuario,
         name='crear_usuario'
     ),
     url(r'ventas/',

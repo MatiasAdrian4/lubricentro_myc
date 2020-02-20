@@ -320,7 +320,7 @@ class HistorialVentas(ListView):
         return context
 
 @require_http_methods(["POST"])
-def create_user(request):
+def crear_usuario(request):
     data = json.loads(request.body.decode('utf-8'))
     user = User.objects.create_user(
         username = data['nombre'],
