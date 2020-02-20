@@ -143,9 +143,7 @@ new Vue({
         }
       },
       close() {
-        $('#producto-modal .modal-footer p').text("");
-        $('.nuevo-producto').removeClass('nuevo-producto');
-        $('.prod-selected').removeClass('prod-selected');
+        window.location.reload();
       },
     },
     data: {

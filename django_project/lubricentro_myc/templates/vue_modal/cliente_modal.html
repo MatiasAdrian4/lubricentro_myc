@@ -98,9 +98,7 @@ new Vue({
         }
       },
       close() {
-        $('#cliente-modal .modal-footer p').text("");
-        $('.nuevo-cliente').removeClass('nuevo-cliente');
-        $('.cli-selected').removeClass('cli-selected');
+        window.location.reload();
       },
     },
     data: {
