@@ -45,7 +45,7 @@
                 </thead>
                 {% for obj in object_list %}
                     <tr>
-                        <td>{{ obj.producto }}</td>
+                        <td>{{ obj.producto | upper }}</td>
                         <td>{{ obj.cantidad }}</td>
                         <td>{{ obj.precio }}</td>
                         <td>{{ obj.fecha | date:"d M, Y" }}</td>

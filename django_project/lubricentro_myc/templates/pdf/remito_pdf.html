@@ -42,7 +42,7 @@
                 {% for elemento in elementos_remito %}
                     <tr>
                         <td>{{ elemento.codigo }}</td>
-                        <td>{{ elemento.detalle }}</td>
+                        <td>{{ elemento.detalle | upper }}</td>
                         <td>{{ elemento.cantidad }}</td>
                     </tr>
                 {% endfor %}

@@ -149,10 +149,13 @@ class Inventario(ListView):
         args = self.request.GET
         queryset = []
         if 'codigo' in args.keys():
-            try:
-                producto = Producto.objects.get(codigo=args['codigo'])
-            except Producto.DoesNotExist:
+            if args['codigo'] == 'undefined':
                 return []
+            else:
+                try:
+                    producto = Producto.objects.get(codigo=args['codigo'])
+                except Producto.DoesNotExist:
+                    return []
             queryset.append(producto)
             return queryset
         elif 'detalle' in args.keys():

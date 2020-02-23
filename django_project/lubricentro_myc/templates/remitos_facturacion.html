@@ -63,7 +63,7 @@
                     resumen_productos.innerHTML += `
                         <tr>
                             <td><input readonly type="text" value="` + elem['codigo'] + `" style="padding: 2px"></td>
-                            <td><input readonly type="text" value="` + elem['detalle'] + `" style="padding: 2px"></td>
+                            <td><input readonly type="text" value="` + elem['detalle'].toUpperCase() + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + elem['precio_cta_cte'].toFixed(2) + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + elem['cantidad'] + `" style="padding: 2px"></td>
                             <td><input readonly type="text" value="` + (elem['precio_cta_cte'] * elem['cantidad']).toFixed(2) + `" style="padding: 2px"></td>

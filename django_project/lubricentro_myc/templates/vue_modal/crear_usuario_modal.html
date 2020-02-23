@@ -65,6 +65,7 @@ new Vue({
                 texto_resultado.css("color","green")
                 texto_resultado.css("font-weight","bold")
                 texto_resultado.text("Ok: Creado Satisfactoriamente")
+                $('.modal-footer button').prop('disabled',true);
               }
               ).catch((error) => {
                 texto_resultado.css("color","red")
