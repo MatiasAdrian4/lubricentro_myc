@@ -167,20 +167,22 @@
           axios.post("/lubricentro_myc/remito/", data, opts)
           .then((response)=> {
             var remito_pdf = "{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + response.data['codigo']
-            var i;
-            for(i = 0; i < productos.length; i++) {
+            var lista_elementos = []
+            for(var i = 0; i < productos.length; i++) {
               elemento_remito = {}
               elemento_remito['remito'] = response.data['codigo']
               elemento_remito['producto'] = productos[i].value
               elemento_remito['cantidad'] = cantidades[i].value
-            
-              axios.post("/lubricentro_myc/elementos_remito/", elemento_remito, opts)
-              .then((response)=> {
-              }).catch((error) => {}
-              )
+              lista_elementos.push(elemento_remito)
             }
-            window.open(remito_pdf, '_blank');
-            window.location.href = "{{ host }}/lubricentro_myc/ventas";
+            elementos = {}
+            elementos['elementos'] = lista_elementos
+            axios.post("/lubricentro_myc/elementos_remito/guardar_elementos/", elementos, opts)
+            .then((response)=> {
+              window.open(remito_pdf, '_blank');
+              window.location.href = "{{ host }}/lubricentro_myc/ventas";
+            }).catch((error) => {}
+            )
           }).catch((error) => {}
           )
         }

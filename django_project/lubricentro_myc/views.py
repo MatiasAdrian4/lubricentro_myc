@@ -87,6 +87,15 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
         elem_remito.save()
         return HttpResponse(status=200)
 
+    @action(methods=['post'], detail=False)
+    def guardar_elementos(self, request):
+        elems = self.request.data['elementos']
+        for elem in elems:
+            new_elem = ElementoRemito(
+                remito=Remito.objects.get(codigo=elem['remito']), producto=Producto.objects.get(codigo=elem['producto']), cantidad=elem['cantidad'], pagado=False)
+            new_elem.save()
+        return HttpResponse(status=200)
+
 
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all()
@@ -322,13 +331,14 @@ class HistorialVentas(ListView):
         context['total'] = total
         return context
 
+
 @require_http_methods(["POST"])
 def crear_usuario(request):
     data = json.loads(request.body.decode('utf-8'))
     user = User.objects.create_user(
-        username = data['nombre'],
-        password = data['password'],
-        email = data['email'],
+        username=data['nombre'],
+        password=data['password'],
+        email=data['email'],
     )
-    user.save( )
+    user.save()
     return HttpResponse(status=200)
