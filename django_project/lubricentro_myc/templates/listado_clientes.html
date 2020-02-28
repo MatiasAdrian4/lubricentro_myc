@@ -44,9 +44,9 @@
                 {% for obj in object_list %}
                     <tr>
                         <td>{{ obj.id}}</td>
-                        <td>{{ obj.nombre }}</td>
-                        <td>{{ obj.direccion }}</td>
-                        <td>{{ obj.localidad }}</td>
+                        <td>{{ obj.nombre|title }}</td>
+                        <td>{{ obj.direccion|title }}</td>
+                        <td>{{ obj.localidad|title }}</td>
                         <td>{{ obj.codigo_postal }}</td>
                         <td>{{ obj.telefono }}</td>
                         <td>{{ obj.cuit }}</td>
