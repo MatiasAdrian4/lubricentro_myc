@@ -91,6 +91,7 @@
 
         function facturar() {
             if(confirm("¿Facturar Productos Seleccionados?")) {
+                $('#facturar').attr("disabled", true);
                 // crear "ventas" 
                 var productos = $('.resumen-productos tbody td:nth-child(1) input')
                 var cantidades = $('.resumen-productos tbody td:nth-child(4) input')
@@ -102,26 +103,36 @@
                         "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
                     }
                 }
-                var i;
-                for(i = 0; i < productos.length; i++) {
+                var lista_elementos = []
+                var lista_ventas = []
+                for(var i = 0; i < productos.length; i++) {
                     if(checkboxes[i].checked) {
                         venta = {}
                         venta['producto'] = productos[i].value
                         venta['cantidad'] = cantidades[i].value
                         venta['precio'] = precios[i].value
-                        axios.post("/lubricentro_myc/ventas_realizadas/", venta, opts)
-                        .then((response)=> {
-                        }).catch((error) => {}
-                        )
+                        lista_ventas.push(venta)
+
                         elem_remito = {}
                         elem_remito['id'] = elem_remito_ids[i].value
-                        axios.post("/lubricentro_myc/elementos_remito/marcar_pagado/", elem_remito, opts)
-                        .then((response)=> {
-                        }).catch((error) => {}
-                        )
+                        lista_elementos.push(elem_remito)
                     }
                 }
-                $('#facturar').attr("disabled", true);
+                
+                elementos = {}
+                elementos['elementos'] = lista_elementos
+                ventas = {}
+                ventas['ventas'] = lista_ventas
+                
+                axios.post("/lubricentro_myc/elementos_remito/marcar_pagado/", elementos, opts)
+                .then((response)=> {    
+                    axios.post("/lubricentro_myc/ventas_realizadas/guardar_venta/", ventas, opts)
+                    .then((response)=> {
+                        location.reload();
+                    }).catch((error) => {}
+                    )
+                }).catch((error) => {}
+                )
             }
         }
 
@@ -144,7 +155,7 @@
                     total += parseFloat(precio_total[i-1].value)
                 }
             }
-            $('#total')[0].value = String(total)
+            $('#total')[0].value = String(total.toFixed(2))
         }
 
         function abrir_remito(codigo) {

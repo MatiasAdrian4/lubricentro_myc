@@ -61,7 +61,7 @@ new Vue({
                   resultados.innerHTML += `
                     <tr>
                       <td style="padding: 5px; width=25%">` + codigo + `</td>
-                      <td style="width: 50%">` + nombre + `</td>
+                      <td style="width: 50%">` + this.titleCase(nombre) + `</td>
                       <td style="width: 25%"><button type="button" class="btn btn-default" data-dismiss="modal" onClick="$(this).addClass('cli-selected');"">Seleccionar</button></td>
                     </tr>
                   `
@@ -83,7 +83,7 @@ new Vue({
               resultados.innerHTML += `
                 <tr>
                   <td style="padding: 5px; "width: 25%">` + codigo + `</td>
-                  <td style="width: 50%">` + nombre + `</td>
+                  <td style="width: 50%">` + this.titleCase(nombre) + `</td>
                   <td style="width: 25%"><button type="button" class="btn btn-default" data-dismiss="modal" onClick="$(this).addClass('cli-selected');"">Seleccionar</button></td>
                 </tr>
               `
@@ -111,6 +111,13 @@ new Vue({
         $('#buscador-clientes-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("")
         $('#buscador-clientes-modal .modal-body table tr:nth-child(2) td:nth-child(2) input').val("")
         $('#buscador-clientes-modal .modal-body .resultados tbody')[0].innerHTML = ``
+      },
+      titleCase(str) {
+        var splitStr = str.toLowerCase().split(' ');
+        for (var i = 0; i < splitStr.length; i++) {
+            splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+        }
+        return splitStr.join(' '); 
       }
     },
     data: {},

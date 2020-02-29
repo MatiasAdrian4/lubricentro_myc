@@ -82,9 +82,11 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
 
     @action(methods=['post'], detail=False)
     def marcar_pagado(self, request):
-        elem_remito = ElementoRemito.objects.get(id=self.request.data['id'])
-        elem_remito.pagado = True
-        elem_remito.save()
+        elems = self.request.data['elementos']
+        for elem in elems:
+            elem_remito = ElementoRemito.objects.get(id=elem['id'])
+            elem_remito.pagado = True
+            elem_remito.save()
         return HttpResponse(status=200)
 
     @action(methods=['post'], detail=False)
@@ -100,6 +102,16 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all()
     serializer_class = VentaSerializer
+
+    @action(detail=False, methods=['post'])
+    def guardar_venta(self, request):
+        ventas = self.request.data['ventas']
+        for venta in ventas:
+            producto = Producto.objects.get(codigo=venta['producto'])
+            nueva_venta = Venta(
+                producto=producto, cantidad=venta['cantidad'], precio=venta['precio'])
+            nueva_venta.save()
+        return HttpResponse(status=200)
 
     @action(detail=False, methods=['get'])
     def ventas_por_mes_anio(self, request):
