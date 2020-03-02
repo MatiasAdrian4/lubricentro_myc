@@ -2,6 +2,7 @@
 body {
     background-color: #E4E9E3;
     font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 100px;
 }
 
 button {
@@ -36,8 +37,8 @@ button {
 #encabezado {
     background: linear-gradient(to bottom, #F0AD14 90%, #E4E9E3);
     margin: 30px 10px;
-    margin-left: -10px;
-    width: 120%;
+    margin-left: 0px;
+    width: 100%;
 }
 
 #encabezado header {
@@ -48,7 +49,7 @@ button {
     padding: 15px;
     margin-left: 15px;
     font: oblique bold 120% cursive;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: black;
 }
 
@@ -69,6 +70,27 @@ button {
 #encabezado .menu li a {
     color: black;
     padding: 10px;
+}
+
+#footer {
+    background: linear-gradient(to top, #B0B0B0 90%, #E4E9E3);
+    background-color: #686868;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+}
+
+#footer p {
+    text-align: center;
+    color: #686868;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+#footer p a {
+    color: white;
 }
 
 .carrito-table, .resumen-productos {
