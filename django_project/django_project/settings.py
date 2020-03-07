@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'global_login_required.GlobalLoginRequiredMiddleware',   
+    'global_login_required.GlobalLoginRequiredMiddleware',
 ]
 
 PUBLIC_PATHS = [
@@ -90,10 +90,10 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', 
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'lubricentro_myc',
-        #'USER': 'postgres',
-        #'PASSWORD': 'password',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'password',
         'USER': 'matiasadrian4',
         'PASSWORD': 'matiasadrian4',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
@@ -137,7 +137,13 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
