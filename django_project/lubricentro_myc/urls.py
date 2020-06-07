@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'crear_usuario/',
         views.crear_usuario,
         name='crear_usuario'
-    ),
+        ),
     url(r'ventas/',
         views.ventas,
         name='ventas'
@@ -46,6 +46,18 @@ urlpatterns = [
     url(r'generar_stock_pdf/',
         views.generar_stock_pdf,
         name='generar_stock_pdf'
+        ),
+    url(r'acciones_csv/',
+        views.CSV.as_view(),
+        name='csv'
+        ),
+    url(r'importar_csv/',
+        views.importar_csv,
+        name='importar_csv'
+        ),
+    url(r'exportar_csv/',
+        views.exportar_csv,
+        name='exportar_csv'
         ),
     url('', include(router.urls))
 ]
