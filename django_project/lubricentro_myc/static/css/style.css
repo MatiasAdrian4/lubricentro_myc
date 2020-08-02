@@ -13,12 +13,13 @@ button {
 }
 
 #lubricentro-login #background-image{
-    background-image: url('/static/img/lubricentro_myc_3~2.jpeg');
     filter: blur(4px);
     -webkit-filter: blur(4px);
-    height: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 #user-section{
