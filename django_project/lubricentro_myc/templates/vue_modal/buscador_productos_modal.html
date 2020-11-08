@@ -45,7 +45,7 @@ new Vue({
           } else {
             axios({
               method:'get',
-              url: `/lubricentro_myc/productos/buscar?detalle=` + detalle,
+              url: `/lubricentro_myc/productos/buscar_por_detalle?detalle=` + detalle,
             }).then(response => {
               var resultados = $('#buscador-productos-modal .modal-body .resultados tbody')[0]
               resultados.innerHTML = ``

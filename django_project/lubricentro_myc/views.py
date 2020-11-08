@@ -1,12 +1,11 @@
 import json
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.template.loader import get_template
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from datetime import datetime
 from calendar import monthrange
 from django.db.models import Sum
 from django.contrib.auth.models import User
@@ -43,7 +42,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
 
     @action(detail=False, methods=['get'])
-    def buscar(self, request):
+    def buscar_por_detalle(self, request):
         resultado = []
         detalle = request.GET.get('detalle', '')
         if detalle == '':
@@ -51,9 +50,36 @@ class ProductoViewSet(viewsets.ModelViewSet):
         for producto in Producto.objects.filter(detalle__icontains=detalle).values():
             resultado.append({
                 "codigo": producto['codigo'],
-                "detalle": producto['detalle']
+                "detalle": producto['detalle'],
+                "precio_costo": producto['precio_costo']
             })
         return JsonResponse(data={'productos': resultado})
+
+    @action(detail=False, methods=['get'])
+    def buscar_por_categoria(self, request):
+        resultado = []
+        categoria = request.GET.get('categoria', '')
+        if categoria == '':
+            return JsonResponse(data={'productos': resultado})
+        for producto in Producto.objects.filter(categoria=categoria).values():
+            resultado.append({
+                "codigo": producto['codigo'],
+                "detalle": producto['detalle'],
+                "precio_costo": producto['precio_costo']
+            })
+        return JsonResponse(data={'productos': resultado})
+
+    @action(detail=False, methods=['post'])
+    def aumento_masivo_precio_costo(self, request):
+        productos = request.data['productos']
+        porcentaje_aumento = request.data['porcentaje_aumento']
+        aumento = 1 + int(porcentaje_aumento)/100
+        for producto in productos:
+            p = Producto.objects.get(codigo=producto)
+            p.precio_costo = p.precio_costo * aumento
+            p.save()
+        resultado = str(len(productos)) + " producto/s actualizado/s satisfactoriamente."
+        return JsonResponse(data={'resultado': resultado})
 
 
 class RemitoViewSet(viewsets.ModelViewSet):
@@ -67,7 +93,6 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def buscar(self, request):
-        lista_productos = {}
         codigo = request.GET.get('codigo', '')
         elementos_remito = ElementoRemito.objects.filter(
             remito__cliente=codigo, pagado=False)

@@ -1,0 +1,167 @@
+{% block vue_modal %}
+{% csrf_token %}
+<div id="edicion-masiva-productos-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edicion-masiva-productos-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr>
+            <td>Buscar por Detalle</td>
+            <td><input type="text" style="width: 80%"></td>
+            <td><button type="button" class="btn btn-default" style="margin-top: 10px;" @click="listar_resultados('detalle')">Listar Resultados</td>
+          </tr>
+          <tr>
+            <td>Buscar por Categoría</td>
+            <td>
+              <select>
+                <option value=""></option>
+                {% for item in categorias %}
+                    <option value="{{ item.categoria }}">{{ item.categoria }}</option>
+                {% endfor %}
+              </select>
+              <td><button type="button" class="btn btn-default" style="margin-top: 10px;" @click="listar_resultados('categoria')">Listar Resultados</td>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <div hidden class="resumen-resultados" style="text-align: center">
+          <p></p>
+          <button type="button" class="mostrar btn btn-default" style="margin-left: 10px;" @click="visualizar_resultados()">Mostrar
+          <button hidden type="button" class="ocultar btn btn-default" style="margin-left: 10px;" @click="ocultar_resultados()">Ocultar
+        </div>
+        <br>
+        <div hidden class="resultados">
+          <table class="productos-table">
+          </table>
+        </div>
+        <br>
+        <div class="aumento" style="text-align: center">
+            <p>Aumento Precio de Costo</p>
+            <td><input type="number" style="width: 15%"/> %</td>
+            <td><button disabled type="button" class="btn btn-default" style="margin-left: 10px" @click="ejecutar_aumento()">Confirmar</button></td>
+          </tr>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p style="margin:auto auto"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+new Vue({
+    el: "#edicion-masiva-productos-modal",
+    delimiters: ['${', '}'],
+    components: {},
+    methods: {
+      listar_resultados(tipo_de_busqueda) {
+        let value;
+        if(tipo_de_busqueda === 'detalle') {
+          value = $('#edicion-masiva-productos-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val();
+          $('#edicion-masiva-productos-modal .modal-body table tr:nth-child(2) td:nth-child(2) select').val("");   
+        } else if(tipo_de_busqueda === 'categoria') {
+          value = $('#edicion-masiva-productos-modal .modal-body table tr:nth-child(2) td:nth-child(2) select').val();
+          $('#edicion-masiva-productos-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("");
+        }
+        let url = `/lubricentro_myc/productos/buscar_por_${tipo_de_busqueda}?${tipo_de_busqueda}=${value}`;
+        axios({
+          method:'get',
+          url: url
+        }).then(response => {
+          this.productos = response.data.productos;
+          let resumen_resultados = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados')[0]
+          let cantidad_resultados = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados p')
+          cantidad_resultados.text(`${this.productos.length} productos encontrados`);
+          resumen_resultados.hidden = false;
+          let list_resultados = $('#edicion-masiva-productos-modal .modal-body .resultados table')[0];
+          list_resultados.innerHTML = ``;
+          list_resultados.innerHTML += `
+              <tr>
+                <td>Código</td>
+                <td>Detalle</td>
+                <td>Precio Costo</td>
+              </tr>
+            `
+          for(let producto in this.productos) {
+            list_resultados.innerHTML += `
+              <tr>
+                <td>` + this.productos[producto].codigo + `</td>
+                <td>` + this.productos[producto].detalle + `</td>
+                <td>` + this.productos[producto].precio_costo + `</td>
+              </tr>
+            `
+            $('.aumento button').attr("disabled", false);
+          }
+        }).catch(function (error) {
+          console.error(error);
+        })
+      },
+      visualizar_resultados() {
+        let resultados = $('#edicion-masiva-productos-modal .modal-body .resultados')[0];
+        resultados.hidden = false;
+        let button_mostrar = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados button.mostrar')[0].hidden = true;   
+        let button_ocultar = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados button.ocultar')[0].hidden = false;
+      },
+      ocultar_resultados() {
+        let resultados = $('#edicion-masiva-productos-modal .modal-body .resultados')[0];
+        resultados.hidden = true;
+        let button_mostrar = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados button.mostrar')[0].hidden = false;   
+        let button_ocultar = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados button.ocultar')[0].hidden = true;
+      },
+      ejecutar_aumento() {
+        let porcentaje_aumento = $('.aumento input').val();
+        productos = [];
+        for(let producto in this.productos) {
+          productos.push(this.productos[producto].codigo);
+        }
+        let data = {
+          productos: productos,
+          porcentaje_aumento: porcentaje_aumento
+        }
+        let opts = {
+          headers: {
+            "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
+          }
+        }
+        let texto_resultado = $('#edicion-masiva-productos-modal .modal-footer p');
+        axios.post("/lubricentro_myc/productos/aumento_masivo_precio_costo/", data, opts)
+        .then((response)=> {
+          texto_resultado.css("color","green")
+          texto_resultado.css("font-weight","bold")
+          texto_resultado.text(response.data.resultado)
+          $('.aumento button').attr("disabled", true);
+        }).catch((error) => {
+          console.log(response);
+          texto_resultado.css("color","red")
+          texto_resultado.css("font-weight","bold")
+          texto_resultado.text("Error!")
+        });
+      },
+      close() {
+        $('#edicion-masiva-productos-modal .modal-body table tr:nth-child(1) td:nth-child(2) input').val("");
+        $('#edicion-masiva-productos-modal .modal-body table tr:nth-child(2) td:nth-child(2) select').val("");
+        let resumen_resultados = $('#edicion-masiva-productos-modal .modal-body .resumen-resultados')[0]
+        let resultados = $('#edicion-masiva-productos-modal .modal-body .resultados')[0];
+        resumen_resultados.hidden = true;
+        resultados.hidden = true;
+        $('.aumento input').val("");
+        $('.aumento button').attr("disabled", true);
+        let texto_resultado = $('#edicion-masiva-productos-modal .modal-footer p');
+        texto_resultado.text("");
+      }
+    },
+    data: {
+      productos: []
+    },
+    mounted() {
+      $('#edicion-masiva-productos-modal').on('hidden.bs.modal', this.close);
+    }
+  })
+</script>
+
+{% endblock %}

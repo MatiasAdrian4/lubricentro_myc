@@ -37,6 +37,11 @@
                     <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#producto-modal" onClick="$(this).addClass('nuevo-producto');">Ingresar Nuevo Producto</button><td>
                     <td></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#edicion-masiva-productos-modal">Edición Masiva de Precios</button><td>
+                    <td></td>
+                </tr>
             </table>
 
             <table class="productos-table data-section">
@@ -54,7 +59,7 @@
                         <td>{{ obj.codigo }}</td>
                         <td>{{ obj.detalle | upper }}</td>
                         <td>{{ obj.stock }}</td>
-                        <td>{{ obj.precio_costo }}</td>
+                        <td>{{ obj.precio_costo|floatformat:2 }}</td>
                         <td>{{ obj.precio_venta_contado|floatformat:2 }}</td>
                         <td>{{ obj.precio_venta_cta_cte|floatformat:2 }}</td>
                         <td>{{ obj.categoria }}</td>
@@ -157,5 +162,7 @@
 {% endblock %}
 
 {% include "vue_modal/producto_modal.html" %}
+
+{% include "vue_modal/edicion_masiva_producto_modal.html" %}
 
 {% include "footer.html" %}

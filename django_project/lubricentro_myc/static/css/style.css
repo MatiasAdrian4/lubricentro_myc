@@ -149,6 +149,7 @@ button {
 
 #ventas .operaciones tr:nth-child(2) td button,
 #productos .operaciones tr:nth-child(4) td button,
+#productos .operaciones tr:nth-child(5) td button,
 #clientes .operaciones tr:nth-child(3) td button,
 #clientes .operaciones tr:nth-child(4) td button {
     margin-top: 10px;
