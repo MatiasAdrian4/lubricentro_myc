@@ -119,6 +119,7 @@
                     $('#producto-modal .modal-body table tr:nth-child(13) td input').val("0.0");
                     $('#producto-modal .modal-body table tr:nth-child(14) td input').val("0.0");
                     $('#producto-modal .modal-body table tr:nth-child(15) td select').val("");
+                    $('#producto-modal .modal-body table tr:nth-child(16) td input').val("");
                 } else if ($('.prod-selected').length != 0) {
                     $('#producto-modal .modal-header .modal-title').text("Editar Producto")
                     var codigo = $('.productos-table tr:has(.prod-selected) td:nth-child(1)')[0].innerText;
@@ -151,6 +152,7 @@
                     $('#producto-modal .modal-body table tr:nth-child(13) td input').val(precioVentaContado);
                     $('#producto-modal .modal-body table tr:nth-child(14) td input').val(precioVentaCtaCte);
                     $('#producto-modal .modal-body table tr:nth-child(15) td select').val(categoria);
+                    $('#producto-modal .modal-body table tr:nth-child(16) td input').val(codigo);
                 }
             });
         });

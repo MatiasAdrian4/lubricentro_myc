@@ -11,7 +11,7 @@
         <table>
           <tr>
             <td>Código</td>
-            <td><input readonly type="text"></td>
+            <td><input type="text"></td>
           </tr>
           <tr>
             <td>Detalle</td>
@@ -74,6 +74,10 @@
                 </select>
             <td>
           </tr>
+          <tr hidden>
+            <td>Código Real</td>
+            <td><input type="text"></td>
+          </tr>
         </table>
       </div>
       <div class="modal-footer">
@@ -91,7 +95,8 @@ new Vue({
     components: {},
     methods: {
       edit() {
-        var producto = {
+        let producto = {
+          codigo : $('#producto-modal .modal-body table tr:nth-child(1) td input').val(),
           detalle : $('#producto-modal .modal-body table tr:nth-child(2) td input').val(),
           stock : $('#producto-modal .modal-body table tr:nth-child(3) td input').val(),
           precio_costo : $('#producto-modal .modal-body table tr:nth-child(4) td input').val(),
@@ -107,7 +112,10 @@ new Vue({
           precio_venta_cta_cte : $('#producto-modal .modal-body table tr:nth-child(14) td input').val(),
           categoria : $('#producto-modal .modal-body table tr:nth-child(15) td select').val(),
         }
-        var codigo = $('#producto-modal .modal-body table tr:nth-child(1) td input').val();
+        let data = {
+          producto: producto,
+          codigo_real: $('#producto-modal .modal-body table tr:nth-child(16) td input').val()
+        }
         var texto_resultado = $('#producto-modal .modal-footer p')
         let opts = {
           headers: {
@@ -124,11 +132,11 @@ new Vue({
             ).catch((error) => {
               texto_resultado.css("color","red")
               texto_resultado.css("font-weight","bold")
-              texto_resultado.text("Error!")
+              texto_resultado.text(error.response.data)
             }
           )
         } else if ($('.prod-selected').length != 0) {
-          axios.patch("/lubricentro_myc/productos/" + codigo + "/", producto, opts)
+          axios.post("/lubricentro_myc/productos/custom_update/", data, opts)
             .then((response)=> {
               texto_resultado.css("color","green")
               texto_resultado.css("font-weight","bold")
@@ -137,7 +145,7 @@ new Vue({
             ).catch((error) => {
               texto_resultado.css("color","red")
               texto_resultado.css("font-weight","bold")
-              texto_resultado.text("Error!")
+              texto_resultado.text(error.response.data)
             }
           )
         }

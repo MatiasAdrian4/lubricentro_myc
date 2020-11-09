@@ -92,7 +92,7 @@ new Vue({
               <tr>
                 <td>` + this.productos[producto].codigo + `</td>
                 <td>` + this.productos[producto].detalle + `</td>
-                <td>` + this.productos[producto].precio_costo + `</td>
+                <td>` + (this.productos[producto].precio_costo).toFixed(2) + `</td>
               </tr>
             `
             $('.aumento button').attr("disabled", false);

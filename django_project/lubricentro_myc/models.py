@@ -15,7 +15,7 @@ class Cliente(models.Model):
 
 
 class Producto(models.Model):
-    codigo = models.AutoField(primary_key=True)
+    codigo = models.IntegerField(primary_key=True)
     detalle = models.CharField(max_length=200)
     stock = models.IntegerField(default=0)
     precio_costo = models.FloatField(default=0.0)  # sin iva
