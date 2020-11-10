@@ -127,18 +127,18 @@ class ProductoViewSet(viewsets.ModelViewSet):
                 producto_actual.delete()
         else:
             producto_actual = Producto.objects.get(codigo=codigo_real)
-            producto_actual['detalle'] = producto['detalle']
-            producto_actual['stock'] = producto['stock'],
-            producto_actual['precio_costo'] = producto['precio_costo'],
-            producto_actual['desc1'] = producto['desc1'],
-            producto_actual['desc2'] = producto['desc2'],
-            producto_actual['desc3'] = producto['desc3'],
-            producto_actual['desc4'] = producto['desc4'],
-            producto_actual['flete'] = producto['flete'],
-            producto_actual['ganancia'] = producto['ganancia'],
-            producto_actual['iva'] = producto['iva'],
-            producto_actual['agregado_cta_cte'] = producto['agregado_cta_cte'],
-            producto_actual['categoria'] = producto['categoria']
+            producto_actual.detalle = producto['detalle']
+            producto_actual.stock = int(producto['stock'])
+            producto_actual.precio_costo = producto['precio_costo']
+            producto_actual.desc1 = producto['desc1']
+            producto_actual.desc2 = producto['desc2']
+            producto_actual.desc3 = producto['desc3']
+            producto_actual.desc4 = producto['desc4']
+            producto_actual.flete = producto['flete']
+            producto_actual.ganancia = producto['ganancia']
+            producto_actual.iva = producto['iva']
+            producto_actual.agregado_cta_cte = producto['agregado_cta_cte']
+            producto_actual.categoria = producto['categoria']
             producto_actual.save()
 
         return HttpResponse(status=200)
