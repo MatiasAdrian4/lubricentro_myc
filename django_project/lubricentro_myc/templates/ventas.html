@@ -128,6 +128,7 @@
               input.type = "text";
               input.setAttribute("value", "0.0");
               input.setAttribute("class", "allownumericwithdecimal");
+              input.setAttribute("onClick", "this.setSelectionRange(0, this.value.length)");
               td.appendChild(input)
               tr.appendChild(td)
 
