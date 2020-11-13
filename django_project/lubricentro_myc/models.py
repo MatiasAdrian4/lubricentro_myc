@@ -43,11 +43,11 @@ class Producto(models.Model):
             ((100 + self.flete) / 100) * \
             ((100 + self.ganancia) / 100) * \
             ((100 + self.iva) / 100)
-        return precio_total_con_ganancias
+        return int(precio_total_con_ganancias)
 
     @property
     def precio_venta_cta_cte(self):
-        return self.precio_venta_contado * ((100 + self.agregado_cta_cte) / 100)
+        return int(self.precio_venta_contado * ((100 + self.agregado_cta_cte) / 100))
 
 
 class Remito(models.Model):
