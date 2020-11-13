@@ -60,8 +60,8 @@ $(function(){
         var precio_total_con_ganancias = precio_total_con_descuentos * ((100 + flete) / 100) *  ((100 + ganancia) / 100) * ((100 + iva) / 100);
         var precio_total_con_ganancias_y_agregado = precio_total_con_ganancias * ((100 + agregado_cta_cte) / 100);
 
-        $('#producto-modal .modal-body table tr:nth-child(13) td input').val(precio_total_con_ganancias.toFixed(2));
-        $('#producto-modal .modal-body table tr:nth-child(14) td input').val(precio_total_con_ganancias_y_agregado.toFixed(2));
+        $('#producto-modal .modal-body table tr:nth-child(13) td input').val(Math.floor(precio_total_con_ganancias).toFixed(2));
+        $('#producto-modal .modal-body table tr:nth-child(14) td input').val(Math.floor(precio_total_con_ganancias_y_agregado).toFixed(2));
     });
 
 });
