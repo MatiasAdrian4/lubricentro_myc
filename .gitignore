@@ -3,3 +3,5 @@ django_project/.idea
 django_project/venv
 *.pyc
 __pycache__/
+default-keypair-ohio.pem
+run_aws_instance.sh

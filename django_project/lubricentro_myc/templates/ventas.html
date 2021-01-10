@@ -84,6 +84,83 @@
         }
       }
 
+      function remover_producto(codigo_producto) {
+        var codigos = $('.carrito-table tbody tr td:nth-child(1) input');
+        var detalles = $('.carrito-table tbody tr td:nth-child(2) input');
+        var precios_contado = $('.carrito-table tbody tr td:nth-child(3) input');
+        var cantidades = $('.carrito-table tbody tr td:nth-child(4) input');
+        var totales = $('.carrito-table tbody tr td:nth-child(5) input');
+
+        var carrito = $('.carrito-table tbody')[0];
+        carrito.innerHTML = `<tbody></tbody>`;
+        var total = 0;
+
+        for(var i = 0; i < codigos.length; i++) {
+          if(codigos[i].value != codigo_producto) {
+            // toda esta logica deberia moverse a un metodo para ser reutilizada
+            var tr = document.createElement('tr');
+
+            var td = document.createElement("td");
+            var input = document.createElement('input');
+            input.type = "text";
+            input.setAttribute("readonly", true);
+            input.setAttribute("value", codigos[i].value);
+            td.appendChild(input);
+            tr.appendChild(td);
+
+            var td = document.createElement("td");
+            var input = document.createElement('input');
+            input.type = "text";
+            input.setAttribute("readonly", true);
+            input.setAttribute("value", detalles[i].value);
+            td.appendChild(input);
+            tr.appendChild(td);
+
+            var td = document.createElement("td");
+            var input = document.createElement('input');
+            input.type = "text";
+            input.setAttribute("value", precios_contado[i].value);
+            input.setAttribute("class", "allownumericwithdecimal");
+            td.appendChild(input);
+            tr.appendChild(td);
+            
+            var td = document.createElement("td");
+            var input = document.createElement('input');
+            input.type = "text";
+            input.setAttribute("value", cantidades[i].value);
+            input.setAttribute("class", "allownumericwithdecimal");
+            input.setAttribute("onClick", "this.setSelectionRange(0, this.value.length)");
+            td.appendChild(input);
+            tr.appendChild(td);
+
+            var td = document.createElement("td");
+            var input = document.createElement('input');
+            input.type = "text";
+            input.setAttribute("readonly", true);
+            input.setAttribute("value", totales[i].value);
+            input.setAttribute("class", "allownumericwithdecimal");
+            td.appendChild(input);
+            tr.appendChild(td);
+
+            var td = document.createElement("td");
+            var input = document.createElement("input");
+            input.type = "button";
+            input.setAttribute("value", "Eliminar");
+            input.setAttribute("class", "btn-default");
+            input.setAttribute("onClick", "remover_producto(" + codigos[i].value + ")");
+            td.appendChild(input);
+            tr.appendChild(td);
+
+            tr.appendChild(td);
+            carrito.appendChild(tr);
+
+            total += parseFloat(totales[i].value);
+          } 
+        }
+
+        $('.resumen-venta tr:nth-child(1) td:nth-child(2) input').val(total.toFixed(2));
+      }
+
       function buscar_producto() {
           var codigo = document.getElementById('codigo').value
           if (codigo.replace(/\s/g, "") == "") {
@@ -96,57 +173,66 @@
             reload_js();
             
             if ($('.carrito-table tr:has(td input[value="' + response.data['codigo'] +'"])').length == 0) {
-              var carrito = $('.carrito-table tbody')[0]
-              var tr = document.createElement('tr')
+              var carrito = $('.carrito-table tbody')[0];
+              var tr = document.createElement('tr');
 
-              var td = document.createElement("td")
-              var input = document.createElement('input')
+              var td = document.createElement("td");
+              var input = document.createElement('input');
               input.type = "text";
-              input.setAttribute("readonly", true)
+              input.setAttribute("readonly", true);
               input.setAttribute("value", response.data['codigo']);
-              td.appendChild(input)
-              tr.appendChild(td)
+              td.appendChild(input);
+              tr.appendChild(td);
 
-              var td = document.createElement("td")
-              var input = document.createElement('input')
+              var td = document.createElement("td");
+              var input = document.createElement('input');
               input.type = "text";
-              input.setAttribute("readonly", true)
+              input.setAttribute("readonly", true);
               input.setAttribute("value", response.data['detalle'].toUpperCase());
-              td.appendChild(input)
-              tr.appendChild(td)
+              td.appendChild(input);
+              tr.appendChild(td);
 
-              var td = document.createElement("td")
-              var input = document.createElement('input')
+              var td = document.createElement("td");
+              var input = document.createElement('input');
               input.type = "text";
               input.setAttribute("value", response.data['precio_venta_contado'].toFixed(2));
               input.setAttribute("class", "allownumericwithdecimal");
-              td.appendChild(input)
-              tr.appendChild(td)
+              td.appendChild(input);
+              tr.appendChild(td);
               
-              var td = document.createElement("td")
-              var input = document.createElement('input')
+              var td = document.createElement("td");
+              var input = document.createElement('input');
               input.type = "text";
               input.setAttribute("value", "0");
               input.setAttribute("class", "allownumericwithdecimal");
               input.setAttribute("onClick", "this.setSelectionRange(0, this.value.length)");
-              td.appendChild(input)
-              tr.appendChild(td)
+              td.appendChild(input);
+              tr.appendChild(td);
 
-              var td = document.createElement("td")
-              var input = document.createElement('input')
+              var td = document.createElement("td");
+              var input = document.createElement('input');
               input.type = "text";
-              input.setAttribute("readonly", true)
+              input.setAttribute("readonly", true);
               input.setAttribute("value", "0.0");
               input.setAttribute("class", "allownumericwithdecimal");
-              td.appendChild(input)
-              tr.appendChild(td)
+              td.appendChild(input);
+              tr.appendChild(td);
 
-              tr.appendChild(td)
-              carrito.appendChild(tr)
+              var td = document.createElement("td");
+              var input = document.createElement("input");
+              input.type = "button";
+              input.setAttribute("value", "Eliminar");
+              input.setAttribute("class", "btn-default");
+              input.setAttribute("onClick", "remover_producto(" + response.data['codigo'] + ")");
+              td.appendChild(input);
+              tr.appendChild(td);
+
+              tr.appendChild(td);
+              carrito.appendChild(tr);
 
               $('.operaciones tr:nth-child(1) td input')[0].value = "";
             } else {
-              alert("El producto ya esta cargado al carrito")
+              alert("El producto ya esta cargado al carrito");
             }
           }).catch(function (error) {
             console.error(error);

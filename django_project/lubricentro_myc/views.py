@@ -343,9 +343,9 @@ class Remitos(ListView):
         elif 'cliente' in args.keys():
             if len(args['cliente'].strip()) == 0:
                 return []
-            return Remito.objects.filter(cliente__nombre__icontains=args['cliente'])
+            return Remito.objects.filter(cliente__nombre__icontains=args['cliente']).order_by('-codigo')
         else:
-            return Remito.objects.all()
+            return Remito.objects.all().order_by('-codigo')
 
     def get_context_data(self, **kwargs):
         context = super(Remitos, self).get_context_data(**kwargs)
