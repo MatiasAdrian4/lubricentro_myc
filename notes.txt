@@ -1,0 +1,9 @@
+apply new changes in ec2:
+- cd django
+- source lub-myc-env/bin/activate
+- git stash
+- git pull origin master
+- git stash pop
+- rm -rf django_project/static/*
+- python django_project/manage.py collectstatic
+- sudo service apache2 restart

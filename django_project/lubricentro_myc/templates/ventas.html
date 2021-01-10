@@ -95,6 +95,8 @@
         carrito.innerHTML = `<tbody></tbody>`;
         var total = 0;
 
+        reload_js();
+        
         for(var i = 0; i < codigos.length; i++) {
           if(codigos[i].value != codigo_producto) {
             // toda esta logica deberia moverse a un metodo para ser reutilizada
