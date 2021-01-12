@@ -7,3 +7,6 @@ apply new changes in ec2:
 - rm -rf django_project/static/*
 - python django_project/manage.py collectstatic
 - sudo service apache2 restart
+
+dump database:
+-  pg_dump -Fc -v -d lubricentro_myc -h localhost -U matiasadrian4 > lubricentro_myc_12_1_2021.sql

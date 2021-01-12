@@ -160,6 +160,14 @@ class RemitoViewSet(viewsets.ModelViewSet):
     queryset = Remito.objects.all()
     serializer_class = RemitoSerializer
 
+    @action(detail=False, methods=['get'])
+    def borrar_remito(self, request):
+        codigo = request.GET.get('codigo', '')
+        elementos_remito = ElementoRemito.objects.filter(remito=codigo)
+        elementos_remito.delete()
+        remito = Remito.objects.get(codigo=codigo)
+        remito.delete()
+        return HttpResponse(status=200)
 
 class ElementoRemitoViewSet(viewsets.ModelViewSet):
     queryset = ElementoRemito.objects.all()

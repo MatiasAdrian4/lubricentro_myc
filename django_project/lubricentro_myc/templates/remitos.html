@@ -42,6 +42,7 @@
                         {% else %}
                             <td><i class="fas fa-times-circle" style="color: red"></i><td>
                         {% endif %}
+                        <td><button type="button" class="btn btn-default" onClick="borrar_remito({{ obj.codigo }})">Eliminar</button></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -71,6 +72,17 @@
 
         function abrir_remito(codigo) {
             window.open("{{ host }}/lubricentro_myc/generar_remito_pdf?cod_remito=" + codigo, '_blank');
+        }
+
+        function borrar_remito(codigo) {
+            if(confirm("¿Borrar remito?")) {
+                axios({
+                    method:'get',
+                    url: `/lubricentro_myc/remito/borrar_remito?codigo=` + codigo,
+                }).then((response)=> {
+                    location.reload();
+                }).catch((error) => {})
+            }
         }
 
     </script>
