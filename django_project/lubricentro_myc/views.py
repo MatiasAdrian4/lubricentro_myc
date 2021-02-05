@@ -376,9 +376,16 @@ def generar_stock_pdf(request, *args, **kwargs):
         productos = Producto.objects.filter(categoria__iexact=categoria)
     else:
         productos = Producto.objects.none()
+    total_precio_costo = 0.0
+    total_precio_venta = 0.0
+    for producto in productos:
+        total_precio_costo += producto.precio_costo_con_descuentos
+        total_precio_venta += producto.precio_venta_contado
     context = {
         "categoria": categoria,
-        "productos": productos
+        "productos": productos,
+        "total_precio_costo": total_precio_costo,
+        "total_precio_venta": total_precio_venta
     }
     html = template.render(context)
     pdf = render_to_pdf('pdf/stock_pdf.html', context)

@@ -32,7 +32,15 @@
                     <td>{{ producto.precio_venta_contado|floatformat:2 }}</td>
                 </tr>
             {% endfor %}
-        </table>
+            <tr style="border-bottom: 1px solid #000;"><td></td></tr>
+            <tr></tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ total_precio_costo |floatformat:2 }}</td>
+                <td>{{ total_precio_venta |floatformat:2 }}</td>
+            </tr>
 
-    </body>
+        </body>
 </html>
