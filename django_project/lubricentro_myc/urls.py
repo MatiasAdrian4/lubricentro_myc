@@ -43,10 +43,6 @@ urlpatterns = [
         views.generar_remito_pdf,
         name='generar_remito_pdf'
         ),
-    url(r'generar_stock_pdf/',
-        views.generar_stock_pdf,
-        name='generar_stock_pdf'
-        ),
     url(r'acciones_csv/',
         views.CSV.as_view(),
         name='csv'
@@ -58,6 +54,14 @@ urlpatterns = [
     url(r'exportar_csv/',
         views.exportar_csv,
         name='exportar_csv'
+        ),
+    url(r'impresion_stock/',
+        views.ImpresionStock.as_view(),
+        name="impresion_stock"
+        ),
+    url(r'generar_stock_pdf/',
+        views.generar_stock_pdf,
+        name='generar_stock_pdf'
         ),
     url('', include(router.urls))
 ]

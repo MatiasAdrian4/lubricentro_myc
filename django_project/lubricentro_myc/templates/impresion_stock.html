@@ -1,0 +1,44 @@
+{% load static %}
+{% csrf_token %}
+
+{% include "encabezado.html" %}
+
+{% block content %}
+
+    <body>
+        <div id="impresion_stock">
+            
+            <h1>Impresión de Stock</h1>
+
+            <table class="operaciones">
+                <tr>
+                    <td>Categoría</td>
+                    <td>
+                        <select style="margin: 0px 5px;" id="categoria">
+                            <option value=""></option>
+                            {% for item in categorias %}
+                                <option value="{{ item.categoria }}">{{ item.categoria }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><button class="btn btn-default" onClick="imprimir_stock()">Imprimir</button></td>
+                </tr>
+            </table>
+
+        
+        </div>
+
+    </body>
+
+    <script type="text/javascript">
+
+        function imprimir_stock(option) {
+            let categoria = document.getElementById('categoria').value;
+            window.open("{{ host }}/lubricentro_myc/generar_stock_pdf?categoria=" + categoria, '_blank');
+        }
+
+    </script>
+
+{% endblock %}
+
+{% include "footer.html" %}

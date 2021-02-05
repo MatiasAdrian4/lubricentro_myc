@@ -466,6 +466,14 @@ def crear_usuario(request):
     user.save()
     return HttpResponse(status=200)
 
+class ImpresionStock(TemplateView):
+    template_name = "impresion_stock.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ImpresionStock, self).get_context_data(**kwargs)
+        categorias = Producto.objects.order_by().values('categoria').distinct()
+        context['categorias'] = categorias
+        return context
 
 class CSV(TemplateView):
     template_name = "csv.html"

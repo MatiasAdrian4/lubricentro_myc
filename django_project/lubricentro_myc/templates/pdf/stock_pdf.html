@@ -5,6 +5,10 @@
             body {
                 font-size: 12px;
             }
+            
+            table td {
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -13,15 +17,19 @@
         </div>
         <table>
             <thead>
-                <td style="width: 25%">Código</td>
-                <td style="width: 50%">Detalle</td>
-                <td style="width: 25%">Stock</td>
+                <td style="width: 20%">Código</td>
+                <td style="width: 40%">Detalle</td>
+                <td style="width: 10%">Stock</td>
+                <td style="width: 15%">Precio de Costo</td>
+                <td style="width: 15%">Precio de Venta</td>
             </thead>
             {% for producto in productos %}
                 <tr>
                     <td>{{ producto.codigo }}</td>
                     <td>{{ producto.detalle }}</td>
                     <td>{{ producto.stock }}</td>
+                    <td>{{ producto.precio_costo_con_descuentos|floatformat:2 }}</td>
+                    <td>{{ producto.precio_venta_contado|floatformat:2 }}</td>
                 </tr>
             {% endfor %}
         </table>
