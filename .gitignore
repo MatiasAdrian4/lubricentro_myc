@@ -5,3 +5,4 @@ django_project/venv
 __pycache__/
 default-keypair-ohio.pem
 run_aws_instance.sh
+dumps

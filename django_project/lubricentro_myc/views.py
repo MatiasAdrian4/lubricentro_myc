@@ -128,7 +128,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
         else:
             producto_actual = Producto.objects.get(codigo=codigo_real)
             producto_actual.detalle = producto['detalle']
-            producto_actual.stock = int(producto['stock'])
+            producto_actual.stock = float(producto['stock'])
             producto_actual.precio_costo = producto['precio_costo']
             producto_actual.desc1 = producto['desc1']
             producto_actual.desc2 = producto['desc2']
@@ -164,6 +164,10 @@ class RemitoViewSet(viewsets.ModelViewSet):
     def borrar_remito(self, request):
         codigo = request.GET.get('codigo', '')
         elementos_remito = ElementoRemito.objects.filter(remito=codigo)
+        for elemento_remito in elementos_remito:
+            producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
+            producto.stock += float(elemento_remito.cantidad)
+            producto.save()
         elementos_remito.delete()
         remito = Remito.objects.get(codigo=codigo)
         remito.delete()
@@ -204,8 +208,11 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
     def guardar_elementos(self, request):
         elems = self.request.data['elementos']
         for elem in elems:
+            producto = Producto.objects.get(codigo=elem['producto'])
+            producto.stock -= float(elem['cantidad'])
+            producto.save()
             new_elem = ElementoRemito(
-                remito=Remito.objects.get(codigo=elem['remito']), producto=Producto.objects.get(codigo=elem['producto']), cantidad=elem['cantidad'], pagado=False)
+                remito=Remito.objects.get(codigo=elem['remito']), producto=producto, cantidad=elem['cantidad'], pagado=False)
             new_elem.save()
         return HttpResponse(status=200)
 
@@ -219,6 +226,19 @@ class VentaViewSet(viewsets.ModelViewSet):
         ventas = self.request.data['ventas']
         for venta in ventas:
             producto = Producto.objects.get(codigo=venta['producto'])
+            nueva_venta = Venta(
+                producto=producto, cantidad=venta['cantidad'], precio=venta['precio'])
+            nueva_venta.save()
+        return HttpResponse(status=200)
+
+
+    @action(detail=False, methods=['post'])
+    def guardar_venta_y_actualizar_stock(self, request):
+        ventas = self.request.data['ventas']
+        for venta in ventas:
+            producto = Producto.objects.get(codigo=venta['producto'])
+            producto.stock -= float(venta['cantidad'])
+            producto.save()
             nueva_venta = Venta(
                 producto=producto, cantidad=venta['cantidad'], precio=venta['precio'])
             nueva_venta.save()
@@ -293,9 +313,9 @@ class Inventario(ListView):
         elif 'detalle' in args.keys():
             if len(args['detalle'].strip()) == 0:
                 return []
-            return Producto.objects.filter(detalle__icontains=args['detalle'])
+            return Producto.objects.filter(detalle__icontains=args['detalle']).order_by('codigo')
         elif 'categoria' in args.keys():
-            return Producto.objects.filter(categoria=args['categoria'])
+            return Producto.objects.filter(categoria=args['categoria']).order_by('codigo')
         else:
             return queryset
 
@@ -379,8 +399,8 @@ def generar_stock_pdf(request, *args, **kwargs):
     total_precio_costo = 0.0
     total_precio_venta = 0.0
     for producto in productos:
-        total_precio_costo += producto.precio_costo_con_descuentos
-        total_precio_venta += producto.precio_venta_contado
+        total_precio_costo += producto.precio_costo_con_descuentos * producto.stock
+        total_precio_venta += producto.precio_venta_contado * producto.stock
     context = {
         "categoria": categoria,
         "productos": productos,
@@ -505,7 +525,6 @@ def importar_csv(request):
             io_string = io.StringIO(data_set)
             next(io_string)
             for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-                print(column)
                 Cliente.objects.create(
                     id=column[0],
                     nombre=column[1],

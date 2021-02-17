@@ -1,6 +1,7 @@
 apply new changes in ec2:
 - cd django
 - source lub-myc-env/bin/activate
+- cd lubricentro_myc
 - git stash
 - git pull origin master
 - git stash pop

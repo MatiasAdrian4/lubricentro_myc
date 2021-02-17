@@ -57,8 +57,8 @@
                 {% for obj in object_list %}
                     <tr>
                         <td>{{ obj.codigo }}</td>
-                        <td>{{ obj.detalle | upper }}</td>
-                        <td>{{ obj.stock }}</td>
+                        <td>{{ obj.detalle|upper }}</td>
+                        <td>{{ obj.stock|floatformat:2 }}</td>
                         <td>{{ obj.precio_costo|floatformat:2 }}</td>
                         <td>{{ obj.precio_venta_contado|floatformat:2 }}</td>
                         <td>{{ obj.precio_venta_cta_cte|floatformat:2 }}</td>

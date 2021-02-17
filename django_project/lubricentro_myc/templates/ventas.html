@@ -287,18 +287,22 @@
               "X-CSRFToken": jQuery("[name=csrfmiddlewaretoken]").val(),
             }
           }
-          var next_url = "{{ host }}/lubricentro_myc/ventas"
-          var i;
-          for(i = 0; i < productos.length; i++) {
-              venta = {}
-              venta['producto'] = productos[i].value
-              venta['cantidad'] = cantidades[i].value
-              venta['precio'] = precios[i].value
-              axios.post("/lubricentro_myc/ventas_realizadas/", venta, opts)
-              .then((response)=> {
-              }).catch((error) => {}
-              )
+          var next_url = "{{ host }}/lubricentro_myc/ventas";
+          var ventas = [];
+          for(var i = 0; i < productos.length; i++) {
+            var venta = {}
+            venta['producto'] = productos[i].value
+            venta['cantidad'] = cantidades[i].value
+            venta['precio'] = precios[i].value
+            ventas.push(venta)
           }
+          let data = {
+            'ventas': ventas
+          }
+          axios.post("/lubricentro_myc/ventas_realizadas/guardar_venta_y_actualizar_stock/", data, opts)
+          .then((response)=> {
+          }).catch((error) => {}
+          )
           window.location.href = next_url
         }
       }
