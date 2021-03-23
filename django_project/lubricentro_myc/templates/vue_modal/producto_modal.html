@@ -67,16 +67,22 @@
           </tr>
           <tr>
             <td>Categoría</td>
-            <td><select>
-                  {% for item in categorias %}
-                      <option value="{{ item.categoria }}">{{ item.categoria }}</option>
-                  {% endfor %}
-                </select>
+            <td>
+              <select>
+                {% for item in categorias %}
+                    <option value="{{ item.categoria }}">{{ item.categoria }}</option>
+                {% endfor %}
+              </select>
             <td>
           </tr>
           <tr hidden>
             <td>Código Real</td>
             <td><input type="text"></td>
+          </tr>
+          <tr>
+            <td>Código libre a partir de</td>
+            <td><input type="text" style="margin-right: 10px"></td>
+            <td><button type="button" class="btn btn-default" @click="buscar_codigo_libre()">Buscar</button> </td>
           </tr>
         </table>
       </div>
@@ -149,6 +155,17 @@ new Vue({
             }
           )
         }
+      },
+      buscar_codigo_libre() {
+        let desde = $('#producto-modal .modal-body table tr:nth-child(17) td input').val();
+        axios.get("/lubricentro_myc/productos/buscar_codigo_libre?desde=" + desde)
+        .then((response)=> {
+          let codigo = response.data.codigo;
+          if(codigo != null) {
+            $('#producto-modal .modal-body table tr:nth-child(1) td input').val(codigo);
+          }
+        }).catch((error) => {}
+        )
       },
       close() {
         window.location.reload();

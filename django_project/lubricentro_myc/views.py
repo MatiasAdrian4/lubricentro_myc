@@ -155,6 +155,18 @@ class ProductoViewSet(viewsets.ModelViewSet):
         resultado = str(len(productos)) + " producto/s actualizado/s satisfactoriamente."
         return JsonResponse(data={'resultado': resultado})
 
+    # TODO: agregar aca un limite desde uix
+    @action(detail=False, methods=['get'])
+    def buscar_codigo_libre(self, request):
+        desde = int(request.GET.get('desde', ''))
+        hasta = desde + 10000
+        for i in range(desde, hasta):
+            try:
+                Producto.objects.get(codigo=i)
+            except Producto.DoesNotExist:
+                return JsonResponse(data={'codigo': i})
+        return JsonResponse(data={'codigo': None})
+
 
 class RemitoViewSet(viewsets.ModelViewSet):
     queryset = Remito.objects.all()
