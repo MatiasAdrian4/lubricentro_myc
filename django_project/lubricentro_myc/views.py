@@ -155,7 +155,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
         resultado = str(len(productos)) + " producto/s actualizado/s satisfactoriamente."
         return JsonResponse(data={'resultado': resultado})
 
-    # TODO: agregar aca un limite desde uix
+    # TODO: agregar aca un limite desde ui
     @action(detail=False, methods=['get'])
     def buscar_codigo_libre(self, request):
         desde = int(request.GET.get('desde', ''))
@@ -226,6 +226,32 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
             new_elem = ElementoRemito(
                 remito=Remito.objects.get(codigo=elem['remito']), producto=producto, cantidad=elem['cantidad'], pagado=False)
             new_elem.save()
+        return HttpResponse(status=200)
+
+    @action(detail=False, methods=['post'])
+    def modificar(self, request):
+        elementos = self.request.data['elementos']
+        for elem in elementos:
+            nueva_cantidad = float(elem['cantidad'])
+            elemento_remito = ElementoRemito.objects.get(id=elem['id'])
+            if nueva_cantidad < elemento_remito.cantidad:
+                producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
+                producto.stock += (elemento_remito.cantidad - nueva_cantidad)
+                producto.save()
+                if nueva_cantidad != 0:
+                    elemento_remito.cantidad = nueva_cantidad
+                    elemento_remito.save()
+                else:
+                    elemento_remito.delete()
+            elif nueva_cantidad > elemento_remito.cantidad:
+                producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
+                producto.stock -= (nueva_cantidad - elemento_remito.cantidad)
+                producto.save()
+                if nueva_cantidad != 0:
+                    elemento_remito.cantidad = nueva_cantidad
+                    elemento_remito.save()
+                else:
+                    elemento_remito.delete()
         return HttpResponse(status=200)
 
 
@@ -398,6 +424,42 @@ class Remitos(ListView):
 def remitos_facturacion(request):
     context = {}
     return render(request, 'remitos_facturacion.html', context=context)
+
+
+class RemitosEdicion(ListView):
+    model = Producto
+    template_name = 'remitos_edicion.html'
+
+    def get_queryset(self):
+        args = self.request.GET
+        queryset = []
+        if 'codigo' in args.keys():
+            if args['codigo'] == 'undefined':
+                return []
+            else:
+                try:
+                    remito = Remito.objects.get(codigo=args['codigo'])
+                except Producto.DoesNotExist:
+                    return []
+            for elemento_remito in ElementoRemito.objects.filter(remito_id=remito.codigo):
+                elem_remito = {}
+                if not elemento_remito.pagado:
+                    elem_remito['id'] = elemento_remito.id
+                    elem_remito['producto_id'] = elemento_remito.producto.codigo
+                    elem_remito['producto_detalle'] = elemento_remito.producto.detalle
+                    elem_remito['cantidad'] = elemento_remito.cantidad
+                    queryset.append(elem_remito)
+            return queryset
+        else:
+            return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(RemitosEdicion, self).get_context_data(**kwargs)
+        args = self.request.GET
+        if 'codigo' in args.keys():
+            context['nro_remito'] = args['codigo']
+        context['url'] = self.request.build_absolute_uri(self.request.path)
+        return context
 
 
 def generar_stock_pdf(request, *args, **kwargs):

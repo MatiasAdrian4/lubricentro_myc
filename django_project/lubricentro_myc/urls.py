@@ -35,6 +35,10 @@ urlpatterns = [
         views.remitos_facturacion,
         name='remitos_facturacion'
         ),
+    url(r'remitos_edicion/',
+        views.RemitosEdicion.as_view(),
+        name='remitos_edicion'
+        ),
     url(r'ventas_historial/',
         views.HistorialVentas.as_view(),
         name='ventas_historial'
