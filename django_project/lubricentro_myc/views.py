@@ -382,9 +382,9 @@ class ListadoClientes(ListView):
         elif 'nombre' in args.keys():
             if len(args['nombre'].strip()) == 0:
                 return []
-            return Cliente.objects.filter(nombre__icontains=args['nombre'])
+            return Cliente.objects.filter(nombre__icontains=args['nombre']).order_by('id')
         else:
-            return Cliente.objects.all()
+            return Cliente.objects.all().order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super(ListadoClientes, self).get_context_data(**kwargs)
@@ -544,7 +544,7 @@ class HistorialVentas(ListView):
                 fecha__year=int(args['mes'][3:7])
             ).order_by('fecha')
         else:
-            return Venta.objects.all().order_by('fecha')
+            return []
 
     def get_context_data(self, **kwargs):
         context = super(HistorialVentas, self).get_context_data(**kwargs)

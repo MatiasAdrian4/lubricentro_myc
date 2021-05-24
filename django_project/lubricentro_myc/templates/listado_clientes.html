@@ -21,12 +21,12 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('nuevo-cliente');">Ingresar Nuevo Cliente</button><td>
+                    <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('nuevo-cliente');">Ingresar Nuevo Cliente</button></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button class="btn btn-default" onClick="buscar_cliente('todos')">Listar Todos</button><td>
+                    <td><button class="btn btn-default" onClick="buscar_cliente('todos')">Listar Todos</button></td>
                     <td></td>
                 </tr>
             </table>
@@ -40,16 +40,18 @@
                     <td>Código Postal</td>
                     <td>Teléfono</td>
                     <td>Cuit</td>
+                    <td>Email</td>
                 </thead>
                 {% for obj in object_list %}
                     <tr>
                         <td>{{ obj.id}}</td>
-                        <td>{{ obj.nombre|title }}</td>
-                        <td>{{ obj.direccion|title }}</td>
+                        <td>{{ obj.nombre|title|wordwrap:20|linebreaksbr }}</td>
+                        <td>{{ obj.direccion|title|wordwrap:20|linebreaksbr }}</td>
                         <td>{{ obj.localidad|title }}</td>
                         <td>{{ obj.codigo_postal }}</td>
                         <td>{{ obj.telefono }}</td>
                         <td>{{ obj.cuit }}</td>
+                        <td>{{ obj.email }}</td>
                         <td><button type="button" class="btn btn-primary vue-btn" data-toggle="modal" data-target="#cliente-modal" onClick="$(this).addClass('cli-selected');">Editar</button></td>
                     </tr>
                 {% endfor %}
@@ -92,6 +94,7 @@
                     $('#cliente-modal .modal-body table tr:nth-child(5) td input').val("");
                     $('#cliente-modal .modal-body table tr:nth-child(6) td input').val("");
                     $('#cliente-modal .modal-body table tr:nth-child(7) td input').val("");
+                    $('#cliente-modal .modal-body table tr:nth-child(8) td input').val("");
                 } else if ($('.cli-selected').length != 0) {
                     $('#cliente-modal .modal-header .modal-title').text("Editar Cliente")
                     var codigo = $('.clientes-table tr:has(.cli-selected) td:nth-child(1)')[0].innerText;
@@ -101,6 +104,7 @@
                     var codigo_postal = $('.clientes-table tr:has(.cli-selected) td:nth-child(5)')[0].innerText;
                     var telefono = $('.clientes-table tr:has(.cli-selected) td:nth-child(6)')[0].innerText;
                     var cuit = $('.clientes-table tr:has(.cli-selected) td:nth-child(7)')[0].innerText;
+                    var email = $('.clientes-table tr:has(.cli-selected) td:nth-child(8)')[0].innerText;
                     $('#cliente-modal .modal-body table tr:nth-child(1) td input').val(codigo);
                     $('#cliente-modal .modal-body table tr:nth-child(2) td input').val(nombre);
                     $('#cliente-modal .modal-body table tr:nth-child(3) td input').val(direccion);
@@ -108,6 +112,7 @@
                     $('#cliente-modal .modal-body table tr:nth-child(5) td input').val(codigo_postal);
                     $('#cliente-modal .modal-body table tr:nth-child(6) td input').val(telefono);
                     $('#cliente-modal .modal-body table tr:nth-child(7) td input').val(cuit);
+                    $('#cliente-modal .modal-body table tr:nth-child(8) td input').val(email);
                 }
             });
         });
