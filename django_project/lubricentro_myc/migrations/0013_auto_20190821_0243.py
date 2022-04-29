@@ -7,13 +7,16 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0012_remito_cliente'),
+        ("lubricentro_myc", "0012_remito_cliente"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='remito',
-            name='cliente',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lubricentro_myc.Cliente'),
+            model_name="remito",
+            name="cliente",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lubricentro_myc.Cliente",
+            ),
         ),
     ]

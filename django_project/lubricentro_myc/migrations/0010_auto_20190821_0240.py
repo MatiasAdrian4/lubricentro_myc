@@ -8,24 +8,28 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0009_elementoremito'),
+        ("lubricentro_myc", "0009_elementoremito"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Remito',
+            name="Remito",
             fields=[
-                ('codigo', models.AutoField(primary_key=True, serialize=False)),
-                ('fecha', models.DateTimeField(default=django.utils.timezone.now)),
+                ("codigo", models.AutoField(primary_key=True, serialize=False)),
+                ("fecha", models.DateTimeField(default=django.utils.timezone.now)),
             ],
         ),
         migrations.RemoveField(
-            model_name='elementoremito',
-            name='numero_remito',
+            model_name="elementoremito",
+            name="numero_remito",
         ),
         migrations.AddField(
-            model_name='elementoremito',
-            name='remito',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to='lubricentro_myc.Remito'),
+            model_name="elementoremito",
+            name="remito",
+            field=models.ForeignKey(
+                default="",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="lubricentro_myc.Remito",
+            ),
         ),
     ]

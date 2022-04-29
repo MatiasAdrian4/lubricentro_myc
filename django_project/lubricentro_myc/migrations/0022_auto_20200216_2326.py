@@ -6,36 +6,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0021_elementoremito_pagado'),
+        ("lubricentro_myc", "0021_elementoremito_pagado"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='producto',
-            name='precio_venta_contado',
+            model_name="producto",
+            name="precio_venta_contado",
         ),
         migrations.RemoveField(
-            model_name='producto',
-            name='precio_venta_cta_cte',
+            model_name="producto",
+            name="precio_venta_cta_cte",
         ),
         migrations.AddField(
-            model_name='producto',
-            name='agregado_cta_cte',
+            model_name="producto",
+            name="agregado_cta_cte",
             field=models.FloatField(default=0.0),
         ),
         migrations.AddField(
-            model_name='producto',
-            name='flete',
+            model_name="producto",
+            name="flete",
             field=models.FloatField(default=0.0),
         ),
         migrations.AddField(
-            model_name='producto',
-            name='ganancia',
+            model_name="producto",
+            name="ganancia",
             field=models.FloatField(default=40.0),
         ),
         migrations.AddField(
-            model_name='producto',
-            name='iva',
+            model_name="producto",
+            name="iva",
             field=models.FloatField(default=21.0),
         ),
     ]

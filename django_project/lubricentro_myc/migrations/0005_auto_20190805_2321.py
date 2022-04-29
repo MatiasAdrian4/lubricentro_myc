@@ -6,73 +6,73 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0004_auto_20190805_2315'),
+        ("lubricentro_myc", "0004_auto_20190805_2315"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='cliente',
-            name='codigo_postal',
+            model_name="cliente",
+            name="codigo_postal",
             field=models.IntegerField(blank=True, default=None, null=True),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='cuit',
-            field=models.CharField(blank=True, default='', max_length=13, null=True),
+            model_name="cliente",
+            name="cuit",
+            field=models.CharField(blank=True, default="", max_length=13, null=True),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='direccion',
-            field=models.CharField(blank=True, default='', max_length=100, null=True),
+            model_name="cliente",
+            name="direccion",
+            field=models.CharField(blank=True, default="", max_length=100, null=True),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='localidad',
-            field=models.CharField(blank=True, default='', max_length=100, null=True),
+            model_name="cliente",
+            name="localidad",
+            field=models.CharField(blank=True, default="", max_length=100, null=True),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='telefono',
+            model_name="cliente",
+            name="telefono",
             field=models.BigIntegerField(blank=True, default=None, null=True),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='desc1',
+            model_name="producto",
+            name="desc1",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='desc2',
+            model_name="producto",
+            name="desc2",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='desc3',
+            model_name="producto",
+            name="desc3",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='desc4',
+            model_name="producto",
+            name="desc4",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='precio_costo',
+            model_name="producto",
+            name="precio_costo",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='precio_venta_contado',
+            model_name="producto",
+            name="precio_venta_contado",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='precio_venta_cta_cte',
+            model_name="producto",
+            name="precio_venta_cta_cte",
             field=models.FloatField(default=0.0),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='stock',
+            model_name="producto",
+            name="stock",
             field=models.IntegerField(default=0),
         ),
     ]

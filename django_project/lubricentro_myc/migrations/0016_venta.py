@@ -7,17 +7,31 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0015_auto_20190826_2356'),
+        ("lubricentro_myc", "0015_auto_20190826_2356"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Venta',
+            name="Venta",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('cantidad', models.FloatField()),
-                ('precio_venta', models.FloatField()),
-                ('producto', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lubricentro_myc.Producto')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("cantidad", models.FloatField()),
+                ("precio_venta", models.FloatField()),
+                (
+                    "producto",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="lubricentro_myc.Producto",
+                    ),
+                ),
             ],
         ),
     ]

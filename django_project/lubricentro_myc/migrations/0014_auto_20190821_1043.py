@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0013_auto_20190821_0243'),
+        ("lubricentro_myc", "0013_auto_20190821_0243"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='elementoremito',
-            name='cantidad',
+            model_name="elementoremito",
+            name="cantidad",
             field=models.FloatField(),
         ),
     ]

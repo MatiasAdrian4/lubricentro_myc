@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lubricentro_myc', '0020_remove_elementoremito_pagado'),
+        ("lubricentro_myc", "0020_remove_elementoremito_pagado"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='elementoremito',
-            name='pagado',
+            model_name="elementoremito",
+            name="pagado",
             field=models.BooleanField(default=False),
         ),
     ]

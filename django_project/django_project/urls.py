@@ -18,8 +18,8 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('lubricentro_myc/', include('lubricentro_myc.urls')),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("lubricentro_myc/", include("lubricentro_myc.urls")),
 ]
