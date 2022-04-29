@@ -2,11 +2,10 @@ from calendar import monthrange
 
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
+from lubricentro_myc.models import Producto, Venta
+from lubricentro_myc.serializers.sale import VentaSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action
-
-from lubricentro_myc.models import Venta, Producto
-from lubricentro_myc.serializers.sale import VentaSerializer
 
 
 class VentaViewSet(viewsets.ModelViewSet):

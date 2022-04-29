@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from lubricentro_myc.models import Producto
+from rest_framework import serializers
 
 
 class ProductoSerializer(serializers.ModelSerializer):

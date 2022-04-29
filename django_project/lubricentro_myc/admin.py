@@ -1,12 +1,13 @@
 from django.contrib import admin
 
-from .models import Cliente, Producto, Remito, ElementoRemito, Venta
+from .models import Cliente, ElementoRemito, Producto, Remito, Venta
 
 
 def download_csv(modeladmin, request, queryset):
     import csv
-    from django.http import HttpResponse
     from io import StringIO
+
+    from django.http import HttpResponse
 
     f = StringIO()
     writer = csv.writer(f)

@@ -1,6 +1,5 @@
+from lubricentro_myc.models import ElementoRemito, Remito
 from rest_framework import serializers
-
-from lubricentro_myc.models import Remito, ElementoRemito
 
 
 class RemitoSerializer(serializers.ModelSerializer):

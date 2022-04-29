@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
-
-from lubricentro_myc.models import Producto, Cliente, Remito, ElementoRemito, Venta
+from django.views.generic import ListView, TemplateView
+from lubricentro_myc.models import Cliente, ElementoRemito, Producto, Remito, Venta
 
 
 def ventas(request):

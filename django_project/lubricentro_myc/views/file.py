@@ -5,8 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import get_template
-
-from lubricentro_myc.models import Producto, Remito, ElementoRemito, Cliente
+from lubricentro_myc.models import Cliente, ElementoRemito, Producto, Remito
 from lubricentro_myc.utils import render_to_pdf
 
 

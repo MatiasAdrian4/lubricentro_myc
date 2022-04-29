@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from lubricentro_myc.models import Cliente
+from rest_framework import serializers
 
 
 class ClienteSerializer(serializers.ModelSerializer):

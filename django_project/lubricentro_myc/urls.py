@@ -1,18 +1,17 @@
 from django.urls import include, re_path
-from rest_framework.routers import DefaultRouter
-
+from lubricentro_myc.views import template
 from lubricentro_myc.views.client import ClienteViewSet
 from lubricentro_myc.views.file import (
-    generar_remito_pdf,
-    importar_csv,
     exportar_csv,
+    generar_remito_pdf,
     generar_stock_pdf,
+    importar_csv,
 )
-from lubricentro_myc.views.invoice import RemitoViewSet, ElementoRemitoViewSet
+from lubricentro_myc.views.invoice import ElementoRemitoViewSet, RemitoViewSet
 from lubricentro_myc.views.product import ProductoViewSet
 from lubricentro_myc.views.sale import VentaViewSet
 from lubricentro_myc.views.user import crear_usuario
-from lubricentro_myc.views import template
+from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r"clientes", ClienteViewSet)

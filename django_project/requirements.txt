@@ -7,3 +7,4 @@ psycopg2
 xhtml2pdf
 django-glrm
 black
+isort
