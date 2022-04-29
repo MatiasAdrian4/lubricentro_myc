@@ -18,7 +18,7 @@ from .models import Cliente, Producto, Remito, ElementoRemito, Venta
 from .serializers.client import ClienteSerializer
 from .serializers.product import ProductoSerializer
 from .serializers.invoice import RemitoSerializer, ElementoRemitoSerializer
-from .serializers.sell import VentaSerializer
+from .serializers.sale import VentaSerializer
 from .utils import render_to_pdf
 
 
