@@ -7,32 +7,39 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Cliente',
+            name="Cliente",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=100)),
-                ('direccion', models.CharField(blank=True, default='', max_length=100)),
-                ('localidad', models.CharField(blank=True, default='', max_length=100)),
-                ('codigo_postal', models.IntegerField(blank=True, default=None)),
-                ('telefono', models.IntegerField(blank=True, default=None)),
-                ('cuit', models.CharField(blank=True, default='', max_length=13)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nombre", models.CharField(max_length=100)),
+                ("direccion", models.CharField(blank=True, default="", max_length=100)),
+                ("localidad", models.CharField(blank=True, default="", max_length=100)),
+                ("codigo_postal", models.IntegerField(blank=True, default=None)),
+                ("telefono", models.IntegerField(blank=True, default=None)),
+                ("cuit", models.CharField(blank=True, default="", max_length=13)),
             ],
         ),
         migrations.CreateModel(
-            name='Producto',
+            name="Producto",
             fields=[
-                ('codigo', models.IntegerField(primary_key=True, serialize=False)),
-                ('detalle', models.CharField(max_length=200)),
-                ('stock', models.IntegerField(blank=True, default=0)),
-                ('precio_costo', models.FloatField(blank=True, default=0.0)),
-                ('precio_venta_contado', models.FloatField(blank=True, default=0.0)),
-                ('precio_venta_cta_cte', models.FloatField(blank=True, default=0.0)),
-                ('categoria', models.CharField(max_length=50)),
+                ("codigo", models.IntegerField(primary_key=True, serialize=False)),
+                ("detalle", models.CharField(max_length=200)),
+                ("stock", models.IntegerField(blank=True, default=0)),
+                ("precio_costo", models.FloatField(blank=True, default=0.0)),
+                ("precio_venta_contado", models.FloatField(blank=True, default=0.0)),
+                ("precio_venta_cta_cte", models.FloatField(blank=True, default=0.0)),
+                ("categoria", models.CharField(max_length=50)),
             ],
         ),
     ]

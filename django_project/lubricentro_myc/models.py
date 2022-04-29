@@ -4,12 +4,12 @@ from django.utils import timezone
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
-    direccion = models.CharField(max_length=100, blank=True, default='')
-    localidad = models.CharField(max_length=100, blank=True, default='')
-    codigo_postal = models.CharField(max_length=4, blank=True, default='')
-    telefono = models.CharField(max_length=13, blank=True, default='')
-    cuit = models.CharField(max_length=13, blank=True, default='')
-    email = models.CharField(max_length=100, blank=True, default='')
+    direccion = models.CharField(max_length=100, blank=True, default="")
+    localidad = models.CharField(max_length=100, blank=True, default="")
+    codigo_postal = models.CharField(max_length=4, blank=True, default="")
+    telefono = models.CharField(max_length=13, blank=True, default="")
+    cuit = models.CharField(max_length=13, blank=True, default="")
+    email = models.CharField(max_length=100, blank=True, default="")
 
     def __str__(self):
         return self.nombre
@@ -35,23 +35,29 @@ class Producto(models.Model):
 
     @property
     def precio_costo_con_descuentos(self):
-        return self.precio_costo * \
-            ((100 - self.desc1) / 100) * \
-            ((100 - self.desc2) / 100) * \
-            ((100 - self.desc3) / 100) * \
-            ((100 - self.desc4) / 100)
+        return (
+            self.precio_costo
+            * ((100 - self.desc1) / 100)
+            * ((100 - self.desc2) / 100)
+            * ((100 - self.desc3) / 100)
+            * ((100 - self.desc4) / 100)
+        )
 
     @property
     def precio_venta_contado(self):
-        precio_total_con_descuentos = self.precio_costo * \
-            ((100 - self.desc1) / 100) * \
-            ((100 - self.desc2) / 100) * \
-            ((100 - self.desc3) / 100) * \
-            ((100 - self.desc4) / 100)
-        precio_total_con_ganancias = precio_total_con_descuentos * \
-            ((100 + self.flete) / 100) * \
-            ((100 + self.ganancia) / 100) * \
-            ((100 + self.iva) / 100)
+        precio_total_con_descuentos = (
+            self.precio_costo
+            * ((100 - self.desc1) / 100)
+            * ((100 - self.desc2) / 100)
+            * ((100 - self.desc3) / 100)
+            * ((100 - self.desc4) / 100)
+        )
+        precio_total_con_ganancias = (
+            precio_total_con_descuentos
+            * ((100 + self.flete) / 100)
+            * ((100 + self.ganancia) / 100)
+            * ((100 + self.iva) / 100)
+        )
         return int(precio_total_con_ganancias)
 
     @property
