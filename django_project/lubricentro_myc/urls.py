@@ -1,71 +1,77 @@
-from django.conf.urls import url, include
+from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 
-from lubricentro_myc import views
+from lubricentro_myc.views.client import ClienteViewSet
+from lubricentro_myc.views.file import generar_remito_pdf, importar_csv, exportar_csv, generar_stock_pdf
+from lubricentro_myc.views.invoice import RemitoViewSet, ElementoRemitoViewSet
+from lubricentro_myc.views.product import ProductoViewSet
+from lubricentro_myc.views.sale import VentaViewSet
+from lubricentro_myc.views.user import crear_usuario
+from lubricentro_myc.views import template
 
 router = DefaultRouter()
-router.register(r'clientes', views.ClienteViewSet)
-router.register(r'productos', views.ProductoViewSet)
-router.register(r'remito', views.RemitoViewSet)
-router.register(r'elementos_remito', views.ElementoRemitoViewSet)
-router.register(r'ventas_realizadas', views.VentaViewSet)
+router.register(r'clientes', ClienteViewSet)
+router.register(r'productos', ProductoViewSet)
+router.register(r'remito', RemitoViewSet)
+router.register(r'elementos_remito', ElementoRemitoViewSet)
+router.register(r'ventas_realizadas', VentaViewSet)
 
 urlpatterns = [
-    url(r'crear_usuario/',
-        views.crear_usuario,
+    re_path(r'crear_usuario/',
+        crear_usuario,
         name='crear_usuario'
         ),
-    url(r'ventas/',
-        views.ventas,
+    re_path(r'ventas/',
+        template.ventas,
         name='ventas'
         ),
-    url(r'inventario/',
-        views.Inventario.as_view(),
+    re_path(r'inventario/',
+        template.Inventario.as_view(),
         name='inventario'
         ),
-    url(r'listado_clientes/',
-        views.ListadoClientes.as_view(),
+    re_path(r'listado_clientes/',
+        template.ListadoClientes.as_view(),
         name='listado_clientes'
         ),
-    url(r'remitos/',
-        views.Remitos.as_view(),
+    re_path(r'remitos/',
+        template.Remitos.as_view(),
         name='remitos'
         ),
-    url(r'remitos_facturacion/',
-        views.remitos_facturacion,
+    re_path(r'remitos_facturacion/',
+        template.remitos_facturacion,
         name='remitos_facturacion'
         ),
-    url(r'remitos_edicion/',
-        views.RemitosEdicion.as_view(),
+    re_path(r'remitos_edicion/',
+        template.RemitosEdicion.as_view(),
         name='remitos_edicion'
         ),
-    url(r'ventas_historial/',
-        views.HistorialVentas.as_view(),
+    re_path(r'ventas_historial/',
+        template.HistorialVentas.as_view(),
         name='ventas_historial'
         ),
-    url(r'generar_remito_pdf/',
-        views.generar_remito_pdf,
+    re_path(r'generar_remito_pdf/',
+        generar_remito_pdf,
         name='generar_remito_pdf'
         ),
-    url(r'acciones_csv/',
-        views.CSV.as_view(),
+    re_path(r'acciones_csv/',
+        template.CSV.as_view(),
         name='csv'
         ),
-    url(r'importar_csv/',
-        views.importar_csv,
+    re_path(r'importar_csv/',
+        importar_csv,
         name='importar_csv'
         ),
-    url(r'exportar_csv/',
-        views.exportar_csv,
+    re_path(r'exportar_csv/',
+        exportar_csv,
         name='exportar_csv'
         ),
-    url(r'impresion_stock/',
-        views.ImpresionStock.as_view(),
+    re_path(r'impresion_stock/',
+        template.ImpresionStock.as_view(),
         name="impresion_stock"
         ),
-    url(r'generar_stock_pdf/',
-        views.generar_stock_pdf,
+    re_path(r'generar_stock_pdf/',
+        generar_stock_pdf,
         name='generar_stock_pdf'
         ),
-    url('', include(router.urls))
+    re_path('', include(router.urls))
 ]
