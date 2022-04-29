@@ -15,7 +15,10 @@ import csv
 import io
 
 from .models import Cliente, Producto, Remito, ElementoRemito, Venta
-from .serializers import ClienteSerializer, ProductoSerializer, RemitoSerializer, ElementoRemitoSerializer, VentaSerializer
+from .serializers.client import ClienteSerializer
+from .serializers.product import ProductoSerializer
+from .serializers.invoice import RemitoSerializer, ElementoRemitoSerializer
+from .serializers.sell import VentaSerializer
 from .utils import render_to_pdf
 
 
