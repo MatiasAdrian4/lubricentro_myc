@@ -47,17 +47,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "global_login_required.GlobalLoginRequiredMiddleware",
 ]
-
-PUBLIC_PATHS = [r"^/accounts/.*", r"^/lubricentro_myc/crear_usuario/.*"]
-
-LOGIN_REDIRECT_URL = "/lubricentro_myc/ventas"
 
 ROOT_URLCONF = "django_project.urls"
 
@@ -136,11 +131,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-
-CORS_ORIGIN_WHITELIST = ("http://localhost:8080", "http://127.0.0.1:8000")
 
 CORS_ALLOW_METHODS = (
     "DELETE",
@@ -150,3 +143,9 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
+
+LMYC_TOKEN_KEY = "lmyc_token"
+LMYC_TOKEN_SECRET = "Algodon1206_"
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
