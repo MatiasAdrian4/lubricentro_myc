@@ -1,8 +1,4 @@
-import json
-
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.views.decorators.http import require_http_methods
 from lubricentro_myc.authentication import generate_jwt_token
 from lubricentro_myc.serializers.user import UserSerializer
 from rest_framework.exceptions import AuthenticationFailed
@@ -10,18 +6,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from django_project import settings
-
-
-@require_http_methods(["POST"])
-def crear_usuario(request):
-    data = json.loads(request.body.decode("utf-8"))
-    user = User.objects.create_user(
-        username=data["nombre"],
-        password=data["password"],
-        email=data["email"],
-    )
-    user.save()
-    return HttpResponse(status=200)
 
 
 class SignupView(APIView):
