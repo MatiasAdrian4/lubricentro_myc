@@ -144,8 +144,14 @@ CORS_ALLOW_METHODS = (
     "PUT",
 )
 
-LMYC_TOKEN_KEY = "lmyc_token"
-LMYC_TOKEN_SECRET = "Algodon1206_"
+LMYC_JWT_KEY = "lmyc_jwt"
+LMYC_JWT_SECRET = "Algodon1206_"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "lubricentro_myc.authentication.JWTAuthentication",
+    )
+}
