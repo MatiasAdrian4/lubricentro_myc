@@ -12,9 +12,13 @@ class ClienteViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def buscar(self, request):
         resultado = []
-        nombre = request.GET.get("nombre", "")
-        if nombre == "":
-            return JsonResponse(data={"clientes": resultado})
-        for cliente in Cliente.objects.filter(nombre__icontains=nombre).values():
-            resultado.append({"codigo": cliente["id"], "nombre": cliente["nombre"]})
+        nombre = request.GET.get("nombre", None)
+        if nombre:
+            for cliente in Cliente.objects.filter(nombre__icontains=nombre).values():
+                resultado.append(
+                    {
+                        "codigo": cliente.get("id", ""),
+                        "nombre": cliente.get("nombre", ""),
+                    }
+                )
         return JsonResponse(data={"clientes": resultado})
