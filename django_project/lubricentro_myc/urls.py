@@ -10,7 +10,7 @@ from lubricentro_myc.views.file import (
 from lubricentro_myc.views.invoice import ElementoRemitoViewSet, RemitoViewSet
 from lubricentro_myc.views.product import ProductoViewSet
 from lubricentro_myc.views.sale import VentaViewSet
-from lubricentro_myc.views.user import crear_usuario
+from lubricentro_myc.views.user import LoginView, LogoutView, SignupView, UserView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -21,7 +21,10 @@ router.register(r"elementos_remito", ElementoRemitoViewSet)
 router.register(r"ventas_realizadas", VentaViewSet)
 
 urlpatterns = [
-    re_path(r"crear_usuario/", crear_usuario, name="crear_usuario"),
+    re_path(r"signup/", SignupView.as_view()),
+    re_path(r"login/", LoginView.as_view()),
+    re_path(r"user/", UserView.as_view()),
+    re_path(r"logout/", LogoutView.as_view()),
     re_path(r"ventas/", template.ventas, name="ventas"),
     re_path(r"inventario/", template.Inventario.as_view(), name="inventario"),
     re_path(
