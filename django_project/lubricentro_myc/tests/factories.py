@@ -9,3 +9,8 @@ class UserFactory(factory.django.DjangoModelFactory):
 class ClientFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "lubricentro_myc.Cliente"
+
+
+class ProductFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "lubricentro_myc.Producto"

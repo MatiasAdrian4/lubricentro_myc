@@ -3,9 +3,10 @@ from calendar import monthrange
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models import Producto, Venta
-from lubricentro_myc.serializers.sale import VentaSerializer
+from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class VentaViewSet(viewsets.ModelViewSet):
@@ -14,11 +15,15 @@ class VentaViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"])
     def guardar_venta(self, request):
-        ventas = self.request.data["ventas"]
+        serializer = VentasSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+        ventas = serializer.validated_data.get("ventas")
         for venta in ventas:
-            producto = Producto.objects.get(codigo=venta["producto"])
             nueva_venta = Venta(
-                producto=producto, cantidad=venta["cantidad"], precio=venta["precio"]
+                producto=venta.get("producto"),
+                cantidad=venta.get("cantidad"),
+                precio=venta.get("precio"),
             )
             nueva_venta.save()
         return HttpResponse(status=200)

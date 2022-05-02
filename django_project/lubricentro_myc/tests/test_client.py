@@ -2,7 +2,7 @@ import json
 from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
-from lubricentro_myc.tests.factories import ClientFactory, UserFactory
+from lubricentro_myc.tests.factories import ClientFactory
 from rest_framework.test import APIClient
 
 
@@ -11,7 +11,6 @@ class ClientTestCase(TestCase):
     def setUpTestData(cls):
         cls.api_client = APIClient()
         cls.client_url = "/lubricentro_myc/clientes"
-        cls.user = UserFactory()
         cls.client_1 = ClientFactory(nombre="Jose Gomez")
         cls.client_2 = ClientFactory(nombre="Juan Perez")
         cls.client_3 = ClientFactory(nombre="Maria Fernandez")
