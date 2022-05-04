@@ -36,7 +36,10 @@ def generar_remito_pdf(request):
     codigo_remito = request.GET.get("cod_remito")
     if not codigo_remito:
         return HttpResponse(status=400)
-    remito = Remito.objects.get(codigo=codigo_remito)
+    try:
+        remito = Remito.objects.get(codigo=codigo_remito)
+    except Remito.DoesNotExist:
+        return HttpResponse(status=404)
     elementos_remito = []
     for elemento in ElementoRemito.objects.filter(remito=remito):
         producto = Producto.objects.get(codigo=elemento.producto_id)

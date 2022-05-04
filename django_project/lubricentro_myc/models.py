@@ -72,7 +72,7 @@ class Remito(models.Model):
     fecha = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return "Remito n°" + str(self.codigo)
+        return f"Remito n°{str(self.codigo)}"
 
 
 class ElementoRemito(models.Model):
