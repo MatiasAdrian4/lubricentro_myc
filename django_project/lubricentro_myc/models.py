@@ -16,7 +16,8 @@ class Cliente(models.Model):
 
 
 class Producto(models.Model):
-    codigo = models.IntegerField(primary_key=True)
+    codigo = models.AutoField(primary_key=True)
+    codigo_en_pantalla = models.IntegerField(null=True, unique=True)
     detalle = models.CharField(max_length=200)
     stock = models.FloatField(default=0.0)
     precio_costo = models.FloatField(default=0.0)  # sin iva
@@ -71,7 +72,7 @@ class Remito(models.Model):
     fecha = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return "Remito n°" + str(self.codigo)
+        return f"Remito n°{str(self.codigo)}"
 
 
 class ElementoRemito(models.Model):

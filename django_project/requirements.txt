@@ -9,3 +9,4 @@ django-glrm
 black
 isort
 PyJWT
+factory_boy

@@ -16,7 +16,7 @@ class SignupView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        user = User.objects.get(username=serializer.data["username"])
+        user = User.objects.get(username=serializer.data.get("username"))
         lmyc_jwt = generate_jwt_token(user)
 
         response = Response()
