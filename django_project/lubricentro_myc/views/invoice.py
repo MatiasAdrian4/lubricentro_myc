@@ -14,14 +14,19 @@ class RemitoViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def borrar_remito(self, request):
-        codigo = request.GET.get("codigo", "")
+        codigo = request.GET.get("codigo")
+        if not codigo:
+            return HttpResponse(status=400)
+        try:
+            remito = Remito.objects.get(codigo=codigo)
+        except Remito.DoesNotExist:
+            return HttpResponse(status=404)
         elementos_remito = ElementoRemito.objects.filter(remito=codigo)
         for elemento_remito in elementos_remito:
             producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
-            producto.stock += float(elemento_remito.cantidad)
+            producto.stock += elemento_remito.cantidad
             producto.save()
         elementos_remito.delete()
-        remito = Remito.objects.get(codigo=codigo)
         remito.delete()
         return HttpResponse(status=200)
 
@@ -31,73 +36,86 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
     serializer_class = ElementoRemitoSerializer
 
     @action(detail=False, methods=["get"])
-    def buscar(self, request):
-        codigo = request.GET.get("codigo", "")
-        elementos_remito = ElementoRemito.objects.filter(
-            remito__cliente=codigo, pagado=False
-        )
+    def buscar_por_codigo_cliente(self, request):
+        codigo = request.GET.get("codigo")
+        if not codigo:
+            return HttpResponse(status=400)
         resultado = []
-        for elem in elementos_remito:
-            prod = Producto.objects.get(codigo=elem.producto_id)
-            resultado.append(
-                {
-                    "elem_remito": elem.id,
-                    "remito": elem.remito.codigo,
-                    "codigo": prod.codigo,
-                    "detalle": prod.detalle,
-                    "precio_cta_cte": prod.precio_venta_cta_cte,
-                    "cantidad": elem.cantidad,
-                }
-            )
+        for elem in ElementoRemito.objects.filter(remito__cliente=codigo, pagado=False):
+            try:
+                prod = Producto.objects.get(codigo=elem.producto_id)
+                resultado.append(
+                    {
+                        "elem_remito": elem.id,
+                        "remito": elem.remito.codigo,
+                        "codigo_producto": prod.codigo,
+                        "detalle": prod.detalle,
+                        "precio_cta_cte": prod.precio_venta_cta_cte,
+                        "cantidad": elem.cantidad,
+                    }
+                )
+            except Producto.DoesNotExist:
+                continue
         return JsonResponse(data={"elementos_remito": resultado})
 
     @action(methods=["post"], detail=False)
-    def marcar_pagado(self, request):
-        elems = self.request.data["elementos"]
-        for elem in elems:
-            elem_remito = ElementoRemito.objects.get(id=elem["id"])
-            elem_remito.pagado = True
-            elem_remito.save()
+    def marcar_pagados(self, request):
+        elem_ids = request.data.get("elementos")
+        if not elem_ids:
+            return HttpResponse(status=400)
+        for elem_id in elem_ids:
+            try:
+                elem_remito = ElementoRemito.objects.get(id=elem_id)
+                elem_remito.pagado = True
+                elem_remito.save()
+            except ElementoRemito.DoesNotExist:
+                continue
         return HttpResponse(status=200)
 
     @action(methods=["post"], detail=False)
     def guardar_elementos(self, request):
-        elems = self.request.data["elementos"]
-        for elem in elems:
-            producto = Producto.objects.get(codigo=elem["producto"])
-            producto.stock -= float(elem["cantidad"])
-            producto.save()
-            new_elem = ElementoRemito(
-                remito=Remito.objects.get(codigo=elem["remito"]),
-                producto=producto,
-                cantidad=elem["cantidad"],
-                pagado=False,
-            )
-            new_elem.save()
+        elementos = request.data.get("elementos")
+        if not elementos:
+            return HttpResponse(status=400)
+        for elem in elementos:
+            try:
+                producto = Producto.objects.get(codigo=elem.get("producto"))
+                remito = Remito.objects.get(codigo=elem.get("remito"))
+                producto.stock -= float(elem.get("cantidad"))
+                producto.save()
+                new_elem = ElementoRemito(
+                    remito=remito,
+                    producto=producto,
+                    cantidad=elem["cantidad"],
+                    pagado=False,
+                )
+                new_elem.save()
+            except (Producto.DoesNotExist, Remito.DoesNotExist):
+                continue
         return HttpResponse(status=200)
 
     @action(detail=False, methods=["post"])
-    def modificar(self, request):
-        elementos = self.request.data["elementos"]
+    def modificar_cantidad(self, request):  # test this
+        elementos = request.data.get("elementos")
+        if not elementos:
+            return HttpResponse(status=400)
         for elem in elementos:
-            nueva_cantidad = float(elem["cantidad"])
-            elemento_remito = ElementoRemito.objects.get(id=elem["id"])
-            if nueva_cantidad < elemento_remito.cantidad:
+            nueva_cantidad = float(elem.get("cantidad"))
+            try:
+                elemento_remito = ElementoRemito.objects.get(id=elem.get("id"))
                 producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
+            except (ElementoRemito.DoesNotExist, Producto.DoesNotExist):
+                continue
+            if nueva_cantidad < elemento_remito.cantidad:
                 producto.stock += elemento_remito.cantidad - nueva_cantidad
                 producto.save()
-                if nueva_cantidad != 0:
-                    elemento_remito.cantidad = nueva_cantidad
-                    elemento_remito.save()
-                else:
-                    elemento_remito.delete()
+                elemento_remito.cantidad = nueva_cantidad
+                elemento_remito.save()
             elif nueva_cantidad > elemento_remito.cantidad:
-                producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
                 producto.stock -= nueva_cantidad - elemento_remito.cantidad
                 producto.save()
-                if nueva_cantidad != 0:
-                    elemento_remito.cantidad = nueva_cantidad
-                    elemento_remito.save()
-                else:
-                    elemento_remito.delete()
+                elemento_remito.cantidad = nueva_cantidad
+                elemento_remito.save()
+            else:  # nueva_cantidad == 0
+                elemento_remito.delete()
         return HttpResponse(status=200)

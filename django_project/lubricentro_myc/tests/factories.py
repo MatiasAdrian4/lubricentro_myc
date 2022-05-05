@@ -20,5 +20,15 @@ class SaleFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "lubricentro_myc.Venta"
 
-    cantidad = 1
     producto_id = 1
+    cantidad = 1
+
+
+class InvoiceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "lubricentro_myc.Remito"
+
+
+class InvoiceItemFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "lubricentro_myc.ElementoRemito"
