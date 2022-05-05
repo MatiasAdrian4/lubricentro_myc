@@ -1,5 +1,4 @@
-from django.utils import timezone
-from lubricentro_myc.models import Venta
+from lubricentro_myc.models.sale import Venta
 from rest_framework import serializers
 
 

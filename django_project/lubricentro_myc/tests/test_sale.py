@@ -2,7 +2,8 @@ import json
 from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
-from lubricentro_myc.models import Producto, Venta
+from lubricentro_myc.models.product import Producto
+from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.tests.factories import ProductFactory, SaleFactory
 from rest_framework.test import APIClient
 

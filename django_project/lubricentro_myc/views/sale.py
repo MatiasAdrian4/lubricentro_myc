@@ -3,7 +3,7 @@ from calendar import monthrange
 
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
-from lubricentro_myc.models import Producto, Venta
+from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action

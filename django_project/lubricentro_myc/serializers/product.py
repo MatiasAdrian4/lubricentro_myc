@@ -1,4 +1,4 @@
-from lubricentro_myc.models import Producto
+from lubricentro_myc.models.product import Producto
 from rest_framework import serializers
 
 

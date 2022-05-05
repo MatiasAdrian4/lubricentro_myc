@@ -1,6 +1,8 @@
 from django.contrib import admin
-
-from .models import Cliente, ElementoRemito, Producto, Remito, Venta
+from lubricentro_myc.models.client import Cliente
+from lubricentro_myc.models.invoice import ElementoRemito, Remito
+from lubricentro_myc.models.product import Producto
+from lubricentro_myc.models.sale import Venta
 
 
 def download_csv(modeladmin, request, queryset):

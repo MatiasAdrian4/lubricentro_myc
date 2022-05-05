@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from lubricentro_myc.models import ElementoRemito, Producto, Venta
+from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.product import ProductoSerializer, ProductosSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action
