@@ -1,6 +1,6 @@
 import os
 
-from lubricentro_myc.models import Producto
+from lubricentro_myc.models.product import Producto
 
 
 def leer_archivo(archivo):

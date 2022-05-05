@@ -8,7 +8,10 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, TemplateView
-from lubricentro_myc.models import Cliente, ElementoRemito, Producto, Remito, Venta
+from lubricentro_myc.models.client import Cliente
+from lubricentro_myc.models.invoice import ElementoRemito, Remito
+from lubricentro_myc.models.product import Producto
+from lubricentro_myc.models.sale import Venta
 
 
 def ventas(request):

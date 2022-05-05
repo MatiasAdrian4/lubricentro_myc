@@ -1,5 +1,5 @@
 from django import template
-from lubricentro_myc.models import ElementoRemito
+from lubricentro_myc.models.invoice import ElementoRemito
 
 register = template.Library()
 

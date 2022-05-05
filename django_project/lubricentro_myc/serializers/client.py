@@ -1,4 +1,4 @@
-from lubricentro_myc.models import Cliente
+from lubricentro_myc.models.client import Cliente
 from rest_framework import serializers
 
 

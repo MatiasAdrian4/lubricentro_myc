@@ -1,4 +1,4 @@
-from lubricentro_myc.models import ElementoRemito, Remito
+from lubricentro_myc.models.invoice import ElementoRemito, Remito
 from rest_framework import serializers
 
 

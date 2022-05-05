@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse
-from lubricentro_myc.models import ElementoRemito, Producto, Remito
+from lubricentro_myc.models.invoice import ElementoRemito, Remito
+from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.invoice import (
     ElementoRemitoSerializer,
     RemitoSerializer,
