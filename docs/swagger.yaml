@@ -40,9 +40,9 @@ paths:
         schema:
           $ref: "#/definitions/Cliente"
       responses:
-        "201":
+        201:
           description: "Client created"
-        "400":
+        400:
           description: "Client already exists"
   /clientes/{cliente_id}:
     get:
@@ -56,11 +56,11 @@ paths:
         required: true
         type: "integer"
       responses:
-        "200":
+        200:
           description: "Succesfully get client"
           schema:
             $ref: "#/definitions/Cliente"
-        "404":
+        404:
           description: "Client not found"
     patch:
       tags:
@@ -79,9 +79,9 @@ paths:
         schema:
           $ref: "#/definitions/Cliente"
       responses:
-        "200":
+        200:
           description: "Client updated"
-        "404":
+        404:
           description: "Client not found"
   /clientes/buscar:
     get:
@@ -93,7 +93,7 @@ paths:
         name: nombre
         type: string
       responses:
-        "200":
+        200:
           description: "List of clients matching the name"
           schema:
             $ref: "#/definitions/ClientSearchResultList"
