@@ -1,4 +1,5 @@
 swagger: "2.0"
+
 info:
   description: ""
   version: "1.0.0"
@@ -86,7 +87,7 @@ paths:
     get:
       tags:
         - "Clients"
-      summary: "Get client searching by name"
+      summary: "Get clients searching by name"
       parameters:
       - in: query
         name: nombre
