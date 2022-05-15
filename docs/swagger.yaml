@@ -1,143 +1,149 @@
-swagger: "2.0"
+  swagger: "2.0"
 
-info:
-  description: ""
-  version: "1.0.0"
-  title: "Lubricentro M&C"
-  contact:
-    email: "matiasadrianpp4@gmail.com"
-basePath: "/lubricentro_myc"
+  info:
+    description: ""
+    version: "1.0.0"
+    title: "Lubricentro M&C"
+    contact:
+      email: "matiasadrianpp4@gmail.com"
+  basePath: "/lubricentro_myc"
 
-tags:
-- name: "Clients"
-  description: ""
-- name: "File Actions"
-  description: ""
-- name: "Invoices"
-  description: ""
-- name: "Products"
-  description: ""
-- name: "Sales"
-  description: ""
-- name: "Users"
-  description: ""
-  
-schemes:
-- "https"
-- "http"
+  tags:
+  - name: "Clients"
+  - name: "File Actions"
+  - name: "Invoices"
+  - name: "Products"
+  - name: "Sales"
+  - name: "Users"
+    
+  schemes:
+  - "https"
+  - "http"
 
-paths:
-  /clientes:
-    post:
-      tags:
-        - "Clients"
-      summary: "Add a new client"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Required client data"
-        required: true
-        schema:
-          $ref: "#/definitions/Cliente"
-      responses:
-        201:
-          description: "Client created"
-        400:
-          description: "Client already exists"
-  /clientes/{cliente_id}:
-    get:
-      tags:
-        - "Clients"
-      summary: "Get client"
-      parameters:
-      - name: "cliente_id"
-        in: "path"
-        description: "Client id"
-        required: true
-        type: "integer"
-      responses:
-        200:
-          description: "Succesfully get client"
+  paths:
+    /clientes:
+      post:
+        tags:
+          - "Clients"
+        summary: "Add a new client"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Required client data"
+          required: true
           schema:
             $ref: "#/definitions/Cliente"
-        404:
-          description: "Client not found"
-    patch:
-      tags:
-        - "Clients"
-      summary: "Update client"
-      parameters:
-      - in: "path"
-        name: "cliente_id"
-        description: "Client id"
-        required: true
-        type: "integer"
-      - in: "body"
-        name: "body"
-        description: "Client data"
-        required: true
-        schema:
-          $ref: "#/definitions/Cliente"
-      responses:
-        200:
-          description: "Client updated"
-        404:
-          description: "Client not found"
-  /clientes/buscar:
-    get:
-      tags:
-        - "Clients"
-      summary: "Get clients searching by name"
-      parameters:
-      - in: query
-        name: nombre
-        type: string
-      responses:
-        200:
-          description: "List of clients matching the name"
+        responses:
+          201:
+            description: "Client created"
+          400:
+            description: "Client already exists"
+    /clientes/{cliente_id}:
+      get:
+        tags:
+          - "Clients"
+        summary: "Get client"
+        parameters:
+        - name: "cliente_id"
+          in: "path"
+          description: "Client id"
+          required: true
+          type: "integer"
+        responses:
+          200:
+            description: "Succesfully get client"
+            schema:
+              $ref: "#/definitions/Cliente"
+          404:
+            description: "Client not found"
+      patch:
+        tags:
+          - "Clients"
+        summary: "Update client"
+        parameters:
+        - in: "path"
+          name: "cliente_id"
+          description: "Client id"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Client data"
+          required: true
           schema:
-            $ref: "#/definitions/ClientSearchResultList"
+            $ref: "#/definitions/Cliente"
+        responses:
+          200:
+            description: "Client updated"
+          404:
+            description: "Client not found"
+    /clientes/buscar:
+      get:
+        tags:
+          - "Clients"
+        summary: "Get clients searching by name"
+        parameters:
+        - in: query
+          name: nombre
+          type: string
+        responses:
+          200:
+            description: "List of clients matching the name"
+            schema:
+              $ref: "#/definitions/ClientSearchResultList"
+    /generar_stock_pdf:
+      get:
+        tags:
+          - "File Actions"
+        summary: "Get a PDF containing the products stock for a given category"
+        parameters:
+        - in: query
+          name: categoria
+          type: string
+        responses:
+          200:
+            description: "PDF containing the products stock"
 
-definitions:
-  Cliente:
-    type: "object"
-    required:
-      - nombre
-    properties:
-      nombre:
-        type: string
-        example: "Matias Peñalba Paz"
-      direccion:
-        type: string
-        example: "Pinto 1248 PB"
-      localidad:
-        type: string
-        example: "Tandil"
-      codigo_postal:
-        type: string
-        example: "7000"
-      telefono:
-        type: string
-        example: "2262569097"
-      cuit:
-        type: string
-        example: "23-37370680-9"
-      email:
-        type: string
-        example: "matiasadrianpp4@gmail.com"
-  SimplifiedClient:
-    type: object
-    properties:
-      codigo:
-        type: integer
-        example: 62
-      nombre:
-        type: string
-        example: "Juan Perez"
-  ClientSearchResultList:
-    type: "object"
-    properties:
-      clientes:
-        type: "array"
-        items:
-          $ref: "#/definitions/SimplifiedClient"
+  definitions:
+    Cliente:
+      type: "object"
+      required:
+        - nombre
+      properties:
+        nombre:
+          type: string
+          example: "Matias Peñalba Paz"
+        direccion:
+          type: string
+          example: "Pinto 1248 PB"
+        localidad:
+          type: string
+          example: "Tandil"
+        codigo_postal:
+          type: string
+          example: "7000"
+        telefono:
+          type: string
+          example: "2262569097"
+        cuit:
+          type: string
+          example: "23-37370680-9"
+        email:
+          type: string
+          example: "matiasadrianpp4@gmail.com"
+    SimplifiedClient:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          example: 62
+        nombre:
+          type: string
+          example: "Juan Perez"
+    ClientSearchResultList:
+      type: "object"
+      properties:
+        clientes:
+          type: "array"
+          items:
+            $ref: "#/definitions/SimplifiedClient"
