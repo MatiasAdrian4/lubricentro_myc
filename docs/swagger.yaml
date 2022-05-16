@@ -2,76 +2,88 @@ swagger: "2.0"
 
 info:
   description: ""
-  version: "1.0.0"
-  title: "Lubricentro M&C"
+  version: 1.0.0
+  title: Lubricentro M&C
   contact:
-    email: "matiasadrianpp4@gmail.com"
-basePath: "/lubricentro_myc"
+    email: matiasadrianpp4@gmail.com
+basePath: /lubricentro_myc
 
 tags:
-- name: "Clients"
-- name: "File Actions"
-- name: "Invoices"
-- name: "Products"
-- name: "Sales"
-- name: "Users"
+- name: Clients
+- name: File Actions
+- name: Invoices
+- name: Invoice Items
+- name: Products
+- name: Sales
+- name: Users
   
 schemes:
-- "https"
-- "http"
+- https
+- http
 
 paths:
-  /clientes:
+  /clientes/:
+    get:
+      tags:
+        - Clients
+      summary: "Get all clients"
+      responses:
+        200:
+          description: "List containing all the clients"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Client"
     post:
       tags:
-        - "Clients"
-      summary: "Add a new client"
+        - Clients
+      summary: "Create new client"
       parameters:
-      - in: "body"
-        name: "body"
+      - in: body
+        name: body
         description: "Required client data"
         required: true
         schema:
-          $ref: "#/definitions/Cliente"
+          $ref: "#/definitions/Client"
       responses:
         201:
           description: "Client created"
         400:
           description: "Client already exists"
-  /clientes/{cliente_id}:
+  /clientes/{cliente_id}/:
     get:
       tags:
-        - "Clients"
+        - Clients
       summary: "Get client"
       parameters:
-      - name: "cliente_id"
-        in: "path"
+      - name: cliente_id
+        in: path
         description: "Client id"
         required: true
-        type: "integer"
+        type: integer
       responses:
         200:
           description: "Succesfully get client"
           schema:
-            $ref: "#/definitions/Cliente"
+            $ref: "#/definitions/Client"
         404:
           description: "Client not found"
     patch:
       tags:
-        - "Clients"
+        - Clients
       summary: "Update client"
       parameters:
-      - in: "path"
-        name: "cliente_id"
+      - in: path
+        name: cliente_id
         description: "Client id"
         required: true
-        type: "integer"
-      - in: "body"
-        name: "body"
+        type: integer
+      - in: body
+        name: body
         description: "Client data"
         required: true
         schema:
-          $ref: "#/definitions/Cliente"
+          $ref: "#/definitions/Client"
       responses:
         200:
           description: "Client updated"
@@ -80,11 +92,13 @@ paths:
   /clientes/buscar:
     get:
       tags:
-        - "Clients"
+        - Clients
       summary: "Get clients searching by name"
       parameters:
       - in: query
         name: nombre
+        description: "Client's name"
+        required: true
         type: string
       responses:
         200:
@@ -94,22 +108,286 @@ paths:
   /generar_stock_pdf:
     get:
       tags:
-        - "File Actions"
+        - File Actions
       summary: "Get a PDF containing the products stock for a given category"
       parameters:
       - in: query
         name: categoria
+        description: "Category"
+        required: true
         type: string
       responses:
         200:
           description: "PDF containing the products stock"
+  /remito/:
+    get:
+      tags:
+        - Invoices
+      summary: "Get all invoices"
+      responses:
+        200:
+          description: "List containing all the invoices"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Invoice"
+    post:
+      tags:
+        - Invoices
+      summary: "Create new invoice"
+      parameters:
+      - in: body
+        name: body
+        description: "Required invoice data"
+        required: true
+        schema:
+          $ref: "#/definitions/Invoice"
+      responses:
+        201:
+          description: "Invoice created"
+  /remito/{remito_id}/:
+    get:
+      tags:
+        - Invoices
+      summary: "Get invoice"
+      parameters:
+      - name: remito_id
+        in: path
+        description: "Invoice id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get invoice"
+          schema:
+            $ref: "#/definitions/Invoice"
+        404:
+          description: "Invoice not found"
+    patch:
+      tags:
+        - Invoices
+      summary: "Update invoice"
+      parameters:
+      - in: path
+        name: remito_id
+        description: "Invoice id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Invoice data"
+        required: true
+        schema:
+          $ref: "#/definitions/Invoice"
+      responses:
+        200:
+          description: "Invoice updated"
+        404:
+          description: "Invoice not found"
+  /remito/borrar_remito:
+    get:
+      tags:
+        - Invoices
+      summary: "Delete invoice"
+      parameters:
+      - in: query
+        name: codigo
+        description: "Invoice code"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Invoice succesfully deleted"
+  /elementos_remito/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Create new invoice item"
+      parameters:
+      - in: body
+        name: body
+        description: "Required invoice item data"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItem"
+      responses:
+        201:
+          description: "Invoice item created"
+  /elementos_remito/{elemento_remito_id}/:
+    get:
+      tags:
+        - Invoice Items
+      summary: "Get invoice item"
+      parameters:
+      - name: elemento_remito_id
+        in: path
+        description: "Invoice item id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get invoice item"
+          schema:
+            $ref: "#/definitions/InvoiceItem"
+        404:
+          description: "Invoice item not found"
+    patch:
+      tags:
+        - Invoice Items
+      summary: "Update invoice item"
+      parameters:
+      - in: path
+        name: elemento_remito_id
+        description: "Invoice item id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Invoice item data"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItem"
+      responses:
+        200:
+          description: "Invoice item updated"
+        404:
+          description: "Invoice item not found"
+  /elementos_remito/buscar_por_codigo_cliente:
+    get:
+      tags: 
+        - Invoice Items
+      summary: "Search invoice by client id"
+      parameters:
+      - in: query
+        name: codigo
+        description: "Client id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "List of all the client's invoices"
+  /elementos_remito/marcar_pagado/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Marked invoice items as paid"
+      parameters:
+      - in: body
+        name: body
+        description: "List of invoice items ids"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItemsIdsList"
+      responses:
+        200:
+          description: "Invoice items successfully marked as paid"
+  /elementos_remito/guardar_elementos/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Store invoice items"
+      parameters:
+      - in: body
+        name: body
+        description: "List of invoice items"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItemsList"
+      responses:
+        200:
+          description: "Invoice items successfully stored"
+  /elementos_remito/modificar_cantidad/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Update the invoice items quantity value"
+      parameters:
+      - in: body
+        name: body
+        description: "List containing invoice ids and new quantities"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItemsQuantityList"
+      responses:
+        200:
+          description: "Invoice items quantities successfully updated"
+  #/productos/:
+  #  get:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #  post:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #/productos/{producto_id}/:
+  #  get:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #  patch:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #/productos/buscar_por_detalle:
+  #  get:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #/productos/buscar_por_categoria:
+  #  get:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #/producto/aumento_masivo_precio_costo:
+  #  post:
+  #    tags:
+  #      - Products
+  #    summary: ""
+  #/ventas_realizadas:
+  #  get:
+  #    tags:
+  #      - Sales
+  #    summary: ""
+  #/ventas_realizadas/{venta_id}:
+  #  get:
+  #    tags:
+  #      - Sales
+  #    summary: ""
+  #  patch:
+  #    tags:
+  #      - Sales
+  #    summary: ""
+  #/ventas_realizadas/guardar_venta/:
+  #  post:
+  #    tags:
+  #      - Sales
+  #    summary: ""
+  #/ventas_realizadas/guardar_venta_y_actualizar_stock/
+  #  post:
+  #    tags:
+  #      - Sales
+  #    summary: ""
+  #/ventas_realizadas/ventas_por_anio:
+  #  get:
+  #    tags:
+  #      - Sales
+  #    summary: ""
+  #/ventas_realizadas/ventas_por_mes:
+  #  get:
+  #    tags:
+  #      - Sales
+  #    summary: ""
 
 definitions:
-  Cliente:
-    type: "object"
+  Client:
+    type: object
     required:
       - nombre
     properties:
+      codigo:
+        type: integer
+        example: 1
       nombre:
         type: string
         example: "Matias Peñalba Paz"
@@ -144,6 +422,64 @@ definitions:
     type: "object"
     properties:
       clientes:
-        type: "array"
+        type: array
         items:
           $ref: "#/definitions/SimplifiedClient"
+  Invoice:
+    type: object
+    properties:
+      codigo:
+        type: integer
+        example: 1
+      cliente:
+        type: integer
+        example: 1
+      fecha:
+        type: string
+        format: date
+        example: "2018-03-20"
+  InvoiceItem:
+    type: object
+    properties:
+      remito:
+        type: integer
+        example: 1
+      producto:
+        type: integer
+        example: 1
+      cantidad:
+        type: number
+        example: 1.0
+      pagado:
+        type: boolean
+  InvoiceItemsIdsList:
+    type: object
+    properties:
+      elementos:
+        type: array
+        items:
+          type: integer
+          example: 1
+  InvoiceItemsList:
+    type: object
+    properties:
+      elementos:
+        type: array
+        items:
+          $ref: "#/definitions/InvoiceItem"
+  InvoiceItemQuantityList:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      cantidad:
+        type: number
+        example: 1.0
+  InvoiceItemsQuantityList:
+    type: object
+    properties:
+      elementos:
+        type: array
+        items:
+          $ref: "#/definitions/InvoiceItemQuantityList"
