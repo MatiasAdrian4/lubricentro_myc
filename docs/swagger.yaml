@@ -311,39 +311,126 @@ paths:
       responses:
         200:
           description: "Invoice items quantities successfully updated"
-  #/productos/:
-  #  get:
-  #    tags:
-  #      - Products
-  #    summary: ""
-  #  post:
-  #    tags:
-  #      - Products
-  #    summary: ""
-  #/productos/{producto_id}/:
-  #  get:
-  #    tags:
-  #      - Products
-  #    summary: ""
-  #  patch:
-  #    tags:
-  #      - Products
-  #    summary: ""
-  #/productos/buscar_por_detalle:
-  #  get:
-  #    tags:
-  #      - Products
-  #    summary: ""
-  #/productos/buscar_por_categoria:
-  #  get:
-  #    tags:
-  #      - Products
-  #    summary: ""
-  #/producto/aumento_masivo_precio_costo:
-  #  post:
-  #    tags:
-  #      - Products
-  #    summary: ""
+  /productos/:
+    get:
+      tags:
+        - Clients
+      summary: "Get all products"
+      responses:
+        200:
+          description: "List containing all the products"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Product"
+    post:
+      tags:
+        - Products
+      summary: "Create new product"
+      parameters:
+      - in: body
+        name: body
+        description: "Required product data"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        201:
+          description: "Product created"
+        400:
+          description: "Product already exists"
+  /productos/{producto_id}/:
+    get:
+      tags:
+        - Products
+      summary: "Get Product"
+      parameters:
+      - name: producto_id
+        in: path
+        description: "Product id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get product"
+          schema:
+            $ref: "#/definitions/Product"
+        404:
+          description: "Product not found"
+    patch:
+      tags:
+        - Products
+      summary: "Update Product"
+      parameters:
+      - in: path
+        name: producto_id
+        description: "Product id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Product data"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        200:
+          description: "Product updated"
+        404:
+          description: "Product not found"
+  /productos/buscar_por_detalle:
+    get:
+      tags:
+        - Products
+      summary: "Search product by detail"
+      parameters:
+      - in: query
+        name: detalle
+        description: "Detail"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List of products matching the detail"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductList"
+  /productos/buscar_por_categoria:
+    get:
+      tags:
+        - Products
+      summary: "Search product by category"
+      parameters:
+      - in: query
+        name: categoria
+        description: "Category"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List of products matching the category"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductList"
+  /producto/aumento_masivo_precio_costo:
+    post:
+      tags:
+        - Products
+      summary: "Update products cost price"
+      parameters:
+      - in: body
+        name: body
+        description: "Payload containing the products to update and the cost increase percentage"
+        required: true
+        schema:
+          $ref: "#/definitions/ProductUpdateCost"
+      responses:
+        200:
+          description: "Text containing the amount of products succesfully updated"
+          schema:
+            $ref: "#/definitions/ProductUpdateCostResult"
   #/ventas_realizadas:
   #  get:
   #    tags:
@@ -483,3 +570,72 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/InvoiceItemQuantityList"
+  Product:
+    type: object
+    properties:
+      codigo:
+        type: integer
+        example: 1
+      codigo_en_pantalla:
+        type: integer
+        example: 1
+      detalle:
+        type: string
+        example: "Product 1"
+      stock:
+        type: number
+        example: 1.0
+      precio_costo:
+        type: number
+        example: 1.0
+      desc1:
+        type: number
+        example: 10.0
+      desc2:
+        type: number
+        example: 5.0
+      desc3:
+        type: number
+        example: 5.0
+      desc4:
+        type: number
+        example: 0.0
+      flete:
+        type: number
+        example: 5.0
+      ganancia:
+        type: number
+        example: 40.0
+      iva:
+        type: number
+        example: 21.0
+      agregado_cta_cte:
+        type: number
+        example: 25.0
+      categoria:
+        type: string
+        example: "Lubricantes"
+  ProductList:
+    type: object
+    properties:
+      productos:
+        type: array
+        items:
+          $ref: "#/definitions/Product"
+  ProductUpdateCost:
+    type: object
+    properties:
+      porcentaje_aumento:
+        type: number
+        example: 25.0
+      productos:
+        type: array
+        items:
+          type: integer
+          example: 1
+  ProductUpdateCostResult:
+    type: object
+    properties:
+      resultado:
+        type: string
+        example: "5 producto/s actualizado/s satisfactoriamente."
