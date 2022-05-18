@@ -431,40 +431,124 @@ paths:
           description: "Text containing the amount of products succesfully updated"
           schema:
             $ref: "#/definitions/ProductUpdateCostResult"
-  #/ventas_realizadas:
-  #  get:
-  #    tags:
-  #      - Sales
-  #    summary: ""
-  #/ventas_realizadas/{venta_id}:
-  #  get:
-  #    tags:
-  #      - Sales
-  #    summary: ""
-  #  patch:
-  #    tags:
-  #      - Sales
-  #    summary: ""
-  #/ventas_realizadas/guardar_venta/:
-  #  post:
-  #    tags:
-  #      - Sales
-  #    summary: ""
-  #/ventas_realizadas/guardar_venta_y_actualizar_stock/
-  #  post:
-  #    tags:
-  #      - Sales
-  #    summary: ""
-  #/ventas_realizadas/ventas_por_anio:
-  #  get:
-  #    tags:
-  #      - Sales
-  #    summary: ""
-  #/ventas_realizadas/ventas_por_mes:
-  #  get:
-  #    tags:
-  #      - Sales
-  #    summary: ""
+  /ventas_realizadas:
+    get:
+      tags:
+        - Sales
+      summary: "Get all sakes"
+      responses:
+        200:
+          description: "List containing all the sales"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Sale"
+  /ventas_realizadas/{venta_id}:
+    get:
+      tags:
+        - Sales
+      summary: "Get Sale"
+      parameters:
+      - name: venta_id
+        in: path
+        description: "Sale id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get sale"
+          schema:
+            $ref: "#/definitions/Sale"
+        404:
+          description: "Sale not found"
+    patch:
+      tags:
+        - Sales
+      summary: "Update sale"
+      parameters:
+      - in: path
+        name: venta_id
+        description: "Sale id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Sale data"
+        required: true
+        schema:
+          $ref: "#/definitions/Sale"
+      responses:
+        200:
+          description: "Sale updated"
+        404:
+          description: "Sale not found"
+  /ventas_realizadas/guardar_venta/:
+    post:
+      tags:
+        - Sales
+      summary: "Create new sales"
+      parameters:
+      - in: body
+        name: body
+        description: "Required sale data"
+        required: true
+        schema:
+          $ref: "#/definitions/SaleList"
+      responses:
+        201:
+          description: "Sales created"
+  /ventas_realizadas/guardar_venta_y_actualizar_stock/:
+    post:
+      tags:
+        - Sales
+      summary: "Create new sale and update stock"
+      parameters:
+      - in: body
+        name: body
+        description: "Required sale data"
+        required: true
+        schema:
+          $ref: "#/definitions/SaleList"
+      responses:
+        201:
+          description: "Sales created"
+  /ventas_realizadas/ventas_por_anio:
+    get:
+      tags:
+        - Sales
+      summary: "Get sales in a given year"
+      parameters:
+      - in: query
+        name: year
+        description: "Year"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List containing the sales by month in the given year"
+          schema:
+            $ref: "#/definitions/SalesPerYear"
+  /ventas_realizadas/ventas_por_mes:
+    get:
+      tags:
+        - Sales
+      summary: "Get sales in a given month/year"
+      parameters:
+      - in: query
+        name: month
+        description: "Month"
+        required: true
+        type: string
+      - in: query
+        name: year
+        description: "Year"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List containing the sales by day in the given month"
+          schema:
+            $ref: "#/definitions/SalesPerMonth"
 
 definitions:
   Client:
@@ -639,3 +723,42 @@ definitions:
       resultado:
         type: string
         example: "5 producto/s actualizado/s satisfactoriamente."
+  Sale:
+    type: object
+    properties:
+      producto:
+        type: integer
+        example: 1
+      cantidad:
+        type: number
+        example: 1.0
+      precio:
+        type: number
+        example: 1.0
+      fecha:
+        type: string
+        format: date
+        example: "2018-03-20"
+  SaleList:
+    type: object
+    properties:
+      ventas:
+        type: array
+        items:
+          $ref: "#/definitions/Sale"
+  SalesPerYear:
+    type: object
+    properties:
+      sales_per_year:
+        type: array
+        items:
+          type: number
+        example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  SalesPerMonth:
+    type: object
+    properties:
+      sales_per_month:
+        type: array
+        items:
+          type: number
+        example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
