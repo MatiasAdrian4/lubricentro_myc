@@ -1,0 +1,764 @@
+swagger: "2.0"
+
+info:
+  description: ""
+  version: 1.0.0
+  title: Lubricentro M&C
+  contact:
+    email: matiasadrianpp4@gmail.com
+basePath: /lubricentro_myc
+
+tags:
+- name: Clients
+- name: File Actions
+- name: Invoices
+- name: Invoice Items
+- name: Products
+- name: Sales
+- name: Users
+  
+schemes:
+- https
+- http
+
+paths:
+  /clientes/:
+    get:
+      tags:
+        - Clients
+      summary: "Get all clients"
+      responses:
+        200:
+          description: "List containing all the clients"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Client"
+    post:
+      tags:
+        - Clients
+      summary: "Create new client"
+      parameters:
+      - in: body
+        name: body
+        description: "Required client data"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        201:
+          description: "Client created"
+        400:
+          description: "Client already exists"
+  /clientes/{cliente_id}/:
+    get:
+      tags:
+        - Clients
+      summary: "Get client"
+      parameters:
+      - name: cliente_id
+        in: path
+        description: "Client id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get client"
+          schema:
+            $ref: "#/definitions/Client"
+        404:
+          description: "Client not found"
+    patch:
+      tags:
+        - Clients
+      summary: "Update client"
+      parameters:
+      - in: path
+        name: cliente_id
+        description: "Client id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Client data"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "Client updated"
+        404:
+          description: "Client not found"
+  /clientes/buscar:
+    get:
+      tags:
+        - Clients
+      summary: "Get clients searching by name"
+      parameters:
+      - in: query
+        name: nombre
+        description: "Client's name"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List of clients matching the name"
+          schema:
+            $ref: "#/definitions/ClientSearchResultList"
+  /generar_stock_pdf:
+    get:
+      tags:
+        - File Actions
+      summary: "Get a PDF containing the products stock for a given category"
+      parameters:
+      - in: query
+        name: categoria
+        description: "Category"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "PDF containing the products stock"
+  /remito/:
+    get:
+      tags:
+        - Invoices
+      summary: "Get all invoices"
+      responses:
+        200:
+          description: "List containing all the invoices"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Invoice"
+    post:
+      tags:
+        - Invoices
+      summary: "Create new invoice"
+      parameters:
+      - in: body
+        name: body
+        description: "Required invoice data"
+        required: true
+        schema:
+          $ref: "#/definitions/Invoice"
+      responses:
+        201:
+          description: "Invoice created"
+  /remito/{remito_id}/:
+    get:
+      tags:
+        - Invoices
+      summary: "Get invoice"
+      parameters:
+      - name: remito_id
+        in: path
+        description: "Invoice id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get invoice"
+          schema:
+            $ref: "#/definitions/Invoice"
+        404:
+          description: "Invoice not found"
+    patch:
+      tags:
+        - Invoices
+      summary: "Update invoice"
+      parameters:
+      - in: path
+        name: remito_id
+        description: "Invoice id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Invoice data"
+        required: true
+        schema:
+          $ref: "#/definitions/Invoice"
+      responses:
+        200:
+          description: "Invoice updated"
+        404:
+          description: "Invoice not found"
+  /remito/borrar_remito:
+    get:
+      tags:
+        - Invoices
+      summary: "Delete invoice"
+      parameters:
+      - in: query
+        name: codigo
+        description: "Invoice code"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Invoice succesfully deleted"
+  /elementos_remito/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Create new invoice item"
+      parameters:
+      - in: body
+        name: body
+        description: "Required invoice item data"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItem"
+      responses:
+        201:
+          description: "Invoice item created"
+  /elementos_remito/{elemento_remito_id}/:
+    get:
+      tags:
+        - Invoice Items
+      summary: "Get invoice item"
+      parameters:
+      - name: elemento_remito_id
+        in: path
+        description: "Invoice item id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get invoice item"
+          schema:
+            $ref: "#/definitions/InvoiceItem"
+        404:
+          description: "Invoice item not found"
+    patch:
+      tags:
+        - Invoice Items
+      summary: "Update invoice item"
+      parameters:
+      - in: path
+        name: elemento_remito_id
+        description: "Invoice item id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Invoice item data"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItem"
+      responses:
+        200:
+          description: "Invoice item updated"
+        404:
+          description: "Invoice item not found"
+  /elementos_remito/buscar_por_codigo_cliente:
+    get:
+      tags: 
+        - Invoice Items
+      summary: "Search invoice by client id"
+      parameters:
+      - in: query
+        name: codigo
+        description: "Client id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "List of all the client's invoices"
+  /elementos_remito/marcar_pagado/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Marked invoice items as paid"
+      parameters:
+      - in: body
+        name: body
+        description: "List of invoice items ids"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItemsIdsList"
+      responses:
+        200:
+          description: "Invoice items successfully marked as paid"
+  /elementos_remito/guardar_elementos/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Store invoice items"
+      parameters:
+      - in: body
+        name: body
+        description: "List of invoice items"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItemsList"
+      responses:
+        200:
+          description: "Invoice items successfully stored"
+  /elementos_remito/modificar_cantidad/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Update the invoice items quantity value"
+      parameters:
+      - in: body
+        name: body
+        description: "List containing invoice ids and new quantities"
+        required: true
+        schema:
+          $ref: "#/definitions/InvoiceItemsQuantityList"
+      responses:
+        200:
+          description: "Invoice items quantities successfully updated"
+  /productos/:
+    get:
+      tags:
+        - Clients
+      summary: "Get all products"
+      responses:
+        200:
+          description: "List containing all the products"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Product"
+    post:
+      tags:
+        - Products
+      summary: "Create new product"
+      parameters:
+      - in: body
+        name: body
+        description: "Required product data"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        201:
+          description: "Product created"
+        400:
+          description: "Product already exists"
+  /productos/{producto_id}/:
+    get:
+      tags:
+        - Products
+      summary: "Get Product"
+      parameters:
+      - name: producto_id
+        in: path
+        description: "Product id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get product"
+          schema:
+            $ref: "#/definitions/Product"
+        404:
+          description: "Product not found"
+    patch:
+      tags:
+        - Products
+      summary: "Update Product"
+      parameters:
+      - in: path
+        name: producto_id
+        description: "Product id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Product data"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        200:
+          description: "Product updated"
+        404:
+          description: "Product not found"
+  /productos/buscar_por_detalle:
+    get:
+      tags:
+        - Products
+      summary: "Search product by detail"
+      parameters:
+      - in: query
+        name: detalle
+        description: "Detail"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List of products matching the detail"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductList"
+  /productos/buscar_por_categoria:
+    get:
+      tags:
+        - Products
+      summary: "Search product by category"
+      parameters:
+      - in: query
+        name: categoria
+        description: "Category"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List of products matching the category"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductList"
+  /producto/aumento_masivo_precio_costo:
+    post:
+      tags:
+        - Products
+      summary: "Update products cost price"
+      parameters:
+      - in: body
+        name: body
+        description: "Payload containing the products to update and the cost increase percentage"
+        required: true
+        schema:
+          $ref: "#/definitions/ProductUpdateCost"
+      responses:
+        200:
+          description: "Text containing the amount of products succesfully updated"
+          schema:
+            $ref: "#/definitions/ProductUpdateCostResult"
+  /ventas_realizadas:
+    get:
+      tags:
+        - Sales
+      summary: "Get all sakes"
+      responses:
+        200:
+          description: "List containing all the sales"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Sale"
+  /ventas_realizadas/{venta_id}:
+    get:
+      tags:
+        - Sales
+      summary: "Get Sale"
+      parameters:
+      - name: venta_id
+        in: path
+        description: "Sale id"
+        required: true
+        type: integer
+      responses:
+        200:
+          description: "Succesfully get sale"
+          schema:
+            $ref: "#/definitions/Sale"
+        404:
+          description: "Sale not found"
+    patch:
+      tags:
+        - Sales
+      summary: "Update sale"
+      parameters:
+      - in: path
+        name: venta_id
+        description: "Sale id"
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: "Sale data"
+        required: true
+        schema:
+          $ref: "#/definitions/Sale"
+      responses:
+        200:
+          description: "Sale updated"
+        404:
+          description: "Sale not found"
+  /ventas_realizadas/guardar_venta/:
+    post:
+      tags:
+        - Sales
+      summary: "Create new sales"
+      parameters:
+      - in: body
+        name: body
+        description: "Required sale data"
+        required: true
+        schema:
+          $ref: "#/definitions/SaleList"
+      responses:
+        201:
+          description: "Sales created"
+  /ventas_realizadas/guardar_venta_y_actualizar_stock/:
+    post:
+      tags:
+        - Sales
+      summary: "Create new sale and update stock"
+      parameters:
+      - in: body
+        name: body
+        description: "Required sale data"
+        required: true
+        schema:
+          $ref: "#/definitions/SaleList"
+      responses:
+        201:
+          description: "Sales created"
+  /ventas_realizadas/ventas_por_anio:
+    get:
+      tags:
+        - Sales
+      summary: "Get sales in a given year"
+      parameters:
+      - in: query
+        name: year
+        description: "Year"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List containing the sales by month in the given year"
+          schema:
+            $ref: "#/definitions/SalesPerYear"
+  /ventas_realizadas/ventas_por_mes:
+    get:
+      tags:
+        - Sales
+      summary: "Get sales in a given month/year"
+      parameters:
+      - in: query
+        name: month
+        description: "Month"
+        required: true
+        type: string
+      - in: query
+        name: year
+        description: "Year"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "List containing the sales by day in the given month"
+          schema:
+            $ref: "#/definitions/SalesPerMonth"
+
+definitions:
+  Client:
+    type: object
+    required:
+      - nombre
+    properties:
+      codigo:
+        type: integer
+        example: 1
+      nombre:
+        type: string
+        example: "Matias Peñalba Paz"
+      direccion:
+        type: string
+        example: "Pinto 1248 PB"
+      localidad:
+        type: string
+        example: "Tandil"
+      codigo_postal:
+        type: string
+        example: "7000"
+      telefono:
+        type: string
+        example: "2262569097"
+      cuit:
+        type: string
+        example: "23-37370680-9"
+      email:
+        type: string
+        example: "matiasadrianpp4@gmail.com"
+  SimplifiedClient:
+    type: object
+    properties:
+      codigo:
+        type: integer
+        example: 62
+      nombre:
+        type: string
+        example: "Juan Perez"
+  ClientSearchResultList:
+    type: "object"
+    properties:
+      clientes:
+        type: array
+        items:
+          $ref: "#/definitions/SimplifiedClient"
+  Invoice:
+    type: object
+    properties:
+      codigo:
+        type: integer
+        example: 1
+      cliente:
+        type: integer
+        example: 1
+      fecha:
+        type: string
+        format: date
+        example: "2018-03-20"
+  InvoiceItem:
+    type: object
+    properties:
+      remito:
+        type: integer
+        example: 1
+      producto:
+        type: integer
+        example: 1
+      cantidad:
+        type: number
+        example: 1.0
+      pagado:
+        type: boolean
+  InvoiceItemsIdsList:
+    type: object
+    properties:
+      elementos:
+        type: array
+        items:
+          type: integer
+          example: 1
+  InvoiceItemsList:
+    type: object
+    properties:
+      elementos:
+        type: array
+        items:
+          $ref: "#/definitions/InvoiceItem"
+  InvoiceItemQuantityList:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      cantidad:
+        type: number
+        example: 1.0
+  InvoiceItemsQuantityList:
+    type: object
+    properties:
+      elementos:
+        type: array
+        items:
+          $ref: "#/definitions/InvoiceItemQuantityList"
+  Product:
+    type: object
+    properties:
+      codigo:
+        type: integer
+        example: 1
+      codigo_en_pantalla:
+        type: integer
+        example: 1
+      detalle:
+        type: string
+        example: "Product 1"
+      stock:
+        type: number
+        example: 1.0
+      precio_costo:
+        type: number
+        example: 1.0
+      desc1:
+        type: number
+        example: 10.0
+      desc2:
+        type: number
+        example: 5.0
+      desc3:
+        type: number
+        example: 5.0
+      desc4:
+        type: number
+        example: 0.0
+      flete:
+        type: number
+        example: 5.0
+      ganancia:
+        type: number
+        example: 40.0
+      iva:
+        type: number
+        example: 21.0
+      agregado_cta_cte:
+        type: number
+        example: 25.0
+      categoria:
+        type: string
+        example: "Lubricantes"
+  ProductList:
+    type: object
+    properties:
+      productos:
+        type: array
+        items:
+          $ref: "#/definitions/Product"
+  ProductUpdateCost:
+    type: object
+    properties:
+      porcentaje_aumento:
+        type: number
+        example: 25.0
+      productos:
+        type: array
+        items:
+          type: integer
+          example: 1
+  ProductUpdateCostResult:
+    type: object
+    properties:
+      resultado:
+        type: string
+        example: "5 producto/s actualizado/s satisfactoriamente."
+  Sale:
+    type: object
+    properties:
+      producto:
+        type: integer
+        example: 1
+      cantidad:
+        type: number
+        example: 1.0
+      precio:
+        type: number
+        example: 1.0
+      fecha:
+        type: string
+        format: date
+        example: "2018-03-20"
+  SaleList:
+    type: object
+    properties:
+      ventas:
+        type: array
+        items:
+          $ref: "#/definitions/Sale"
+  SalesPerYear:
+    type: object
+    properties:
+      sales_per_year:
+        type: array
+        items:
+          type: number
+        example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  SalesPerMonth:
+    type: object
+    properties:
+      sales_per_month:
+        type: array
+        items:
+          type: number
+        example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
