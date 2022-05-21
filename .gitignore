@@ -1,6 +1,7 @@
 django_project/scripts/txt
 django_project/.idea
 django_project/venv
+venv
 *.pyc
 __pycache__/
 default-keypair-ohio.pem
