@@ -1,10 +1,10 @@
-.openapi-generator-ignore
 apis/ClientsApi.ts
 apis/FileActionsApi.ts
 apis/InvoiceItemsApi.ts
 apis/InvoicesApi.ts
 apis/ProductsApi.ts
 apis/SalesApi.ts
+apis/UsersApi.ts
 apis/index.ts
 index.ts
 models/Client.ts
@@ -24,5 +24,6 @@ models/SaleList.ts
 models/SalesPerMonth.ts
 models/SalesPerYear.ts
 models/SimplifiedClient.ts
+models/User.ts
 models/index.ts
 runtime.ts

@@ -17,3 +17,4 @@ export * from './SaleList';
 export * from './SalesPerMonth';
 export * from './SalesPerYear';
 export * from './SimplifiedClient';
+export * from './User';
