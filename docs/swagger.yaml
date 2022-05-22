@@ -9,19 +9,61 @@ info:
 basePath: /lubricentro_myc
 
 tags:
-- name: Clients
-- name: File Actions
-- name: Invoices
-- name: Invoice Items
-- name: Products
-- name: Sales
-- name: Users
-  
+  - name: Users
+  - name: Clients
+  - name: File Actions
+  - name: Invoices
+  - name: Invoice Items
+  - name: Products
+  - name: Sales
+
 schemes:
-- https
-- http
+  - https
+  - http
 
 paths:
+  /account/signup:
+    post:
+      tags:
+        - Users
+      summary: "Create new user"
+      parameters:
+        - in: body
+          name: body
+          description: "Username and Password"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "User created"
+        400:
+          description: "User already exists"
+  /account/login:
+    post:
+      tags:
+        - Users
+      summary: "Log in"
+      parameters:
+        - in: body
+          name: body
+          description: "Username and Password"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "Login successful"
+        403:
+          description: "Incorrect User or Password"
+  /account/logout:
+    post:
+      tags:
+        - Users
+      summary: "Log out"
+      responses:
+        200:
+          description: "Logout successful"
   /clientes/:
     get:
       tags:
@@ -39,12 +81,12 @@ paths:
         - Clients
       summary: "Create new client"
       parameters:
-      - in: body
-        name: body
-        description: "Required client data"
-        required: true
-        schema:
-          $ref: "#/definitions/Client"
+        - in: body
+          name: body
+          description: "Required client data"
+          required: true
+          schema:
+            $ref: "#/definitions/Client"
       responses:
         201:
           description: "Client created"
@@ -56,11 +98,11 @@ paths:
         - Clients
       summary: "Get client"
       parameters:
-      - name: cliente_id
-        in: path
-        description: "Client id"
-        required: true
-        type: integer
+        - name: cliente_id
+          in: path
+          description: "Client id"
+          required: true
+          type: integer
       responses:
         200:
           description: "Succesfully get client"
@@ -73,17 +115,17 @@ paths:
         - Clients
       summary: "Update client"
       parameters:
-      - in: path
-        name: cliente_id
-        description: "Client id"
-        required: true
-        type: integer
-      - in: body
-        name: body
-        description: "Client data"
-        required: true
-        schema:
-          $ref: "#/definitions/Client"
+        - in: path
+          name: cliente_id
+          description: "Client id"
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: "Client data"
+          required: true
+          schema:
+            $ref: "#/definitions/Client"
       responses:
         200:
           description: "Client updated"
@@ -95,11 +137,11 @@ paths:
         - Clients
       summary: "Get clients searching by name"
       parameters:
-      - in: query
-        name: nombre
-        description: "Client's name"
-        required: true
-        type: string
+        - in: query
+          name: nombre
+          description: "Client's name"
+          required: true
+          type: string
       responses:
         200:
           description: "List of clients matching the name"
@@ -111,11 +153,11 @@ paths:
         - File Actions
       summary: "Get a PDF containing the products stock for a given category"
       parameters:
-      - in: query
-        name: categoria
-        description: "Category"
-        required: true
-        type: string
+        - in: query
+          name: categoria
+          description: "Category"
+          required: true
+          type: string
       responses:
         200:
           description: "PDF containing the products stock"
@@ -136,12 +178,12 @@ paths:
         - Invoices
       summary: "Create new invoice"
       parameters:
-      - in: body
-        name: body
-        description: "Required invoice data"
-        required: true
-        schema:
-          $ref: "#/definitions/Invoice"
+        - in: body
+          name: body
+          description: "Required invoice data"
+          required: true
+          schema:
+            $ref: "#/definitions/Invoice"
       responses:
         201:
           description: "Invoice created"
@@ -151,11 +193,11 @@ paths:
         - Invoices
       summary: "Get invoice"
       parameters:
-      - name: remito_id
-        in: path
-        description: "Invoice id"
-        required: true
-        type: integer
+        - name: remito_id
+          in: path
+          description: "Invoice id"
+          required: true
+          type: integer
       responses:
         200:
           description: "Succesfully get invoice"
@@ -168,17 +210,17 @@ paths:
         - Invoices
       summary: "Update invoice"
       parameters:
-      - in: path
-        name: remito_id
-        description: "Invoice id"
-        required: true
-        type: integer
-      - in: body
-        name: body
-        description: "Invoice data"
-        required: true
-        schema:
-          $ref: "#/definitions/Invoice"
+        - in: path
+          name: remito_id
+          description: "Invoice id"
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: "Invoice data"
+          required: true
+          schema:
+            $ref: "#/definitions/Invoice"
       responses:
         200:
           description: "Invoice updated"
@@ -190,11 +232,11 @@ paths:
         - Invoices
       summary: "Delete invoice"
       parameters:
-      - in: query
-        name: codigo
-        description: "Invoice code"
-        required: true
-        type: string
+        - in: query
+          name: codigo
+          description: "Invoice code"
+          required: true
+          type: string
       responses:
         200:
           description: "Invoice succesfully deleted"
@@ -204,12 +246,12 @@ paths:
         - Invoice Items
       summary: "Create new invoice item"
       parameters:
-      - in: body
-        name: body
-        description: "Required invoice item data"
-        required: true
-        schema:
-          $ref: "#/definitions/InvoiceItem"
+        - in: body
+          name: body
+          description: "Required invoice item data"
+          required: true
+          schema:
+            $ref: "#/definitions/InvoiceItem"
       responses:
         201:
           description: "Invoice item created"
@@ -219,11 +261,11 @@ paths:
         - Invoice Items
       summary: "Get invoice item"
       parameters:
-      - name: elemento_remito_id
-        in: path
-        description: "Invoice item id"
-        required: true
-        type: integer
+        - name: elemento_remito_id
+          in: path
+          description: "Invoice item id"
+          required: true
+          type: integer
       responses:
         200:
           description: "Succesfully get invoice item"
@@ -236,17 +278,17 @@ paths:
         - Invoice Items
       summary: "Update invoice item"
       parameters:
-      - in: path
-        name: elemento_remito_id
-        description: "Invoice item id"
-        required: true
-        type: integer
-      - in: body
-        name: body
-        description: "Invoice item data"
-        required: true
-        schema:
-          $ref: "#/definitions/InvoiceItem"
+        - in: path
+          name: elemento_remito_id
+          description: "Invoice item id"
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: "Invoice item data"
+          required: true
+          schema:
+            $ref: "#/definitions/InvoiceItem"
       responses:
         200:
           description: "Invoice item updated"
@@ -254,15 +296,15 @@ paths:
           description: "Invoice item not found"
   /elementos_remito/buscar_por_codigo_cliente:
     get:
-      tags: 
+      tags:
         - Invoice Items
       summary: "Search invoice by client id"
       parameters:
-      - in: query
-        name: codigo
-        description: "Client id"
-        required: true
-        type: integer
+        - in: query
+          name: codigo
+          description: "Client id"
+          required: true
+          type: integer
       responses:
         200:
           description: "List of all the client's invoices"
@@ -272,12 +314,12 @@ paths:
         - Invoice Items
       summary: "Marked invoice items as paid"
       parameters:
-      - in: body
-        name: body
-        description: "List of invoice items ids"
-        required: true
-        schema:
-          $ref: "#/definitions/InvoiceItemsIdsList"
+        - in: body
+          name: body
+          description: "List of invoice items ids"
+          required: true
+          schema:
+            $ref: "#/definitions/InvoiceItemsIdsList"
       responses:
         200:
           description: "Invoice items successfully marked as paid"
@@ -287,12 +329,12 @@ paths:
         - Invoice Items
       summary: "Store invoice items"
       parameters:
-      - in: body
-        name: body
-        description: "List of invoice items"
-        required: true
-        schema:
-          $ref: "#/definitions/InvoiceItemsList"
+        - in: body
+          name: body
+          description: "List of invoice items"
+          required: true
+          schema:
+            $ref: "#/definitions/InvoiceItemsList"
       responses:
         200:
           description: "Invoice items successfully stored"
@@ -302,12 +344,12 @@ paths:
         - Invoice Items
       summary: "Update the invoice items quantity value"
       parameters:
-      - in: body
-        name: body
-        description: "List containing invoice ids and new quantities"
-        required: true
-        schema:
-          $ref: "#/definitions/InvoiceItemsQuantityList"
+        - in: body
+          name: body
+          description: "List containing invoice ids and new quantities"
+          required: true
+          schema:
+            $ref: "#/definitions/InvoiceItemsQuantityList"
       responses:
         200:
           description: "Invoice items quantities successfully updated"
@@ -328,12 +370,12 @@ paths:
         - Products
       summary: "Create new product"
       parameters:
-      - in: body
-        name: body
-        description: "Required product data"
-        required: true
-        schema:
-          $ref: "#/definitions/Product"
+        - in: body
+          name: body
+          description: "Required product data"
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
       responses:
         201:
           description: "Product created"
@@ -345,11 +387,11 @@ paths:
         - Products
       summary: "Get Product"
       parameters:
-      - name: producto_id
-        in: path
-        description: "Product id"
-        required: true
-        type: integer
+        - name: producto_id
+          in: path
+          description: "Product id"
+          required: true
+          type: integer
       responses:
         200:
           description: "Succesfully get product"
@@ -362,17 +404,17 @@ paths:
         - Products
       summary: "Update Product"
       parameters:
-      - in: path
-        name: producto_id
-        description: "Product id"
-        required: true
-        type: integer
-      - in: body
-        name: body
-        description: "Product data"
-        required: true
-        schema:
-          $ref: "#/definitions/Product"
+        - in: path
+          name: producto_id
+          description: "Product id"
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: "Product data"
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
       responses:
         200:
           description: "Product updated"
@@ -384,11 +426,11 @@ paths:
         - Products
       summary: "Search product by detail"
       parameters:
-      - in: query
-        name: detalle
-        description: "Detail"
-        required: true
-        type: string
+        - in: query
+          name: detalle
+          description: "Detail"
+          required: true
+          type: string
       responses:
         200:
           description: "List of products matching the detail"
@@ -402,11 +444,11 @@ paths:
         - Products
       summary: "Search product by category"
       parameters:
-      - in: query
-        name: categoria
-        description: "Category"
-        required: true
-        type: string
+        - in: query
+          name: categoria
+          description: "Category"
+          required: true
+          type: string
       responses:
         200:
           description: "List of products matching the category"
@@ -420,12 +462,12 @@ paths:
         - Products
       summary: "Update products cost price"
       parameters:
-      - in: body
-        name: body
-        description: "Payload containing the products to update and the cost increase percentage"
-        required: true
-        schema:
-          $ref: "#/definitions/ProductUpdateCost"
+        - in: body
+          name: body
+          description: "Payload containing the products to update and the cost increase percentage"
+          required: true
+          schema:
+            $ref: "#/definitions/ProductUpdateCost"
       responses:
         200:
           description: "Text containing the amount of products succesfully updated"
@@ -449,11 +491,11 @@ paths:
         - Sales
       summary: "Get Sale"
       parameters:
-      - name: venta_id
-        in: path
-        description: "Sale id"
-        required: true
-        type: integer
+        - name: venta_id
+          in: path
+          description: "Sale id"
+          required: true
+          type: integer
       responses:
         200:
           description: "Succesfully get sale"
@@ -466,17 +508,17 @@ paths:
         - Sales
       summary: "Update sale"
       parameters:
-      - in: path
-        name: venta_id
-        description: "Sale id"
-        required: true
-        type: integer
-      - in: body
-        name: body
-        description: "Sale data"
-        required: true
-        schema:
-          $ref: "#/definitions/Sale"
+        - in: path
+          name: venta_id
+          description: "Sale id"
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: "Sale data"
+          required: true
+          schema:
+            $ref: "#/definitions/Sale"
       responses:
         200:
           description: "Sale updated"
@@ -488,12 +530,12 @@ paths:
         - Sales
       summary: "Create new sales"
       parameters:
-      - in: body
-        name: body
-        description: "Required sale data"
-        required: true
-        schema:
-          $ref: "#/definitions/SaleList"
+        - in: body
+          name: body
+          description: "Required sale data"
+          required: true
+          schema:
+            $ref: "#/definitions/SaleList"
       responses:
         201:
           description: "Sales created"
@@ -503,12 +545,12 @@ paths:
         - Sales
       summary: "Create new sale and update stock"
       parameters:
-      - in: body
-        name: body
-        description: "Required sale data"
-        required: true
-        schema:
-          $ref: "#/definitions/SaleList"
+        - in: body
+          name: body
+          description: "Required sale data"
+          required: true
+          schema:
+            $ref: "#/definitions/SaleList"
       responses:
         201:
           description: "Sales created"
@@ -518,11 +560,11 @@ paths:
         - Sales
       summary: "Get sales in a given year"
       parameters:
-      - in: query
-        name: year
-        description: "Year"
-        required: true
-        type: string
+        - in: query
+          name: year
+          description: "Year"
+          required: true
+          type: string
       responses:
         200:
           description: "List containing the sales by month in the given year"
@@ -534,16 +576,16 @@ paths:
         - Sales
       summary: "Get sales in a given month/year"
       parameters:
-      - in: query
-        name: month
-        description: "Month"
-        required: true
-        type: string
-      - in: query
-        name: year
-        description: "Year"
-        required: true
-        type: string
+        - in: query
+          name: month
+          description: "Month"
+          required: true
+          type: string
+        - in: query
+          name: year
+          description: "Year"
+          required: true
+          type: string
       responses:
         200:
           description: "List containing the sales by day in the given month"
@@ -761,4 +803,46 @@ definitions:
         type: array
         items:
           type: number
-        example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        example:
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+        example: admin
+      password:
+        type: string
+        example: 1234
