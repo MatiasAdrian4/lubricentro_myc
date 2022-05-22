@@ -48,7 +48,7 @@ export class UsersApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/account/login`,
+            path: `/account/login/`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -74,7 +74,7 @@ export class UsersApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/account/logout`,
+            path: `/account/logout/`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -105,7 +105,7 @@ export class UsersApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/account/signup`,
+            path: `/account/signup/`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

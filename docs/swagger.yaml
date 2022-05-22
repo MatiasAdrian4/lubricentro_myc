@@ -22,7 +22,7 @@ schemes:
   - http
 
 paths:
-  /account/signup:
+  /account/signup/:
     post:
       tags:
         - Users
@@ -39,7 +39,7 @@ paths:
           description: "User created"
         400:
           description: "User already exists"
-  /account/login:
+  /account/login/:
     post:
       tags:
         - Users
@@ -56,7 +56,7 @@ paths:
           description: "Login successful"
         403:
           description: "Incorrect User or Password"
-  /account/logout:
+  /account/logout/:
     post:
       tags:
         - Users
