@@ -1,4 +1,4 @@
-swagger: "2.0"
+openapi: "3.0.0"
 
 info:
   description: ""
@@ -6,7 +6,10 @@ info:
   title: Lubricentro M&C
   contact:
     email: matiasadrianpp4@gmail.com
-basePath: /lubricentro_myc
+
+servers:
+  - url: http://localhost:8000/lubricentro_myc
+    description: Local Development
 
 tags:
   - name: Users
@@ -17,23 +20,19 @@ tags:
   - name: Products
   - name: Sales
 
-schemes:
-  - https
-  - http
-
 paths:
   /account/signup/:
     post:
       tags:
         - Users
       summary: "Create new user"
-      parameters:
-        - in: body
-          name: body
-          description: "Username and Password"
-          required: true
-          schema:
-            $ref: "#/definitions/User"
+      requestBody:
+        description: "Username and Password"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
       responses:
         200:
           description: "User created"
@@ -44,13 +43,13 @@ paths:
       tags:
         - Users
       summary: "Log in"
-      parameters:
-        - in: body
-          name: body
-          description: "Username and Password"
-          required: true
-          schema:
-            $ref: "#/definitions/User"
+      requestBody:
+        description: "Username and Password"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
       responses:
         200:
           description: "Login successful"
@@ -72,21 +71,23 @@ paths:
       responses:
         200:
           description: "List containing all the clients"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Client"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Client"
     post:
       tags:
         - Clients
       summary: "Create new client"
-      parameters:
-        - in: body
-          name: body
-          description: "Required client data"
-          required: true
-          schema:
-            $ref: "#/definitions/Client"
+      requestBody:
+        description: "Required client data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
       responses:
         201:
           description: "Client created"
@@ -102,12 +103,15 @@ paths:
           in: path
           description: "Client id"
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         200:
           description: "Succesfully get client"
-          schema:
-            $ref: "#/definitions/Client"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
         404:
           description: "Client not found"
     patch:
@@ -119,13 +123,15 @@ paths:
           name: cliente_id
           description: "Client id"
           required: true
-          type: integer
-        - in: body
-          name: body
-          description: "Client data"
-          required: true
           schema:
-            $ref: "#/definitions/Client"
+            type: integer
+      requestBody:
+        description: "Client data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
       responses:
         200:
           description: "Client updated"
@@ -141,12 +147,15 @@ paths:
           name: nombre
           description: "Client's name"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "List of clients matching the name"
-          schema:
-            $ref: "#/definitions/ClientSearchResultList"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientSearchResultList"
   /generar_stock_pdf:
     get:
       tags:
@@ -157,7 +166,8 @@ paths:
           name: categoria
           description: "Category"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "PDF containing the products stock"
@@ -169,21 +179,23 @@ paths:
       responses:
         200:
           description: "List containing all the invoices"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Invoice"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Invoice"
     post:
       tags:
         - Invoices
       summary: "Create new invoice"
-      parameters:
-        - in: body
-          name: body
-          description: "Required invoice data"
-          required: true
-          schema:
-            $ref: "#/definitions/Invoice"
+      requestBody:
+        description: "Required invoice data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Invoice"
       responses:
         201:
           description: "Invoice created"
@@ -197,12 +209,15 @@ paths:
           in: path
           description: "Invoice id"
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         200:
           description: "Succesfully get invoice"
-          schema:
-            $ref: "#/definitions/Invoice"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
         404:
           description: "Invoice not found"
     patch:
@@ -214,13 +229,15 @@ paths:
           name: remito_id
           description: "Invoice id"
           required: true
-          type: integer
-        - in: body
-          name: body
-          description: "Invoice data"
-          required: true
           schema:
-            $ref: "#/definitions/Invoice"
+            type: integer
+      requestBody:
+        description: "Invoice data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Invoice"
       responses:
         200:
           description: "Invoice updated"
@@ -236,7 +253,8 @@ paths:
           name: codigo
           description: "Invoice code"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "Invoice succesfully deleted"
@@ -245,13 +263,13 @@ paths:
       tags:
         - Invoice Items
       summary: "Create new invoice item"
-      parameters:
-        - in: body
-          name: body
-          description: "Required invoice item data"
-          required: true
-          schema:
-            $ref: "#/definitions/InvoiceItem"
+      requestBody:
+        description: "Required invoice item data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceItem"
       responses:
         201:
           description: "Invoice item created"
@@ -265,12 +283,15 @@ paths:
           in: path
           description: "Invoice item id"
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         200:
           description: "Succesfully get invoice item"
-          schema:
-            $ref: "#/definitions/InvoiceItem"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceItem"
         404:
           description: "Invoice item not found"
     patch:
@@ -282,13 +303,15 @@ paths:
           name: elemento_remito_id
           description: "Invoice item id"
           required: true
-          type: integer
-        - in: body
-          name: body
-          description: "Invoice item data"
-          required: true
           schema:
-            $ref: "#/definitions/InvoiceItem"
+            type: integer
+      requestBody:
+        description: "Invoice item data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceItem"
       responses:
         200:
           description: "Invoice item updated"
@@ -304,7 +327,8 @@ paths:
           name: codigo
           description: "Client id"
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         200:
           description: "List of all the client's invoices"
@@ -313,13 +337,13 @@ paths:
       tags:
         - Invoice Items
       summary: "Marked invoice items as paid"
-      parameters:
-        - in: body
-          name: body
-          description: "List of invoice items ids"
-          required: true
-          schema:
-            $ref: "#/definitions/InvoiceItemsIdsList"
+      requestBody:
+        description: "List of invoice items ids"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceItemsIdsList"
       responses:
         200:
           description: "Invoice items successfully marked as paid"
@@ -328,13 +352,13 @@ paths:
       tags:
         - Invoice Items
       summary: "Store invoice items"
-      parameters:
-        - in: body
-          name: body
-          description: "List of invoice items"
-          required: true
-          schema:
-            $ref: "#/definitions/InvoiceItemsList"
+      requestBody:
+        description: "List of invoice items"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceItemsList"
       responses:
         200:
           description: "Invoice items successfully stored"
@@ -343,13 +367,13 @@ paths:
       tags:
         - Invoice Items
       summary: "Update the invoice items quantity value"
-      parameters:
-        - in: body
-          name: body
-          description: "List containing invoice ids and new quantities"
-          required: true
-          schema:
-            $ref: "#/definitions/InvoiceItemsQuantityList"
+      requestBody:
+        description: "List containing invoice ids and new quantities"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceItemsQuantityList"
       responses:
         200:
           description: "Invoice items quantities successfully updated"
@@ -361,21 +385,23 @@ paths:
       responses:
         200:
           description: "List containing all the products"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Product"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
     post:
       tags:
         - Products
       summary: "Create new product"
-      parameters:
-        - in: body
-          name: body
-          description: "Required product data"
-          required: true
-          schema:
-            $ref: "#/definitions/Product"
+      requestBody:
+        description: "Required product data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
       responses:
         201:
           description: "Product created"
@@ -391,12 +417,15 @@ paths:
           in: path
           description: "Product id"
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         200:
           description: "Succesfully get product"
-          schema:
-            $ref: "#/definitions/Product"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
         404:
           description: "Product not found"
     patch:
@@ -408,13 +437,15 @@ paths:
           name: producto_id
           description: "Product id"
           required: true
-          type: integer
-        - in: body
-          name: body
-          description: "Product data"
-          required: true
           schema:
-            $ref: "#/definitions/Product"
+            type: integer
+      requestBody:
+        description: "Product data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
       responses:
         200:
           description: "Product updated"
@@ -430,14 +461,17 @@ paths:
           name: detalle
           description: "Detail"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "List of products matching the detail"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/ProductList"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductList"
   /productos/buscar_por_categoria:
     get:
       tags:
@@ -448,31 +482,36 @@ paths:
           name: categoria
           description: "Category"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "List of products matching the category"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/ProductList"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductList"
   /producto/aumento_masivo_precio_costo:
     post:
       tags:
         - Products
       summary: "Update products cost price"
-      parameters:
-        - in: body
-          name: body
-          description: "Payload containing the products to update and the cost increase percentage"
-          required: true
-          schema:
-            $ref: "#/definitions/ProductUpdateCost"
+      requestBody:
+        description: "Payload containing the products to update and the cost increase percentage"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdateCost"
       responses:
         200:
           description: "Text containing the amount of products succesfully updated"
-          schema:
-            $ref: "#/definitions/ProductUpdateCostResult"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductUpdateCostResult"
   /ventas_realizadas:
     get:
       tags:
@@ -481,10 +520,12 @@ paths:
       responses:
         200:
           description: "List containing all the sales"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Sale"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sale"
   /ventas_realizadas/{venta_id}:
     get:
       tags:
@@ -495,12 +536,15 @@ paths:
           in: path
           description: "Sale id"
           required: true
-          type: integer
+          schema:
+            type: integer
       responses:
         200:
           description: "Succesfully get sale"
-          schema:
-            $ref: "#/definitions/Sale"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sale"
         404:
           description: "Sale not found"
     patch:
@@ -512,13 +556,15 @@ paths:
           name: venta_id
           description: "Sale id"
           required: true
-          type: integer
-        - in: body
-          name: body
-          description: "Sale data"
-          required: true
           schema:
-            $ref: "#/definitions/Sale"
+            type: integer
+      requestBody:
+        description: "Sale data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sale"
       responses:
         200:
           description: "Sale updated"
@@ -529,13 +575,13 @@ paths:
       tags:
         - Sales
       summary: "Create new sales"
-      parameters:
-        - in: body
-          name: body
-          description: "Required sale data"
-          required: true
-          schema:
-            $ref: "#/definitions/SaleList"
+      requestBody:
+        description: "Required sale data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaleList"
       responses:
         201:
           description: "Sales created"
@@ -544,13 +590,13 @@ paths:
       tags:
         - Sales
       summary: "Create new sale and update stock"
-      parameters:
-        - in: body
-          name: body
-          description: "Required sale data"
-          required: true
-          schema:
-            $ref: "#/definitions/SaleList"
+      requestBody:
+        description: "Required sale data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaleList"
       responses:
         201:
           description: "Sales created"
@@ -564,12 +610,15 @@ paths:
           name: year
           description: "Year"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "List containing the sales by month in the given year"
-          schema:
-            $ref: "#/definitions/SalesPerYear"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesPerYear"
   /ventas_realizadas/ventas_por_mes:
     get:
       tags:
@@ -580,269 +629,274 @@ paths:
           name: month
           description: "Month"
           required: true
-          type: string
+          schema:
+            type: string
         - in: query
           name: year
           description: "Year"
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         200:
           description: "List containing the sales by day in the given month"
-          schema:
-            $ref: "#/definitions/SalesPerMonth"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesPerMonth"
 
-definitions:
-  Client:
-    type: object
-    required:
-      - nombre
-    properties:
-      codigo:
-        type: integer
-        example: 1
-      nombre:
-        type: string
-        example: "Matias Peñalba Paz"
-      direccion:
-        type: string
-        example: "Pinto 1248 PB"
-      localidad:
-        type: string
-        example: "Tandil"
-      codigo_postal:
-        type: string
-        example: "7000"
-      telefono:
-        type: string
-        example: "2262569097"
-      cuit:
-        type: string
-        example: "23-37370680-9"
-      email:
-        type: string
-        example: "matiasadrianpp4@gmail.com"
-  SimplifiedClient:
-    type: object
-    properties:
-      codigo:
-        type: integer
-        example: 62
-      nombre:
-        type: string
-        example: "Juan Perez"
-  ClientSearchResultList:
-    type: "object"
-    properties:
-      clientes:
-        type: array
-        items:
-          $ref: "#/definitions/SimplifiedClient"
-  Invoice:
-    type: object
-    properties:
-      codigo:
-        type: integer
-        example: 1
-      cliente:
-        type: integer
-        example: 1
-      fecha:
-        type: string
-        format: date
-        example: "2018-03-20"
-  InvoiceItem:
-    type: object
-    properties:
-      remito:
-        type: integer
-        example: 1
-      producto:
-        type: integer
-        example: 1
-      cantidad:
-        type: number
-        example: 1.0
-      pagado:
-        type: boolean
-  InvoiceItemsIdsList:
-    type: object
-    properties:
-      elementos:
-        type: array
-        items:
+components:
+  schemas:
+    Client:
+      type: object
+      required:
+        - nombre
+      properties:
+        codigo:
           type: integer
           example: 1
-  InvoiceItemsList:
-    type: object
-    properties:
-      elementos:
-        type: array
-        items:
-          $ref: "#/definitions/InvoiceItem"
-  InvoiceItemQuantityList:
-    type: object
-    properties:
-      id:
-        type: integer
-        example: 1
-      cantidad:
-        type: number
-        example: 1.0
-  InvoiceItemsQuantityList:
-    type: object
-    properties:
-      elementos:
-        type: array
-        items:
-          $ref: "#/definitions/InvoiceItemQuantityList"
-  Product:
-    type: object
-    properties:
-      codigo:
-        type: integer
-        example: 1
-      codigo_en_pantalla:
-        type: integer
-        example: 1
-      detalle:
-        type: string
-        example: "Product 1"
-      stock:
-        type: number
-        example: 1.0
-      precio_costo:
-        type: number
-        example: 1.0
-      desc1:
-        type: number
-        example: 10.0
-      desc2:
-        type: number
-        example: 5.0
-      desc3:
-        type: number
-        example: 5.0
-      desc4:
-        type: number
-        example: 0.0
-      flete:
-        type: number
-        example: 5.0
-      ganancia:
-        type: number
-        example: 40.0
-      iva:
-        type: number
-        example: 21.0
-      agregado_cta_cte:
-        type: number
-        example: 25.0
-      categoria:
-        type: string
-        example: "Lubricantes"
-  ProductList:
-    type: object
-    properties:
-      productos:
-        type: array
-        items:
-          $ref: "#/definitions/Product"
-  ProductUpdateCost:
-    type: object
-    properties:
-      porcentaje_aumento:
-        type: number
-        example: 25.0
-      productos:
-        type: array
-        items:
+        nombre:
+          type: string
+          example: "Matias Peñalba Paz"
+        direccion:
+          type: string
+          example: "Pinto 1248 PB"
+        localidad:
+          type: string
+          example: "Tandil"
+        codigo_postal:
+          type: string
+          example: "7000"
+        telefono:
+          type: string
+          example: "2262569097"
+        cuit:
+          type: string
+          example: "23-37370680-9"
+        email:
+          type: string
+          example: "matiasadrianpp4@gmail.com"
+    SimplifiedClient:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          example: 62
+        nombre:
+          type: string
+          example: "Juan Perez"
+    ClientSearchResultList:
+      type: "object"
+      properties:
+        clientes:
+          type: array
+          items:
+            $ref: "#/components/schemas/SimplifiedClient"
+    Invoice:
+      type: object
+      properties:
+        codigo:
           type: integer
           example: 1
-  ProductUpdateCostResult:
-    type: object
-    properties:
-      resultado:
-        type: string
-        example: "5 producto/s actualizado/s satisfactoriamente."
-  Sale:
-    type: object
-    properties:
-      producto:
-        type: integer
-        example: 1
-      cantidad:
-        type: number
-        example: 1.0
-      precio:
-        type: number
-        example: 1.0
-      fecha:
-        type: string
-        format: date
-        example: "2018-03-20"
-  SaleList:
-    type: object
-    properties:
-      ventas:
-        type: array
-        items:
-          $ref: "#/definitions/Sale"
-  SalesPerYear:
-    type: object
-    properties:
-      sales_per_year:
-        type: array
-        items:
+        cliente:
+          type: integer
+          example: 1
+        fecha:
+          type: string
+          format: date
+          example: "2018-03-20"
+    InvoiceItem:
+      type: object
+      properties:
+        remito:
+          type: integer
+          example: 1
+        producto:
+          type: integer
+          example: 1
+        cantidad:
           type: number
-        example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  SalesPerMonth:
-    type: object
-    properties:
-      sales_per_month:
-        type: array
-        items:
+          example: 1.0
+        pagado:
+          type: boolean
+    InvoiceItemsIdsList:
+      type: object
+      properties:
+        elementos:
+          type: array
+          items:
+            type: integer
+            example: 1
+    InvoiceItemsList:
+      type: object
+      properties:
+        elementos:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvoiceItem"
+    InvoiceItemQuantityList:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        cantidad:
           type: number
-        example:
-          [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ]
-  User:
-    type: object
-    properties:
-      username:
-        type: string
-        example: admin
-      password:
-        type: string
-        example: 1234
+          example: 1.0
+    InvoiceItemsQuantityList:
+      type: object
+      properties:
+        elementos:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvoiceItemQuantityList"
+    Product:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          example: 1
+        codigo_en_pantalla:
+          type: integer
+          example: 1
+        detalle:
+          type: string
+          example: "Product 1"
+        stock:
+          type: number
+          example: 1.0
+        precio_costo:
+          type: number
+          example: 1.0
+        desc1:
+          type: number
+          example: 10.0
+        desc2:
+          type: number
+          example: 5.0
+        desc3:
+          type: number
+          example: 5.0
+        desc4:
+          type: number
+          example: 0.0
+        flete:
+          type: number
+          example: 5.0
+        ganancia:
+          type: number
+          example: 40.0
+        iva:
+          type: number
+          example: 21.0
+        agregado_cta_cte:
+          type: number
+          example: 25.0
+        categoria:
+          type: string
+          example: "Lubricantes"
+    ProductList:
+      type: object
+      properties:
+        productos:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+    ProductUpdateCost:
+      type: object
+      properties:
+        porcentaje_aumento:
+          type: number
+          example: 25.0
+        productos:
+          type: array
+          items:
+            type: integer
+            example: 1
+    ProductUpdateCostResult:
+      type: object
+      properties:
+        resultado:
+          type: string
+          example: "5 producto/s actualizado/s satisfactoriamente."
+    Sale:
+      type: object
+      properties:
+        producto:
+          type: integer
+          example: 1
+        cantidad:
+          type: number
+          example: 1.0
+        precio:
+          type: number
+          example: 1.0
+        fecha:
+          type: string
+          format: date
+          example: "2018-03-20"
+    SaleList:
+      type: object
+      properties:
+        ventas:
+          type: array
+          items:
+            $ref: "#/components/schemas/Sale"
+    SalesPerYear:
+      type: object
+      properties:
+        sales_per_year:
+          type: array
+          items:
+            type: number
+          example: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    SalesPerMonth:
+      type: object
+      properties:
+        sales_per_month:
+          type: array
+          items:
+            type: number
+          example:
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: admin
+        password:
+          type: string
+          example: 1234
