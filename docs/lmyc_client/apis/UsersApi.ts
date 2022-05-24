@@ -21,11 +21,11 @@ import {
 } from '../models';
 
 export interface AccountLoginPostRequest {
-    body: User;
+    user: User;
 }
 
 export interface AccountSignupPostRequest {
-    body: User;
+    user: User;
 }
 
 /**
@@ -37,8 +37,8 @@ export class UsersApi extends runtime.BaseAPI {
      * Log in
      */
     async accountLoginPostRaw(requestParameters: AccountLoginPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling accountLoginPost.');
+        if (requestParameters.user === null || requestParameters.user === undefined) {
+            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling accountLoginPost.');
         }
 
         const queryParameters: any = {};
@@ -52,7 +52,7 @@ export class UsersApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserToJSON(requestParameters.body),
+            body: UserToJSON(requestParameters.user),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -94,8 +94,8 @@ export class UsersApi extends runtime.BaseAPI {
      * Create new user
      */
     async accountSignupPostRaw(requestParameters: AccountSignupPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling accountSignupPost.');
+        if (requestParameters.user === null || requestParameters.user === undefined) {
+            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling accountSignupPost.');
         }
 
         const queryParameters: any = {};
@@ -109,7 +109,7 @@ export class UsersApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserToJSON(requestParameters.body),
+            body: UserToJSON(requestParameters.user),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

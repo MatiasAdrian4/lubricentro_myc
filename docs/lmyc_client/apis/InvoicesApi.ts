@@ -25,7 +25,7 @@ export interface RemitoBorrarRemitoGetRequest {
 }
 
 export interface RemitoPostRequest {
-    body: Invoice;
+    invoice: Invoice;
 }
 
 export interface RemitoRemitoIdGetRequest {
@@ -34,7 +34,7 @@ export interface RemitoRemitoIdGetRequest {
 
 export interface RemitoRemitoIdPatchRequest {
     remitoId: number;
-    body: Invoice;
+    invoice: Invoice;
 }
 
 /**
@@ -105,8 +105,8 @@ export class InvoicesApi extends runtime.BaseAPI {
      * Create new invoice
      */
     async remitoPostRaw(requestParameters: RemitoPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling remitoPost.');
+        if (requestParameters.invoice === null || requestParameters.invoice === undefined) {
+            throw new runtime.RequiredError('invoice','Required parameter requestParameters.invoice was null or undefined when calling remitoPost.');
         }
 
         const queryParameters: any = {};
@@ -120,7 +120,7 @@ export class InvoicesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceToJSON(requestParameters.body),
+            body: InvoiceToJSON(requestParameters.invoice),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -171,8 +171,8 @@ export class InvoicesApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('remitoId','Required parameter requestParameters.remitoId was null or undefined when calling remitoRemitoIdPatch.');
         }
 
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling remitoRemitoIdPatch.');
+        if (requestParameters.invoice === null || requestParameters.invoice === undefined) {
+            throw new runtime.RequiredError('invoice','Required parameter requestParameters.invoice was null or undefined when calling remitoRemitoIdPatch.');
         }
 
         const queryParameters: any = {};
@@ -186,7 +186,7 @@ export class InvoicesApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceToJSON(requestParameters.body),
+            body: InvoiceToJSON(requestParameters.invoice),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

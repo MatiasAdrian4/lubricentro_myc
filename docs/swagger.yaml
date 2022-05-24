@@ -23,6 +23,7 @@ tags:
 paths:
   /account/signup/:
     post:
+      security: []
       tags:
         - Users
       summary: "Create new user"
@@ -40,6 +41,7 @@ paths:
           description: "User already exists"
   /account/login/:
     post:
+      security: []
       tags:
         - Users
       summary: "Log in"
@@ -900,3 +902,11 @@ components:
         password:
           type: string
           example: 1234
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: lmyc_jwt
+
+security:
+  - cookieAuth: []

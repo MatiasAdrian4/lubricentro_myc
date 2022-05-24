@@ -30,11 +30,11 @@ import {
 } from '../models';
 
 export interface VentasRealizadasGuardarVentaPostRequest {
-    body: SaleList;
+    saleList: SaleList;
 }
 
 export interface VentasRealizadasGuardarVentaYActualizarStockPostRequest {
-    body: SaleList;
+    saleList: SaleList;
 }
 
 export interface VentasRealizadasVentaIdGetRequest {
@@ -43,7 +43,7 @@ export interface VentasRealizadasVentaIdGetRequest {
 
 export interface VentasRealizadasVentaIdPatchRequest {
     ventaId: number;
-    body: Sale;
+    sale: Sale;
 }
 
 export interface VentasRealizadasVentasPorAnioGetRequest {
@@ -90,8 +90,8 @@ export class SalesApi extends runtime.BaseAPI {
      * Create new sales
      */
     async ventasRealizadasGuardarVentaPostRaw(requestParameters: VentasRealizadasGuardarVentaPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling ventasRealizadasGuardarVentaPost.');
+        if (requestParameters.saleList === null || requestParameters.saleList === undefined) {
+            throw new runtime.RequiredError('saleList','Required parameter requestParameters.saleList was null or undefined when calling ventasRealizadasGuardarVentaPost.');
         }
 
         const queryParameters: any = {};
@@ -105,7 +105,7 @@ export class SalesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SaleListToJSON(requestParameters.body),
+            body: SaleListToJSON(requestParameters.saleList),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -122,8 +122,8 @@ export class SalesApi extends runtime.BaseAPI {
      * Create new sale and update stock
      */
     async ventasRealizadasGuardarVentaYActualizarStockPostRaw(requestParameters: VentasRealizadasGuardarVentaYActualizarStockPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling ventasRealizadasGuardarVentaYActualizarStockPost.');
+        if (requestParameters.saleList === null || requestParameters.saleList === undefined) {
+            throw new runtime.RequiredError('saleList','Required parameter requestParameters.saleList was null or undefined when calling ventasRealizadasGuardarVentaYActualizarStockPost.');
         }
 
         const queryParameters: any = {};
@@ -137,7 +137,7 @@ export class SalesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SaleListToJSON(requestParameters.body),
+            body: SaleListToJSON(requestParameters.saleList),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -188,8 +188,8 @@ export class SalesApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('ventaId','Required parameter requestParameters.ventaId was null or undefined when calling ventasRealizadasVentaIdPatch.');
         }
 
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling ventasRealizadasVentaIdPatch.');
+        if (requestParameters.sale === null || requestParameters.sale === undefined) {
+            throw new runtime.RequiredError('sale','Required parameter requestParameters.sale was null or undefined when calling ventasRealizadasVentaIdPatch.');
         }
 
         const queryParameters: any = {};
@@ -203,7 +203,7 @@ export class SalesApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SaleToJSON(requestParameters.body),
+            body: SaleToJSON(requestParameters.sale),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

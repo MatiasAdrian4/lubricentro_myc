@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "/lubricentro_myc".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost:8000/lubricentro_myc".replace(/\/+$/, "");
 
 const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 

@@ -36,11 +36,11 @@ export interface ClientesClienteIdGetRequest {
 
 export interface ClientesClienteIdPatchRequest {
     clienteId: number;
-    body: Client;
+    client: Client;
 }
 
 export interface ClientesPostRequest {
-    body: Client;
+    client: Client;
 }
 
 /**
@@ -120,8 +120,8 @@ export class ClientsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('clienteId','Required parameter requestParameters.clienteId was null or undefined when calling clientesClienteIdPatch.');
         }
 
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling clientesClienteIdPatch.');
+        if (requestParameters.client === null || requestParameters.client === undefined) {
+            throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling clientesClienteIdPatch.');
         }
 
         const queryParameters: any = {};
@@ -135,7 +135,7 @@ export class ClientsApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.body),
+            body: ClientToJSON(requestParameters.client),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -178,8 +178,8 @@ export class ClientsApi extends runtime.BaseAPI {
      * Create new client
      */
     async clientesPostRaw(requestParameters: ClientesPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling clientesPost.');
+        if (requestParameters.client === null || requestParameters.client === undefined) {
+            throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling clientesPost.');
         }
 
         const queryParameters: any = {};
@@ -193,7 +193,7 @@ export class ClientsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.body),
+            body: ClientToJSON(requestParameters.client),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

@@ -30,7 +30,7 @@ import {
 } from '../models';
 
 export interface ProductoAumentoMasivoPrecioCostoPostRequest {
-    body: ProductUpdateCost;
+    productUpdateCost: ProductUpdateCost;
 }
 
 export interface ProductosBuscarPorCategoriaGetRequest {
@@ -42,7 +42,7 @@ export interface ProductosBuscarPorDetalleGetRequest {
 }
 
 export interface ProductosPostRequest {
-    body: Product;
+    product: Product;
 }
 
 export interface ProductosProductoIdGetRequest {
@@ -51,7 +51,7 @@ export interface ProductosProductoIdGetRequest {
 
 export interface ProductosProductoIdPatchRequest {
     productoId: number;
-    body: Product;
+    product: Product;
 }
 
 /**
@@ -63,8 +63,8 @@ export class ProductsApi extends runtime.BaseAPI {
      * Update products cost price
      */
     async productoAumentoMasivoPrecioCostoPostRaw(requestParameters: ProductoAumentoMasivoPrecioCostoPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ProductUpdateCostResult>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling productoAumentoMasivoPrecioCostoPost.');
+        if (requestParameters.productUpdateCost === null || requestParameters.productUpdateCost === undefined) {
+            throw new runtime.RequiredError('productUpdateCost','Required parameter requestParameters.productUpdateCost was null or undefined when calling productoAumentoMasivoPrecioCostoPost.');
         }
 
         const queryParameters: any = {};
@@ -78,7 +78,7 @@ export class ProductsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ProductUpdateCostToJSON(requestParameters.body),
+            body: ProductUpdateCostToJSON(requestParameters.productUpdateCost),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ProductUpdateCostResultFromJSON(jsonValue));
@@ -164,8 +164,8 @@ export class ProductsApi extends runtime.BaseAPI {
      * Create new product
      */
     async productosPostRaw(requestParameters: ProductosPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling productosPost.');
+        if (requestParameters.product === null || requestParameters.product === undefined) {
+            throw new runtime.RequiredError('product','Required parameter requestParameters.product was null or undefined when calling productosPost.');
         }
 
         const queryParameters: any = {};
@@ -179,7 +179,7 @@ export class ProductsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ProductToJSON(requestParameters.body),
+            body: ProductToJSON(requestParameters.product),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -230,8 +230,8 @@ export class ProductsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('productoId','Required parameter requestParameters.productoId was null or undefined when calling productosProductoIdPatch.');
         }
 
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling productosProductoIdPatch.');
+        if (requestParameters.product === null || requestParameters.product === undefined) {
+            throw new runtime.RequiredError('product','Required parameter requestParameters.product was null or undefined when calling productosProductoIdPatch.');
         }
 
         const queryParameters: any = {};
@@ -245,7 +245,7 @@ export class ProductsApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ProductToJSON(requestParameters.body),
+            body: ProductToJSON(requestParameters.product),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

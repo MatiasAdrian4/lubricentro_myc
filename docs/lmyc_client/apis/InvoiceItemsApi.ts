@@ -39,23 +39,23 @@ export interface ElementosRemitoElementoRemitoIdGetRequest {
 
 export interface ElementosRemitoElementoRemitoIdPatchRequest {
     elementoRemitoId: number;
-    body: InvoiceItem;
+    invoiceItem: InvoiceItem;
 }
 
 export interface ElementosRemitoGuardarElementosPostRequest {
-    body: InvoiceItemsList;
+    invoiceItemsList: InvoiceItemsList;
 }
 
 export interface ElementosRemitoMarcarPagadoPostRequest {
-    body: InvoiceItemsIdsList;
+    invoiceItemsIdsList: InvoiceItemsIdsList;
 }
 
 export interface ElementosRemitoModificarCantidadPostRequest {
-    body: InvoiceItemsQuantityList;
+    invoiceItemsQuantityList: InvoiceItemsQuantityList;
 }
 
 export interface ElementosRemitoPostRequest {
-    body: InvoiceItem;
+    invoiceItem: InvoiceItem;
 }
 
 /**
@@ -134,8 +134,8 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('elementoRemitoId','Required parameter requestParameters.elementoRemitoId was null or undefined when calling elementosRemitoElementoRemitoIdPatch.');
         }
 
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling elementosRemitoElementoRemitoIdPatch.');
+        if (requestParameters.invoiceItem === null || requestParameters.invoiceItem === undefined) {
+            throw new runtime.RequiredError('invoiceItem','Required parameter requestParameters.invoiceItem was null or undefined when calling elementosRemitoElementoRemitoIdPatch.');
         }
 
         const queryParameters: any = {};
@@ -149,7 +149,7 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceItemToJSON(requestParameters.body),
+            body: InvoiceItemToJSON(requestParameters.invoiceItem),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -166,8 +166,8 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
      * Store invoice items
      */
     async elementosRemitoGuardarElementosPostRaw(requestParameters: ElementosRemitoGuardarElementosPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling elementosRemitoGuardarElementosPost.');
+        if (requestParameters.invoiceItemsList === null || requestParameters.invoiceItemsList === undefined) {
+            throw new runtime.RequiredError('invoiceItemsList','Required parameter requestParameters.invoiceItemsList was null or undefined when calling elementosRemitoGuardarElementosPost.');
         }
 
         const queryParameters: any = {};
@@ -181,7 +181,7 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceItemsListToJSON(requestParameters.body),
+            body: InvoiceItemsListToJSON(requestParameters.invoiceItemsList),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -198,8 +198,8 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
      * Marked invoice items as paid
      */
     async elementosRemitoMarcarPagadoPostRaw(requestParameters: ElementosRemitoMarcarPagadoPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling elementosRemitoMarcarPagadoPost.');
+        if (requestParameters.invoiceItemsIdsList === null || requestParameters.invoiceItemsIdsList === undefined) {
+            throw new runtime.RequiredError('invoiceItemsIdsList','Required parameter requestParameters.invoiceItemsIdsList was null or undefined when calling elementosRemitoMarcarPagadoPost.');
         }
 
         const queryParameters: any = {};
@@ -213,7 +213,7 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceItemsIdsListToJSON(requestParameters.body),
+            body: InvoiceItemsIdsListToJSON(requestParameters.invoiceItemsIdsList),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -230,8 +230,8 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
      * Update the invoice items quantity value
      */
     async elementosRemitoModificarCantidadPostRaw(requestParameters: ElementosRemitoModificarCantidadPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling elementosRemitoModificarCantidadPost.');
+        if (requestParameters.invoiceItemsQuantityList === null || requestParameters.invoiceItemsQuantityList === undefined) {
+            throw new runtime.RequiredError('invoiceItemsQuantityList','Required parameter requestParameters.invoiceItemsQuantityList was null or undefined when calling elementosRemitoModificarCantidadPost.');
         }
 
         const queryParameters: any = {};
@@ -245,7 +245,7 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceItemsQuantityListToJSON(requestParameters.body),
+            body: InvoiceItemsQuantityListToJSON(requestParameters.invoiceItemsQuantityList),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -262,8 +262,8 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
      * Create new invoice item
      */
     async elementosRemitoPostRaw(requestParameters: ElementosRemitoPostRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling elementosRemitoPost.');
+        if (requestParameters.invoiceItem === null || requestParameters.invoiceItem === undefined) {
+            throw new runtime.RequiredError('invoiceItem','Required parameter requestParameters.invoiceItem was null or undefined when calling elementosRemitoPost.');
         }
 
         const queryParameters: any = {};
@@ -277,7 +277,7 @@ export class InvoiceItemsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InvoiceItemToJSON(requestParameters.body),
+            body: InvoiceItemToJSON(requestParameters.invoiceItem),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
