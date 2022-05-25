@@ -12,7 +12,7 @@ def generate_jwt_token(user: User):
     payload = {
         "id": user.id,
         "username": user.username,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
         "iat": datetime.datetime.utcnow(),
     }
 

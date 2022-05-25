@@ -33,12 +33,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserCredentials"
       responses:
         200:
           description: "User created"
         400:
           description: "User already exists"
+  /account/user:
+    get:
+      tags:
+        - Users
+      summary: "Get user"
+      responses:
+        200:
+          description: "User data"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
   /account/login/:
     post:
       security: []
@@ -51,7 +64,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserCredentials"
       responses:
         200:
           description: "Login successful"
@@ -894,6 +907,15 @@ components:
               0
             ]
     User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: admin
+    UserCredentials:
       type: object
       properties:
         username:
