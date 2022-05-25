@@ -436,14 +436,33 @@ export interface SimplifiedClient {
 export interface User {
     /**
      * 
+     * @type {number}
+     * @memberof User
+     */
+    'id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof User
+     */
+    'username'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserCredentials
+ */
+export interface UserCredentials {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserCredentials
      */
     'username'?: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof UserCredentials
      */
     'password'?: string;
 }
@@ -2964,13 +2983,13 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Log in
-         * @param {User} user Username and Password
+         * @param {UserCredentials} userCredentials Username and Password
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountLoginPost: async (user: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'user' is not null or undefined
-            assertParamExists('accountLoginPost', 'user', user)
+        accountLoginPost: async (userCredentials: UserCredentials, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userCredentials' is not null or undefined
+            assertParamExists('accountLoginPost', 'userCredentials', userCredentials)
             const localVarPath = `/account/login/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2990,7 +3009,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(userCredentials, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3032,13 +3051,13 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Create new user
-         * @param {User} user Username and Password
+         * @param {UserCredentials} userCredentials Username and Password
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountSignupPost: async (user: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'user' is not null or undefined
-            assertParamExists('accountSignupPost', 'user', user)
+        accountSignupPost: async (userCredentials: UserCredentials, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userCredentials' is not null or undefined
+            assertParamExists('accountSignupPost', 'userCredentials', userCredentials)
             const localVarPath = `/account/signup/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3058,7 +3077,39 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(user, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(userCredentials, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountUserGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/account/user`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication cookieAuth required
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3078,12 +3129,12 @@ export const UsersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Log in
-         * @param {User} user Username and Password
+         * @param {UserCredentials} userCredentials Username and Password
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountLoginPost(user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountLoginPost(user, options);
+        async accountLoginPost(userCredentials: UserCredentials, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountLoginPost(userCredentials, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3099,12 +3150,22 @@ export const UsersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Create new user
-         * @param {User} user Username and Password
+         * @param {UserCredentials} userCredentials Username and Password
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountSignupPost(user: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountSignupPost(user, options);
+        async accountSignupPost(userCredentials: UserCredentials, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountSignupPost(userCredentials, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountUserGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountUserGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -3120,12 +3181,12 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Log in
-         * @param {User} user Username and Password
+         * @param {UserCredentials} userCredentials Username and Password
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountLoginPost(user: User, options?: any): AxiosPromise<void> {
-            return localVarFp.accountLoginPost(user, options).then((request) => request(axios, basePath));
+        accountLoginPost(userCredentials: UserCredentials, options?: any): AxiosPromise<void> {
+            return localVarFp.accountLoginPost(userCredentials, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3139,12 +3200,21 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Create new user
-         * @param {User} user Username and Password
+         * @param {UserCredentials} userCredentials Username and Password
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountSignupPost(user: User, options?: any): AxiosPromise<void> {
-            return localVarFp.accountSignupPost(user, options).then((request) => request(axios, basePath));
+        accountSignupPost(userCredentials: UserCredentials, options?: any): AxiosPromise<void> {
+            return localVarFp.accountSignupPost(userCredentials, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountUserGet(options?: any): AxiosPromise<User> {
+            return localVarFp.accountUserGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3159,13 +3229,13 @@ export class UsersApi extends BaseAPI {
     /**
      * 
      * @summary Log in
-     * @param {User} user Username and Password
+     * @param {UserCredentials} userCredentials Username and Password
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public accountLoginPost(user: User, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).accountLoginPost(user, options).then((request) => request(this.axios, this.basePath));
+    public accountLoginPost(userCredentials: UserCredentials, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).accountLoginPost(userCredentials, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3182,13 +3252,24 @@ export class UsersApi extends BaseAPI {
     /**
      * 
      * @summary Create new user
-     * @param {User} user Username and Password
+     * @param {UserCredentials} userCredentials Username and Password
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public accountSignupPost(user: User, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).accountSignupPost(user, options).then((request) => request(this.axios, this.basePath));
+    public accountSignupPost(userCredentials: UserCredentials, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).accountSignupPost(userCredentials, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public accountUserGet(options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).accountUserGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
