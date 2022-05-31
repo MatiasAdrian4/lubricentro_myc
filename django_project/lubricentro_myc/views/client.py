@@ -1,24 +1,14 @@
-from django.http import JsonResponse
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.serializers.client import ClienteSerializer
 from rest_framework import viewsets
-from rest_framework.decorators import action
 
 
 class ClienteViewSet(viewsets.ModelViewSet):
-    queryset = Cliente.objects.all()
+    queryset = Cliente.objects.all().order_by('id')
     serializer_class = ClienteSerializer
 
-    @action(detail=False, methods=["get"])
-    def buscar(self, request):
-        resultado = []
+    def list(self, request):
         nombre = request.GET.get("nombre", None)
         if nombre:
-            for cliente in Cliente.objects.filter(nombre__icontains=nombre).values():
-                resultado.append(
-                    {
-                        "codigo": cliente.get("id", ""),
-                        "nombre": cliente.get("nombre", ""),
-                    }
-                )
-        return JsonResponse(data={"clientes": resultado})
+            self.queryset = Cliente.objects.filter(nombre__icontains=nombre).order_by('id')
+        return super().list(request)
