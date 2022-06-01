@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 
 
 class RemitoViewSet(viewsets.ModelViewSet):
-    queryset = Remito.objects.all()
+    queryset = Remito.objects.all().order_by("codigo")
     serializer_class = RemitoSerializer
 
     @action(detail=False, methods=["get"])
@@ -33,7 +33,7 @@ class RemitoViewSet(viewsets.ModelViewSet):
 
 
 class ElementoRemitoViewSet(viewsets.ModelViewSet):
-    queryset = ElementoRemito.objects.all()
+    queryset = ElementoRemito.objects.all().order_by("id")
     serializer_class = ElementoRemitoSerializer
 
     @action(detail=False, methods=["get"])

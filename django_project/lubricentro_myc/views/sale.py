@@ -11,7 +11,7 @@ from rest_framework.response import Response
 
 
 class VentaViewSet(viewsets.ModelViewSet):
-    queryset = Venta.objects.all()
+    queryset = Venta.objects.all().order_by("id")
     serializer_class = VentaSerializer
 
     def store_sale(self, request, update_stock=False):
