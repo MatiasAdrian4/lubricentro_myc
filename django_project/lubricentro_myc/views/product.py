@@ -6,16 +6,20 @@ from rest_framework.decorators import action
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
-    queryset = Producto.objects.all().order_by('codigo')
+    queryset = Producto.objects.all().order_by("codigo")
     serializer_class = ProductoSerializer
 
     def list(self, request):
         detalle = request.GET.get("detalle", None)
         categoria = request.GET.get("categoria", None)
         if detalle:
-            self.queryset = Producto.objects.filter(detalle__icontains=detalle).order_by('codigo')
+            self.queryset = Producto.objects.filter(
+                detalle__icontains=detalle
+            ).order_by("codigo")
         elif categoria:
-            self.queryset = Producto.objects.filter(categoria__iexact=categoria).order_by('codigo')
+            self.queryset = Producto.objects.filter(
+                categoria__iexact=categoria
+            ).order_by("codigo")
         return super().list(request)
 
     @action(detail=False, methods=["post"])

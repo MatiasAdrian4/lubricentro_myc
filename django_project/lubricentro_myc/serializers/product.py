@@ -15,5 +15,3 @@ class ProductoSerializer(serializers.ModelSerializer):
             instance.codigo_en_pantalla = instance.codigo
             instance.save()
         return instance
-
-
