@@ -15,7 +15,3 @@ class ProductoSerializer(serializers.ModelSerializer):
             instance.codigo_en_pantalla = instance.codigo
             instance.save()
         return instance
-
-
-class ProductosSerializer(serializers.Serializer):
-    productos = serializers.ListField(child=ProductoSerializer())

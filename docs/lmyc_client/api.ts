@@ -79,19 +79,6 @@ export interface Client {
 /**
  * 
  * @export
- * @interface ClientSearchResultList
- */
-export interface ClientSearchResultList {
-    /**
-     * 
-     * @type {Array<SimplifiedClient>}
-     * @memberof ClientSearchResultList
-     */
-    'clientes'?: Array<SimplifiedClient>;
-}
-/**
- * 
- * @export
  * @interface Invoice
  */
 export interface Invoice {
@@ -206,6 +193,119 @@ export interface InvoiceItemsQuantityList {
 /**
  * 
  * @export
+ * @interface PaginatedClients
+ */
+export interface PaginatedClients {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginatedClients
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedClients
+     */
+    'next'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedClients
+     */
+    'previous'?: string;
+    /**
+     * 
+     * @type {Array<Client>}
+     * @memberof PaginatedClients
+     */
+    'results'?: Array<Client>;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedClientsAllOf
+ */
+export interface PaginatedClientsAllOf {
+    /**
+     * 
+     * @type {Array<Client>}
+     * @memberof PaginatedClientsAllOf
+     */
+    'results'?: Array<Client>;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedProducts
+ */
+export interface PaginatedProducts {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginatedProducts
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedProducts
+     */
+    'next'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedProducts
+     */
+    'previous'?: string;
+    /**
+     * 
+     * @type {Array<Product>}
+     * @memberof PaginatedProducts
+     */
+    'results'?: Array<Product>;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedProductsAllOf
+ */
+export interface PaginatedProductsAllOf {
+    /**
+     * 
+     * @type {Array<Product>}
+     * @memberof PaginatedProductsAllOf
+     */
+    'results'?: Array<Product>;
+}
+/**
+ * 
+ * @export
+ * @interface PaginationItems
+ */
+export interface PaginationItems {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginationItems
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginationItems
+     */
+    'next'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginationItems
+     */
+    'previous'?: string;
+}
+/**
+ * 
+ * @export
  * @interface Product
  */
 export interface Product {
@@ -293,19 +393,6 @@ export interface Product {
      * @memberof Product
      */
     'categoria'?: string;
-}
-/**
- * 
- * @export
- * @interface ProductList
- */
-export interface ProductList {
-    /**
-     * 
-     * @type {Array<Product>}
-     * @memberof ProductList
-     */
-    'productos'?: Array<Product>;
 }
 /**
  * 
@@ -412,25 +499,6 @@ export interface SalesPerYear {
 /**
  * 
  * @export
- * @interface SimplifiedClient
- */
-export interface SimplifiedClient {
-    /**
-     * 
-     * @type {number}
-     * @memberof SimplifiedClient
-     */
-    'codigo'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimplifiedClient
-     */
-    'nombre'?: string;
-}
-/**
- * 
- * @export
  * @interface User
  */
 export interface User {
@@ -473,45 +541,6 @@ export interface UserCredentials {
  */
 export const ClientsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
-        /**
-         * 
-         * @summary Get clients searching by name
-         * @param {string} nombre Client\&#39;s name
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        clientesBuscarGet: async (nombre: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'nombre' is not null or undefined
-            assertParamExists('clientesBuscarGet', 'nombre', nombre)
-            const localVarPath = `/clientes/buscar`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication cookieAuth required
-
-            if (nombre !== undefined) {
-                localVarQueryParameter['nombre'] = nombre;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
         /**
          * 
          * @summary Get client
@@ -592,11 +621,12 @@ export const ClientsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Get all clients
+         * @summary Get all clients or filter them by name
+         * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clientesGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        clientesGet: async (nombre?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/clientes/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -610,6 +640,10 @@ export const ClientsApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication cookieAuth required
+
+            if (nombre !== undefined) {
+                localVarQueryParameter['nombre'] = nombre;
+            }
 
 
     
@@ -660,38 +694,6 @@ export const ClientsApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @summary Get all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        productosGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/productos/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication cookieAuth required
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -702,17 +704,6 @@ export const ClientsApiAxiosParamCreator = function (configuration?: Configurati
 export const ClientsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ClientsApiAxiosParamCreator(configuration)
     return {
-        /**
-         * 
-         * @summary Get clients searching by name
-         * @param {string} nombre Client\&#39;s name
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async clientesBuscarGet(nombre: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ClientSearchResultList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.clientesBuscarGet(nombre, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
         /**
          * 
          * @summary Get client
@@ -738,12 +729,13 @@ export const ClientsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get all clients
+         * @summary Get all clients or filter them by name
+         * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clientesGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Client>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.clientesGet(options);
+        async clientesGet(nombre?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedClients>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.clientesGet(nombre, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -757,16 +749,6 @@ export const ClientsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clientesPost(client, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        /**
-         * 
-         * @summary Get all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async productosGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Product>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.productosGet(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
     }
 };
 
@@ -777,16 +759,6 @@ export const ClientsApiFp = function(configuration?: Configuration) {
 export const ClientsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = ClientsApiFp(configuration)
     return {
-        /**
-         * 
-         * @summary Get clients searching by name
-         * @param {string} nombre Client\&#39;s name
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        clientesBuscarGet(nombre: string, options?: any): AxiosPromise<ClientSearchResultList> {
-            return localVarFp.clientesBuscarGet(nombre, options).then((request) => request(axios, basePath));
-        },
         /**
          * 
          * @summary Get client
@@ -810,12 +782,13 @@ export const ClientsApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Get all clients
+         * @summary Get all clients or filter them by name
+         * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clientesGet(options?: any): AxiosPromise<Array<Client>> {
-            return localVarFp.clientesGet(options).then((request) => request(axios, basePath));
+        clientesGet(nombre?: string, options?: any): AxiosPromise<Array<PaginatedClients>> {
+            return localVarFp.clientesGet(nombre, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -827,15 +800,6 @@ export const ClientsApiFactory = function (configuration?: Configuration, basePa
         clientesPost(client: Client, options?: any): AxiosPromise<void> {
             return localVarFp.clientesPost(client, options).then((request) => request(axios, basePath));
         },
-        /**
-         * 
-         * @summary Get all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        productosGet(options?: any): AxiosPromise<Array<Product>> {
-            return localVarFp.productosGet(options).then((request) => request(axios, basePath));
-        },
     };
 };
 
@@ -846,18 +810,6 @@ export const ClientsApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class ClientsApi extends BaseAPI {
-    /**
-     * 
-     * @summary Get clients searching by name
-     * @param {string} nombre Client\&#39;s name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ClientsApi
-     */
-    public clientesBuscarGet(nombre: string, options?: AxiosRequestConfig) {
-        return ClientsApiFp(this.configuration).clientesBuscarGet(nombre, options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @summary Get client
@@ -885,13 +837,14 @@ export class ClientsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get all clients
+     * @summary Get all clients or filter them by name
+     * @param {string} [nombre] Client\&#39;s name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ClientsApi
      */
-    public clientesGet(options?: AxiosRequestConfig) {
-        return ClientsApiFp(this.configuration).clientesGet(options).then((request) => request(this.axios, this.basePath));
+    public clientesGet(nombre?: string, options?: AxiosRequestConfig) {
+        return ClientsApiFp(this.configuration).clientesGet(nombre, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -904,17 +857,6 @@ export class ClientsApi extends BaseAPI {
      */
     public clientesPost(client: Client, options?: AxiosRequestConfig) {
         return ClientsApiFp(this.configuration).clientesPost(client, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get all products
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ClientsApi
-     */
-    public productosGet(options?: AxiosRequestConfig) {
-        return ClientsApiFp(this.configuration).productosGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2006,54 +1948,14 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Search product by category
-         * @param {string} categoria Category
+         * @summary Get all products or filter them by detail or category
+         * @param {string} [detalle] Product\&#39;s detail
+         * @param {string} [categoria] Product\&#39;s category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        productosBuscarPorCategoriaGet: async (categoria: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'categoria' is not null or undefined
-            assertParamExists('productosBuscarPorCategoriaGet', 'categoria', categoria)
-            const localVarPath = `/productos/buscar_por_categoria`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication cookieAuth required
-
-            if (categoria !== undefined) {
-                localVarQueryParameter['categoria'] = categoria;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Search product by detail
-         * @param {string} detalle Detail
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        productosBuscarPorDetalleGet: async (detalle: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'detalle' is not null or undefined
-            assertParamExists('productosBuscarPorDetalleGet', 'detalle', detalle)
-            const localVarPath = `/productos/buscar_por_detalle`;
+        productosGet: async (detalle?: string, categoria?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/productos/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2069,6 +1971,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
             if (detalle !== undefined) {
                 localVarQueryParameter['detalle'] = detalle;
+            }
+
+            if (categoria !== undefined) {
+                localVarQueryParameter['categoria'] = categoria;
             }
 
 
@@ -2221,24 +2127,14 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Search product by category
-         * @param {string} categoria Category
+         * @summary Get all products or filter them by detail or category
+         * @param {string} [detalle] Product\&#39;s detail
+         * @param {string} [categoria] Product\&#39;s category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async productosBuscarPorCategoriaGet(categoria: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProductList>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.productosBuscarPorCategoriaGet(categoria, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Search product by detail
-         * @param {string} detalle Detail
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async productosBuscarPorDetalleGet(detalle: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProductList>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.productosBuscarPorDetalleGet(detalle, options);
+        async productosGet(detalle?: string, categoria?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedProducts>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.productosGet(detalle, categoria, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2297,23 +2193,14 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Search product by category
-         * @param {string} categoria Category
+         * @summary Get all products or filter them by detail or category
+         * @param {string} [detalle] Product\&#39;s detail
+         * @param {string} [categoria] Product\&#39;s category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        productosBuscarPorCategoriaGet(categoria: string, options?: any): AxiosPromise<Array<ProductList>> {
-            return localVarFp.productosBuscarPorCategoriaGet(categoria, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Search product by detail
-         * @param {string} detalle Detail
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        productosBuscarPorDetalleGet(detalle: string, options?: any): AxiosPromise<Array<ProductList>> {
-            return localVarFp.productosBuscarPorDetalleGet(detalle, options).then((request) => request(axios, basePath));
+        productosGet(detalle?: string, categoria?: string, options?: any): AxiosPromise<Array<PaginatedProducts>> {
+            return localVarFp.productosGet(detalle, categoria, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2370,26 +2257,15 @@ export class ProductsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Search product by category
-     * @param {string} categoria Category
+     * @summary Get all products or filter them by detail or category
+     * @param {string} [detalle] Product\&#39;s detail
+     * @param {string} [categoria] Product\&#39;s category
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public productosBuscarPorCategoriaGet(categoria: string, options?: AxiosRequestConfig) {
-        return ProductsApiFp(this.configuration).productosBuscarPorCategoriaGet(categoria, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Search product by detail
-     * @param {string} detalle Detail
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public productosBuscarPorDetalleGet(detalle: string, options?: AxiosRequestConfig) {
-        return ProductsApiFp(this.configuration).productosBuscarPorDetalleGet(detalle, options).then((request) => request(this.axios, this.basePath));
+    public productosGet(detalle?: string, categoria?: string, options?: AxiosRequestConfig) {
+        return ProductsApiFp(this.configuration).productosGet(detalle, categoria, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

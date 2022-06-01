@@ -82,16 +82,23 @@ paths:
     get:
       tags:
         - Clients
-      summary: "Get all clients"
+      summary: "Get all clients or filter them by name"
+      parameters:
+        - in: query
+          name: nombre
+          description: "Client's name"
+          required: false
+          schema:
+            type: string
       responses:
         200:
-          description: "List containing all the clients"
+          description: "Paginated clients list"
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Client"
+                  $ref: "#/components/schemas/PaginatedClients"
     post:
       tags:
         - Clients
@@ -152,25 +159,6 @@ paths:
           description: "Client updated"
         404:
           description: "Client not found"
-  /clientes/buscar:
-    get:
-      tags:
-        - Clients
-      summary: "Get clients searching by name"
-      parameters:
-        - in: query
-          name: nombre
-          description: "Client's name"
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "List of clients matching the name"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ClientSearchResultList"
   /generar_stock_pdf:
     get:
       tags:
@@ -395,8 +383,21 @@ paths:
   /productos/:
     get:
       tags:
-        - Clients
-      summary: "Get all products"
+        - Products
+      summary: "Get all products or filter them by detail or category"
+      parameters:
+        - in: query
+          name: detalle
+          description: "Product's detail"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: categoria
+          description: "Product's category"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "List containing all the products"
@@ -405,7 +406,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
+                  $ref: "#/components/schemas/PaginatedProducts"
     post:
       tags:
         - Products
@@ -466,48 +467,6 @@ paths:
           description: "Product updated"
         404:
           description: "Product not found"
-  /productos/buscar_por_detalle:
-    get:
-      tags:
-        - Products
-      summary: "Search product by detail"
-      parameters:
-        - in: query
-          name: detalle
-          description: "Detail"
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "List of products matching the detail"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ProductList"
-  /productos/buscar_por_categoria:
-    get:
-      tags:
-        - Products
-      summary: "Search product by category"
-      parameters:
-        - in: query
-          name: categoria
-          description: "Category"
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "List of products matching the category"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ProductList"
   /producto/aumento_masivo_precio_costo:
     post:
       tags:
@@ -662,6 +621,18 @@ paths:
 
 components:
   schemas:
+    PaginationItems:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 1
+        next:
+          type: string
+          example: ".../resource/?page=3"
+        previous:
+          type: string
+          example: ".../resource/?page=1"
     Client:
       type: object
       required:
@@ -691,22 +662,15 @@ components:
         email:
           type: string
           example: "matiasadrianpp4@gmail.com"
-    SimplifiedClient:
-      type: object
-      properties:
-        codigo:
-          type: integer
-          example: 62
-        nombre:
-          type: string
-          example: "Juan Perez"
-    ClientSearchResultList:
-      type: "object"
-      properties:
-        clientes:
-          type: array
-          items:
-            $ref: "#/components/schemas/SimplifiedClient"
+    PaginatedClients:
+      allOf:
+        - $ref: "#/components/schemas/PaginationItems"
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Client"
     Invoice:
       type: object
       properties:
@@ -810,13 +774,15 @@ components:
         categoria:
           type: string
           example: "Lubricantes"
-    ProductList:
-      type: object
-      properties:
-        productos:
-          type: array
-          items:
-            $ref: "#/components/schemas/Product"
+    PaginatedProducts:
+      allOf:
+        - $ref: "#/components/schemas/PaginationItems"
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Product"
     ProductUpdateCost:
       type: object
       properties:
