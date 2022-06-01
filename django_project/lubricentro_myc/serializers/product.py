@@ -17,5 +17,3 @@ class ProductoSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ProductosSerializer(serializers.Serializer):
-    productos = serializers.ListField(child=ProductoSerializer())
