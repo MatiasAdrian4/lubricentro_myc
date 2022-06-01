@@ -96,9 +96,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PaginatedClients"
+                $ref: "#/components/schemas/PaginatedClients"
     post:
       tags:
         - Clients
@@ -404,9 +402,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PaginatedProducts"
+                $ref: "#/components/schemas/PaginatedProducts"
     post:
       tags:
         - Products

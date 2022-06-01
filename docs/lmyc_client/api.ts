@@ -734,7 +734,7 @@ export const ClientsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clientesGet(nombre?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedClients>>> {
+        async clientesGet(nombre?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedClients>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clientesGet(nombre, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -787,7 +787,7 @@ export const ClientsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clientesGet(nombre?: string, options?: any): AxiosPromise<Array<PaginatedClients>> {
+        clientesGet(nombre?: string, options?: any): AxiosPromise<PaginatedClients> {
             return localVarFp.clientesGet(nombre, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2133,7 +2133,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async productosGet(detalle?: string, categoria?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedProducts>>> {
+        async productosGet(detalle?: string, categoria?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedProducts>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.productosGet(detalle, categoria, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2199,7 +2199,7 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        productosGet(detalle?: string, categoria?: string, options?: any): AxiosPromise<Array<PaginatedProducts>> {
+        productosGet(detalle?: string, categoria?: string, options?: any): AxiosPromise<PaginatedProducts> {
             return localVarFp.productosGet(detalle, categoria, options).then((request) => request(axios, basePath));
         },
         /**
