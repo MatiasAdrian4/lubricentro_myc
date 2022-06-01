@@ -384,7 +384,20 @@ paths:
     get:
       tags:
         - Products
-      summary: "Get all products"
+      summary: "Get all products or filter them by detail or category"
+      parameters:
+        - in: query
+          name: detalle
+          description: "Product's detail"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: categoria
+          description: "Product's category"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "List containing all the products"
@@ -393,7 +406,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
+                  $ref: "#/components/schemas/PaginatedProducts"
     post:
       tags:
         - Products
@@ -454,48 +467,6 @@ paths:
           description: "Product updated"
         404:
           description: "Product not found"
-  /productos/buscar_por_detalle:
-    get:
-      tags:
-        - Products
-      summary: "Search product by detail"
-      parameters:
-        - in: query
-          name: detalle
-          description: "Detail"
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "List of products matching the detail"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ProductList"
-  /productos/buscar_por_categoria:
-    get:
-      tags:
-        - Products
-      summary: "Search product by category"
-      parameters:
-        - in: query
-          name: categoria
-          description: "Category"
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "List of products matching the category"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ProductList"
   /producto/aumento_masivo_precio_costo:
     post:
       tags:
@@ -803,13 +774,15 @@ components:
         categoria:
           type: string
           example: "Lubricantes"
-    ProductList:
-      type: object
-      properties:
-        productos:
-          type: array
-          items:
-            $ref: "#/components/schemas/Product"
+    PaginatedProducts:
+      allOf:
+        - $ref: "#/components/schemas/PaginationItems"
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Product"
     ProductUpdateCost:
       type: object
       properties:
