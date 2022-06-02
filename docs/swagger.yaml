@@ -85,6 +85,12 @@ paths:
       summary: "Get all clients or filter them by name"
       parameters:
         - in: query
+          name: page
+          description: "Desired page"
+          required: false
+          schema:
+            type: string
+        - in: query
           name: nombre
           description: "Client's name"
           required: false
@@ -384,6 +390,12 @@ paths:
         - Products
       summary: "Get all products or filter them by detail or category"
       parameters:
+        - in: query
+          name: page
+          description: "Desired page"
+          required: false
+          schema:
+            type: string
         - in: query
           name: detalle
           description: "Product's detail"
