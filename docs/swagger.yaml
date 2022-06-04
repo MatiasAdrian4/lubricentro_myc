@@ -89,7 +89,7 @@ paths:
           description: "Desired page"
           required: false
           schema:
-            type: string
+            type: integer
         - in: query
           name: nombre
           description: "Client's name"
@@ -395,7 +395,7 @@ paths:
           description: "Desired page"
           required: false
           schema:
-            type: string
+            type: integer
         - in: query
           name: detalle
           description: "Product's detail"

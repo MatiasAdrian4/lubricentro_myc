@@ -622,12 +622,12 @@ export const ClientsApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Get all clients or filter them by name
-         * @param {string} [page] Desired page
+         * @param {number} [page] Desired page
          * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clientesGet: async (page?: string, nombre?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        clientesGet: async (page?: number, nombre?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/clientes/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -735,12 +735,12 @@ export const ClientsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get all clients or filter them by name
-         * @param {string} [page] Desired page
+         * @param {number} [page] Desired page
          * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clientesGet(page?: string, nombre?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedClients>> {
+        async clientesGet(page?: number, nombre?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedClients>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clientesGet(page, nombre, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -789,12 +789,12 @@ export const ClientsApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Get all clients or filter them by name
-         * @param {string} [page] Desired page
+         * @param {number} [page] Desired page
          * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clientesGet(page?: string, nombre?: string, options?: any): AxiosPromise<PaginatedClients> {
+        clientesGet(page?: number, nombre?: string, options?: any): AxiosPromise<PaginatedClients> {
             return localVarFp.clientesGet(page, nombre, options).then((request) => request(axios, basePath));
         },
         /**
@@ -845,13 +845,13 @@ export class ClientsApi extends BaseAPI {
     /**
      * 
      * @summary Get all clients or filter them by name
-     * @param {string} [page] Desired page
+     * @param {number} [page] Desired page
      * @param {string} [nombre] Client\&#39;s name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ClientsApi
      */
-    public clientesGet(page?: string, nombre?: string, options?: AxiosRequestConfig) {
+    public clientesGet(page?: number, nombre?: string, options?: AxiosRequestConfig) {
         return ClientsApiFp(this.configuration).clientesGet(page, nombre, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1957,13 +1957,13 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Get all products or filter them by detail or category
-         * @param {string} [page] Desired page
+         * @param {number} [page] Desired page
          * @param {string} [detalle] Product\&#39;s detail
          * @param {string} [categoria] Product\&#39;s category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        productosGet: async (page?: string, detalle?: string, categoria?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        productosGet: async (page?: number, detalle?: string, categoria?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/productos/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2141,13 +2141,13 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get all products or filter them by detail or category
-         * @param {string} [page] Desired page
+         * @param {number} [page] Desired page
          * @param {string} [detalle] Product\&#39;s detail
          * @param {string} [categoria] Product\&#39;s category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async productosGet(page?: string, detalle?: string, categoria?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedProducts>> {
+        async productosGet(page?: number, detalle?: string, categoria?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedProducts>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.productosGet(page, detalle, categoria, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2208,13 +2208,13 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Get all products or filter them by detail or category
-         * @param {string} [page] Desired page
+         * @param {number} [page] Desired page
          * @param {string} [detalle] Product\&#39;s detail
          * @param {string} [categoria] Product\&#39;s category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        productosGet(page?: string, detalle?: string, categoria?: string, options?: any): AxiosPromise<PaginatedProducts> {
+        productosGet(page?: number, detalle?: string, categoria?: string, options?: any): AxiosPromise<PaginatedProducts> {
             return localVarFp.productosGet(page, detalle, categoria, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2273,14 +2273,14 @@ export class ProductsApi extends BaseAPI {
     /**
      * 
      * @summary Get all products or filter them by detail or category
-     * @param {string} [page] Desired page
+     * @param {number} [page] Desired page
      * @param {string} [detalle] Product\&#39;s detail
      * @param {string} [categoria] Product\&#39;s category
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public productosGet(page?: string, detalle?: string, categoria?: string, options?: AxiosRequestConfig) {
+    public productosGet(page?: number, detalle?: string, categoria?: string, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).productosGet(page, detalle, categoria, options).then((request) => request(this.axios, this.basePath));
     }
 
