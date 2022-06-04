@@ -19,8 +19,8 @@ class ClientTestCase(TestCase):
     @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
     def test_search_client(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
-        response = self.client.get(f"{self.client_url}/buscar?nombre=jose", follow=True)
-        clientes = json.loads(response.content)["clientes"]
+        response = self.client.get(f"{self.client_url}?nombre=jose", follow=True)
+        clientes = json.loads(response.content)["results"]
         self.assertEqual(len(clientes), 2)
         self.assertEqual(clientes[0]["nombre"], "Jose Gomez")
         self.assertEqual(clientes[1]["nombre"], "Jose Hernandez")

@@ -53,9 +53,9 @@ class ProductTestCase(TestCase):
     def test_search_by_detail(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
         response = self.client.get(
-            f"{self.client_url}/buscar_por_detalle?detalle=correa", follow=True
+            f"{self.client_url}?detalle=correa", follow=True
         )
-        productos = json.loads(response.content)["productos"]
+        productos = json.loads(response.content)["results"]
         self.assertEqual(len(productos), 2)
         self.assertEqual(productos[0]["codigo"], self.product_1.codigo)
         self.assertEqual(productos[1]["codigo"], self.product_4.codigo)
@@ -64,10 +64,10 @@ class ProductTestCase(TestCase):
     def test_search_by_category(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
         response = self.client.get(
-            f"{self.client_url}/buscar_por_categoria?categoria=electricidad",
+            f"{self.client_url}?categoria=electricidad",
             follow=True,
         )
-        productos = json.loads(response.content)["productos"]
+        productos = json.loads(response.content)["results"]
         self.assertEqual(len(productos), 3)
         self.assertEqual(productos[0]["codigo"], self.product_2.codigo)
         self.assertEqual(productos[1]["codigo"], self.product_5.codigo)
