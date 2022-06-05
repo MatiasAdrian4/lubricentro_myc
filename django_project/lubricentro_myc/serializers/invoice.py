@@ -7,6 +7,11 @@ class RemitoSerializer(serializers.ModelSerializer):
         model = Remito
         fields = ["codigo", "cliente", "fecha", "resumen_elementos"]
 
+    def to_representation(self, instance):
+        data = super(RemitoSerializer, self).to_representation(instance)
+        data["cliente"] = instance.cliente.nombre
+        return data
+
 
 class ElementoRemitoSerializer(serializers.ModelSerializer):
     class Meta:

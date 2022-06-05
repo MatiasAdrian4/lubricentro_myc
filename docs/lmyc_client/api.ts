@@ -90,10 +90,10 @@ export interface Invoice {
     'codigo'?: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Invoice
      */
-    'cliente'?: number;
+    'cliente'?: string;
     /**
      * 
      * @type {string}
