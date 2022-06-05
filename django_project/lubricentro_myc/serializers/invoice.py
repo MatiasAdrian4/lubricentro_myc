@@ -5,7 +5,7 @@ from rest_framework import serializers
 class RemitoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Remito
-        fields = "__all__"
+        fields = ["codigo", "cliente", "fecha", "resumen_elementos"]
 
 
 class ElementoRemitoSerializer(serializers.ModelSerializer):

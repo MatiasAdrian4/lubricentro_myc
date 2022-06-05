@@ -52,9 +52,7 @@ class ProductTestCase(TestCase):
     @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
     def test_search_by_detail(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
-        response = self.client.get(
-            f"{self.client_url}?detalle=correa", follow=True
-        )
+        response = self.client.get(f"{self.client_url}?detalle=correa", follow=True)
         productos = json.loads(response.content)["results"]
         self.assertEqual(len(productos), 2)
         self.assertEqual(productos[0]["codigo"], self.product_1.codigo)

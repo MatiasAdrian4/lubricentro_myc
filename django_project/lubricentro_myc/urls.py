@@ -10,7 +10,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r"clientes", ClienteViewSet)
 router.register(r"productos", ProductoViewSet)
-router.register(r"remito", RemitoViewSet)
+router.register(r"remitos", RemitoViewSet)
 router.register(r"elementos_remito", ElementoRemitoViewSet)
 router.register(r"ventas_realizadas", VentaViewSet)
 

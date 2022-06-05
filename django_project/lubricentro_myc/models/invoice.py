@@ -12,6 +12,14 @@ class Remito(models.Model):
     def __str__(self):
         return f"Remito n°{str(self.codigo)}"
 
+    @property
+    def resumen_elementos(self):
+        elementos_remito = ElementoRemito.objects.filter(remito_id=self.codigo)
+        resumen_elementos = ""
+        for elemento in elementos_remito:
+            resumen_elementos += f"{elemento.producto.codigo} ({elemento.producto.detalle}) - {elemento.cantidad} und.;"
+        return resumen_elementos
+
 
 class ElementoRemito(models.Model):
     remito = models.ForeignKey(Remito, on_delete=models.CASCADE)
