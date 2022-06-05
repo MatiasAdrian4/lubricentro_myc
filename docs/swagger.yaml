@@ -693,8 +693,8 @@ components:
           type: integer
           example: 1
         cliente:
-          type: integer
-          example: 1
+          type: string
+          example: Pedro Perez
         fecha:
           type: string
           format: date

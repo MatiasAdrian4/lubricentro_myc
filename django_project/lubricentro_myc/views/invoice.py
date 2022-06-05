@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 
 
 class RemitoViewSet(viewsets.ModelViewSet):
-    queryset = Remito.objects.all().order_by("codigo")
+    queryset = Remito.objects.all().order_by("-fecha")
     serializer_class = RemitoSerializer
 
     @action(detail=False, methods=["get"])
