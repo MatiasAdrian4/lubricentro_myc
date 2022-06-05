@@ -178,7 +178,7 @@ paths:
       responses:
         200:
           description: "PDF containing the products stock"
-  /remito/:
+  /remitos/:
     get:
       tags:
         - Invoices
@@ -213,7 +213,7 @@ paths:
       responses:
         201:
           description: "Invoice created"
-  /remito/{remito_id}/:
+  /remitos/{remito_id}/:
     get:
       tags:
         - Invoices
@@ -257,7 +257,7 @@ paths:
           description: "Invoice updated"
         404:
           description: "Invoice not found"
-  /remito/borrar_remito:
+  /remitos/borrar_remito:
     get:
       tags:
         - Invoices
