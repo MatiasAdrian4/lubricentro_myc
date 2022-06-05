@@ -183,15 +183,22 @@ paths:
       tags:
         - Invoices
       summary: "Get all invoices"
+      parameters:
+        - in: query
+          name: page
+          description: "Desired page"
+          required: false
+          schema:
+            type: integer
       responses:
         200:
-          description: "List containing all the invoices"
+          description: "Paginated invoices list"
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Invoice"
+                  $ref: "#/components/schemas/PaginatedInvoices"
     post:
       tags:
         - Invoices
@@ -692,6 +699,15 @@ components:
           type: string
           format: date
           example: "2018-03-20"
+    PaginatedInvoices:
+      allOf:
+        - $ref: "#/components/schemas/PaginationItems"
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Invoice"
     InvoiceItem:
       type: object
       properties:

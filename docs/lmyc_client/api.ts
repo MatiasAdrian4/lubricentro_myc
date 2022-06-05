@@ -237,6 +237,50 @@ export interface PaginatedClientsAllOf {
 /**
  * 
  * @export
+ * @interface PaginatedInvoices
+ */
+export interface PaginatedInvoices {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginatedInvoices
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedInvoices
+     */
+    'next'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedInvoices
+     */
+    'previous'?: string;
+    /**
+     * 
+     * @type {Array<Invoice>}
+     * @memberof PaginatedInvoices
+     */
+    'results'?: Array<Invoice>;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedInvoicesAllOf
+ */
+export interface PaginatedInvoicesAllOf {
+    /**
+     * 
+     * @type {Array<Invoice>}
+     * @memberof PaginatedInvoicesAllOf
+     */
+    'results'?: Array<Invoice>;
+}
+/**
+ * 
+ * @export
  * @interface PaginatedProducts
  */
 export interface PaginatedProducts {
@@ -1568,10 +1612,11 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Get all invoices
+         * @param {number} [page] Desired page
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remitoGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        remitoGet: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/remito/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1585,6 +1630,10 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
             const localVarQueryParameter = {} as any;
 
             // authentication cookieAuth required
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
 
 
     
@@ -1737,11 +1786,12 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get all invoices
+         * @param {number} [page] Desired page
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remitoGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Invoice>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.remitoGet(options);
+        async remitoGet(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedInvoices>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remitoGet(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1801,11 +1851,12 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Get all invoices
+         * @param {number} [page] Desired page
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remitoGet(options?: any): AxiosPromise<Array<Invoice>> {
-            return localVarFp.remitoGet(options).then((request) => request(axios, basePath));
+        remitoGet(page?: number, options?: any): AxiosPromise<Array<PaginatedInvoices>> {
+            return localVarFp.remitoGet(page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1863,12 +1914,13 @@ export class InvoicesApi extends BaseAPI {
     /**
      * 
      * @summary Get all invoices
+     * @param {number} [page] Desired page
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InvoicesApi
      */
-    public remitoGet(options?: AxiosRequestConfig) {
-        return InvoicesApiFp(this.configuration).remitoGet(options).then((request) => request(this.axios, this.basePath));
+    public remitoGet(page?: number, options?: AxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).remitoGet(page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
