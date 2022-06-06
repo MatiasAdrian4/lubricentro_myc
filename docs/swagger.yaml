@@ -705,6 +705,16 @@ components:
           type: string
           format: date
           example: "2018-03-20"
+    ExtendedInvoice:
+      allOf:
+        - $ref: "#/components/schemas/Invoice"
+        - type: object
+          properties:
+            resumen_elementos:
+              type: string
+              example: "1 (producto 1) - 2 uds.; 2 (producto 2) - 5 uds."
+            esta_pago:
+              type: boolean
     PaginatedInvoices:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -713,7 +723,7 @@ components:
             results:
               type: array
               items:
-                $ref: "#/components/schemas/Invoice"
+                $ref: "#/components/schemas/ExtendedInvoice"
     InvoiceItem:
       type: object
       properties:
