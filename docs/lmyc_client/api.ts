@@ -79,6 +79,62 @@ export interface Client {
 /**
  * 
  * @export
+ * @interface ExtendedInvoice
+ */
+export interface ExtendedInvoice {
+    /**
+     * 
+     * @type {number}
+     * @memberof ExtendedInvoice
+     */
+    'codigo'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedInvoice
+     */
+    'cliente'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedInvoice
+     */
+    'fecha'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedInvoice
+     */
+    'resumen_elementos'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ExtendedInvoice
+     */
+    'esta_pago'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ExtendedInvoiceAllOf
+ */
+export interface ExtendedInvoiceAllOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedInvoiceAllOf
+     */
+    'resumen_elementos'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ExtendedInvoiceAllOf
+     */
+    'esta_pago'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface Invoice
  */
 export interface Invoice {
@@ -260,10 +316,10 @@ export interface PaginatedInvoices {
     'previous'?: string;
     /**
      * 
-     * @type {Array<Invoice>}
+     * @type {Array<ExtendedInvoice>}
      * @memberof PaginatedInvoices
      */
-    'results'?: Array<Invoice>;
+    'results'?: Array<ExtendedInvoice>;
 }
 /**
  * 
@@ -273,10 +329,10 @@ export interface PaginatedInvoices {
 export interface PaginatedInvoicesAllOf {
     /**
      * 
-     * @type {Array<Invoice>}
+     * @type {Array<ExtendedInvoice>}
      * @memberof PaginatedInvoicesAllOf
      */
-    'results'?: Array<Invoice>;
+    'results'?: Array<ExtendedInvoice>;
 }
 /**
  * 

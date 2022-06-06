@@ -5,7 +5,7 @@ from rest_framework import serializers
 class RemitoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Remito
-        fields = ["codigo", "cliente", "fecha", "resumen_elementos"]
+        fields = ["codigo", "cliente", "fecha", "resumen_elementos", "esta_pago"]
 
     def to_representation(self, instance):
         data = super(RemitoSerializer, self).to_representation(instance)
