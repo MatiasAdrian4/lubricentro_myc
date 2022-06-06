@@ -1611,12 +1611,13 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get all invoices
+         * @summary Get all invoices or filter them by client\'s name
          * @param {number} [page] Desired page
+         * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remitosGet: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        remitosGet: async (page?: number, nombre?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/remitos/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1633,6 +1634,10 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
+            }
+
+            if (nombre !== undefined) {
+                localVarQueryParameter['nombre'] = nombre;
             }
 
 
@@ -1785,13 +1790,14 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get all invoices
+         * @summary Get all invoices or filter them by client\'s name
          * @param {number} [page] Desired page
+         * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remitosGet(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedInvoices>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.remitosGet(page, options);
+        async remitosGet(page?: number, nombre?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedInvoices>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remitosGet(page, nombre, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1850,13 +1856,14 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Get all invoices
+         * @summary Get all invoices or filter them by client\'s name
          * @param {number} [page] Desired page
+         * @param {string} [nombre] Client\&#39;s name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remitosGet(page?: number, options?: any): AxiosPromise<Array<PaginatedInvoices>> {
-            return localVarFp.remitosGet(page, options).then((request) => request(axios, basePath));
+        remitosGet(page?: number, nombre?: string, options?: any): AxiosPromise<Array<PaginatedInvoices>> {
+            return localVarFp.remitosGet(page, nombre, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1913,14 +1920,15 @@ export class InvoicesApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get all invoices
+     * @summary Get all invoices or filter them by client\'s name
      * @param {number} [page] Desired page
+     * @param {string} [nombre] Client\&#39;s name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InvoicesApi
      */
-    public remitosGet(page?: number, options?: AxiosRequestConfig) {
-        return InvoicesApiFp(this.configuration).remitosGet(page, options).then((request) => request(this.axios, this.basePath));
+    public remitosGet(page?: number, nombre?: string, options?: AxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).remitosGet(page, nombre, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

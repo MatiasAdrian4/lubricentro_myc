@@ -13,6 +13,14 @@ class RemitoViewSet(viewsets.ModelViewSet):
     queryset = Remito.objects.all().order_by("-fecha")
     serializer_class = RemitoSerializer
 
+    def list(self, request):
+        nombre = request.GET.get("nombre", None)
+        if nombre:
+            self.queryset = Remito.objects.filter(
+                cliente__nombre__icontains=nombre
+            ).order_by("-fecha")
+        return super().list(request)
+
     @action(detail=False, methods=["get"])
     def borrar_remito(self, request):
         codigo = request.GET.get("codigo")

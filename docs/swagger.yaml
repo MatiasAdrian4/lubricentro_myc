@@ -182,7 +182,7 @@ paths:
     get:
       tags:
         - Invoices
-      summary: "Get all invoices"
+      summary: "Get all invoices or filter them by client's name"
       parameters:
         - in: query
           name: page
@@ -190,6 +190,12 @@ paths:
           required: false
           schema:
             type: integer
+        - in: query
+          name: nombre
+          description: "Client's name"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "Paginated invoices list"
