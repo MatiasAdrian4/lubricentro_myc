@@ -182,7 +182,7 @@ paths:
     get:
       tags:
         - File Actions
-      summary: "Get the invoice PDF"
+      summary: "Get invoice PDF"
       parameters:
         - in: query
           name: cod_remito

@@ -977,7 +977,7 @@ export const FileActionsApiAxiosParamCreator = function (configuration?: Configu
     return {
         /**
          * 
-         * @summary Get the invoice PDF
+         * @summary Get invoice PDF
          * @param {number} codRemito Invoice id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1065,7 +1065,7 @@ export const FileActionsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get the invoice PDF
+         * @summary Get invoice PDF
          * @param {number} codRemito Invoice id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1097,7 +1097,7 @@ export const FileActionsApiFactory = function (configuration?: Configuration, ba
     return {
         /**
          * 
-         * @summary Get the invoice PDF
+         * @summary Get invoice PDF
          * @param {number} codRemito Invoice id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1127,7 +1127,7 @@ export const FileActionsApiFactory = function (configuration?: Configuration, ba
 export class FileActionsApi extends BaseAPI {
     /**
      * 
-     * @summary Get the invoice PDF
+     * @summary Get invoice PDF
      * @param {number} codRemito Invoice id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
