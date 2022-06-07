@@ -178,6 +178,21 @@ paths:
       responses:
         200:
           description: "PDF containing the products stock"
+  /generar_remito_pdf:
+    get:
+      tags:
+        - File Actions
+      summary: "Get the invoice PDF"
+      parameters:
+        - in: query
+          name: cod_remito
+          description: "Invoice id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Invoice PDF"
   /remitos/:
     get:
       tags:

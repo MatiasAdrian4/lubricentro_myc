@@ -17,7 +17,7 @@ class Remito(models.Model):
         elementos_remito = ElementoRemito.objects.filter(remito_id=self.codigo)
         resumen_elementos = ""
         for elemento in elementos_remito:
-            resumen_elementos += f"{elemento.producto.codigo} ({elemento.producto.detalle}) - {elemento.cantidad} und.;"
+            resumen_elementos += f"{elemento.cantidad} und. - {elemento.producto.codigo} ({elemento.producto.detalle});"
         return resumen_elementos[:-1]
 
     @property

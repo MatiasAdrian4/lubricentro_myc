@@ -977,6 +977,45 @@ export const FileActionsApiAxiosParamCreator = function (configuration?: Configu
     return {
         /**
          * 
+         * @summary Get the invoice PDF
+         * @param {number} codRemito Invoice id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generarRemitoPdfGet: async (codRemito: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'codRemito' is not null or undefined
+            assertParamExists('generarRemitoPdfGet', 'codRemito', codRemito)
+            const localVarPath = `/generar_remito_pdf`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication cookieAuth required
+
+            if (codRemito !== undefined) {
+                localVarQueryParameter['cod_remito'] = codRemito;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get a PDF containing the products stock for a given category
          * @param {string} categoria Category
          * @param {*} [options] Override http request option.
@@ -1026,6 +1065,17 @@ export const FileActionsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Get the invoice PDF
+         * @param {number} codRemito Invoice id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async generarRemitoPdfGet(codRemito: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generarRemitoPdfGet(codRemito, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get a PDF containing the products stock for a given category
          * @param {string} categoria Category
          * @param {*} [options] Override http request option.
@@ -1047,6 +1097,16 @@ export const FileActionsApiFactory = function (configuration?: Configuration, ba
     return {
         /**
          * 
+         * @summary Get the invoice PDF
+         * @param {number} codRemito Invoice id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generarRemitoPdfGet(codRemito: number, options?: any): AxiosPromise<void> {
+            return localVarFp.generarRemitoPdfGet(codRemito, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get a PDF containing the products stock for a given category
          * @param {string} categoria Category
          * @param {*} [options] Override http request option.
@@ -1065,6 +1125,18 @@ export const FileActionsApiFactory = function (configuration?: Configuration, ba
  * @extends {BaseAPI}
  */
 export class FileActionsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get the invoice PDF
+     * @param {number} codRemito Invoice id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileActionsApi
+     */
+    public generarRemitoPdfGet(codRemito: number, options?: AxiosRequestConfig) {
+        return FileActionsApiFp(this.configuration).generarRemitoPdfGet(codRemito, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Get a PDF containing the products stock for a given category
