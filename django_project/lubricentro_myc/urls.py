@@ -1,7 +1,8 @@
 from django.urls import include, re_path
 from lubricentro_myc.views.client import ClienteViewSet
 from lubricentro_myc.views.file import generar_remito_pdf, generar_stock_pdf
-from lubricentro_myc.views.invoice import ElementoRemitoViewSet, RemitoViewSet
+from lubricentro_myc.views.invoice import RemitoViewSet
+from lubricentro_myc.views.invoice_item import ElementoRemitoViewSet
 from lubricentro_myc.views.product import ProductoViewSet
 from lubricentro_myc.views.sale import VentaViewSet
 from lubricentro_myc.views.user import LoginView, LogoutView, SignupView, UserView
