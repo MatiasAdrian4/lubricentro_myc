@@ -210,6 +210,37 @@ export interface InvoiceItemQuantityList {
 /**
  * 
  * @export
+ * @interface InvoiceItemWithProductData
+ */
+export interface InvoiceItemWithProductData {
+    /**
+     * 
+     * @type {number}
+     * @memberof InvoiceItemWithProductData
+     */
+    'remito'?: number;
+    /**
+     * 
+     * @type {SimplifiedProduct}
+     * @memberof InvoiceItemWithProductData
+     */
+    'producto'?: SimplifiedProduct;
+    /**
+     * 
+     * @type {number}
+     * @memberof InvoiceItemWithProductData
+     */
+    'cantidad'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InvoiceItemWithProductData
+     */
+    'pagado'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface InvoiceItemsIdsList
  */
 export interface InvoiceItemsIdsList {
@@ -223,19 +254,6 @@ export interface InvoiceItemsIdsList {
 /**
  * 
  * @export
- * @interface InvoiceItemsList
- */
-export interface InvoiceItemsList {
-    /**
-     * 
-     * @type {Array<InvoiceItem>}
-     * @memberof InvoiceItemsList
-     */
-    'elementos'?: Array<InvoiceItem>;
-}
-/**
- * 
- * @export
  * @interface InvoiceItemsQuantityList
  */
 export interface InvoiceItemsQuantityList {
@@ -245,6 +263,31 @@ export interface InvoiceItemsQuantityList {
      * @memberof InvoiceItemsQuantityList
      */
     'elementos'?: Array<InvoiceItemQuantityList>;
+}
+/**
+ * 
+ * @export
+ * @interface InvoiceWithInvoiceItems
+ */
+export interface InvoiceWithInvoiceItems {
+    /**
+     * 
+     * @type {string}
+     * @memberof InvoiceWithInvoiceItems
+     */
+    'cliente'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvoiceWithInvoiceItems
+     */
+    'fecha'?: string;
+    /**
+     * 
+     * @type {SimplifiedInvoiceItem}
+     * @memberof InvoiceWithInvoiceItems
+     */
+    'elementos_remito'?: SimplifiedInvoiceItem;
 }
 /**
  * 
@@ -595,6 +638,50 @@ export interface SalesPerYear {
      * @memberof SalesPerYear
      */
     'sales_per_year'?: Array<number>;
+}
+/**
+ * 
+ * @export
+ * @interface SimplifiedInvoiceItem
+ */
+export interface SimplifiedInvoiceItem {
+    /**
+     * 
+     * @type {number}
+     * @memberof SimplifiedInvoiceItem
+     */
+    'producto'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SimplifiedInvoiceItem
+     */
+    'cantidad'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface SimplifiedProduct
+ */
+export interface SimplifiedProduct {
+    /**
+     * 
+     * @type {string}
+     * @memberof SimplifiedProduct
+     */
+    'codigo'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SimplifiedProduct
+     */
+    'detalle'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SimplifiedProduct
+     */
+    'precio_venta_cta_cte'?: number;
 }
 /**
  * 
@@ -1159,45 +1246,6 @@ export const InvoiceItemsApiAxiosParamCreator = function (configuration?: Config
     return {
         /**
          * 
-         * @summary Search invoice by client id
-         * @param {number} codigo Client id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        elementosRemitoBuscarPorCodigoClienteGet: async (codigo: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'codigo' is not null or undefined
-            assertParamExists('elementosRemitoBuscarPorCodigoClienteGet', 'codigo', codigo)
-            const localVarPath = `/elementos_remito/buscar_por_codigo_cliente`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication cookieAuth required
-
-            if (codigo !== undefined) {
-                localVarQueryParameter['codigo'] = codigo;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Get invoice item
          * @param {number} elementoRemitoId Invoice item id
          * @param {*} [options] Override http request option.
@@ -1276,15 +1324,14 @@ export const InvoiceItemsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @summary Store invoice items
-         * @param {InvoiceItemsList} invoiceItemsList List of invoice items
+         * @summary Get all invoice items or filter them by paid and/or client\'s code
+         * @param {number} [codigoCliente] Client\&#39;s code
+         * @param {boolean} [pago] Paid or not
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        elementosRemitoGuardarElementosPost: async (invoiceItemsList: InvoiceItemsList, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'invoiceItemsList' is not null or undefined
-            assertParamExists('elementosRemitoGuardarElementosPost', 'invoiceItemsList', invoiceItemsList)
-            const localVarPath = `/elementos_remito/guardar_elementos/`;
+        elementosRemitoGet: async (codigoCliente?: number, pago?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/elementos_remito/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1292,20 +1339,25 @@ export const InvoiceItemsApiAxiosParamCreator = function (configuration?: Config
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication cookieAuth required
 
+            if (codigoCliente !== undefined) {
+                localVarQueryParameter['codigo_cliente'] = codigoCliente;
+            }
+
+            if (pago !== undefined) {
+                localVarQueryParameter['pago'] = pago;
+            }
+
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(invoiceItemsList, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1438,23 +1490,12 @@ export const InvoiceItemsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Search invoice by client id
-         * @param {number} codigo Client id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async elementosRemitoBuscarPorCodigoClienteGet(codigo: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.elementosRemitoBuscarPorCodigoClienteGet(codigo, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Get invoice item
          * @param {number} elementoRemitoId Invoice item id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async elementosRemitoElementoRemitoIdGet(elementoRemitoId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceItem>> {
+        async elementosRemitoElementoRemitoIdGet(elementoRemitoId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceItemWithProductData>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.elementosRemitoElementoRemitoIdGet(elementoRemitoId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1472,13 +1513,14 @@ export const InvoiceItemsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Store invoice items
-         * @param {InvoiceItemsList} invoiceItemsList List of invoice items
+         * @summary Get all invoice items or filter them by paid and/or client\'s code
+         * @param {number} [codigoCliente] Client\&#39;s code
+         * @param {boolean} [pago] Paid or not
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async elementosRemitoGuardarElementosPost(invoiceItemsList: InvoiceItemsList, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.elementosRemitoGuardarElementosPost(invoiceItemsList, options);
+        async elementosRemitoGet(codigoCliente?: number, pago?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InvoiceItemWithProductData>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.elementosRemitoGet(codigoCliente, pago, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1526,22 +1568,12 @@ export const InvoiceItemsApiFactory = function (configuration?: Configuration, b
     return {
         /**
          * 
-         * @summary Search invoice by client id
-         * @param {number} codigo Client id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        elementosRemitoBuscarPorCodigoClienteGet(codigo: number, options?: any): AxiosPromise<void> {
-            return localVarFp.elementosRemitoBuscarPorCodigoClienteGet(codigo, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get invoice item
          * @param {number} elementoRemitoId Invoice item id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        elementosRemitoElementoRemitoIdGet(elementoRemitoId: number, options?: any): AxiosPromise<InvoiceItem> {
+        elementosRemitoElementoRemitoIdGet(elementoRemitoId: number, options?: any): AxiosPromise<InvoiceItemWithProductData> {
             return localVarFp.elementosRemitoElementoRemitoIdGet(elementoRemitoId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1557,13 +1589,14 @@ export const InvoiceItemsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
-         * @summary Store invoice items
-         * @param {InvoiceItemsList} invoiceItemsList List of invoice items
+         * @summary Get all invoice items or filter them by paid and/or client\'s code
+         * @param {number} [codigoCliente] Client\&#39;s code
+         * @param {boolean} [pago] Paid or not
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        elementosRemitoGuardarElementosPost(invoiceItemsList: InvoiceItemsList, options?: any): AxiosPromise<void> {
-            return localVarFp.elementosRemitoGuardarElementosPost(invoiceItemsList, options).then((request) => request(axios, basePath));
+        elementosRemitoGet(codigoCliente?: number, pago?: boolean, options?: any): AxiosPromise<Array<InvoiceItemWithProductData>> {
+            return localVarFp.elementosRemitoGet(codigoCliente, pago, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1607,18 +1640,6 @@ export const InvoiceItemsApiFactory = function (configuration?: Configuration, b
 export class InvoiceItemsApi extends BaseAPI {
     /**
      * 
-     * @summary Search invoice by client id
-     * @param {number} codigo Client id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InvoiceItemsApi
-     */
-    public elementosRemitoBuscarPorCodigoClienteGet(codigo: number, options?: AxiosRequestConfig) {
-        return InvoiceItemsApiFp(this.configuration).elementosRemitoBuscarPorCodigoClienteGet(codigo, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Get invoice item
      * @param {number} elementoRemitoId Invoice item id
      * @param {*} [options] Override http request option.
@@ -1644,14 +1665,15 @@ export class InvoiceItemsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Store invoice items
-     * @param {InvoiceItemsList} invoiceItemsList List of invoice items
+     * @summary Get all invoice items or filter them by paid and/or client\'s code
+     * @param {number} [codigoCliente] Client\&#39;s code
+     * @param {boolean} [pago] Paid or not
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InvoiceItemsApi
      */
-    public elementosRemitoGuardarElementosPost(invoiceItemsList: InvoiceItemsList, options?: AxiosRequestConfig) {
-        return InvoiceItemsApiFp(this.configuration).elementosRemitoGuardarElementosPost(invoiceItemsList, options).then((request) => request(this.axios, this.basePath));
+    public elementosRemitoGet(codigoCliente?: number, pago?: boolean, options?: AxiosRequestConfig) {
+        return InvoiceItemsApiFp(this.configuration).elementosRemitoGet(codigoCliente, pago, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1782,13 +1804,13 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Create new invoice
-         * @param {Invoice} invoice Required invoice data
+         * @param {InvoiceWithInvoiceItems} invoiceWithInvoiceItems Required invoice data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remitosPost: async (invoice: Invoice, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'invoice' is not null or undefined
-            assertParamExists('remitosPost', 'invoice', invoice)
+        remitosPost: async (invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'invoiceWithInvoiceItems' is not null or undefined
+            assertParamExists('remitosPost', 'invoiceWithInvoiceItems', invoiceWithInvoiceItems)
             const localVarPath = `/remitos/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1810,7 +1832,7 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(invoice, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(invoiceWithInvoiceItems, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1931,12 +1953,12 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Create new invoice
-         * @param {Invoice} invoice Required invoice data
+         * @param {InvoiceWithInvoiceItems} invoiceWithInvoiceItems Required invoice data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async remitosPost(invoice: Invoice, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.remitosPost(invoice, options);
+        async remitosPost(invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remitosPost(invoiceWithInvoiceItems, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1996,12 +2018,12 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Create new invoice
-         * @param {Invoice} invoice Required invoice data
+         * @param {InvoiceWithInvoiceItems} invoiceWithInvoiceItems Required invoice data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        remitosPost(invoice: Invoice, options?: any): AxiosPromise<void> {
-            return localVarFp.remitosPost(invoice, options).then((request) => request(axios, basePath));
+        remitosPost(invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options?: any): AxiosPromise<void> {
+            return localVarFp.remitosPost(invoiceWithInvoiceItems, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2062,13 +2084,13 @@ export class InvoicesApi extends BaseAPI {
     /**
      * 
      * @summary Create new invoice
-     * @param {Invoice} invoice Required invoice data
+     * @param {InvoiceWithInvoiceItems} invoiceWithInvoiceItems Required invoice data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InvoicesApi
      */
-    public remitosPost(invoice: Invoice, options?: AxiosRequestConfig) {
-        return InvoicesApiFp(this.configuration).remitosPost(invoice, options).then((request) => request(this.axios, this.basePath));
+    public remitosPost(invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options?: AxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).remitosPost(invoiceWithInvoiceItems, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

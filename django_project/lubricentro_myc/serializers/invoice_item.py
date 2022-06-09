@@ -12,6 +12,6 @@ class ElementoRemitoSerializer(serializers.ModelSerializer):
         data["producto"] = {
             "codigo": instance.producto.codigo,
             "detalle": instance.producto.detalle,
-            "precio_cta_cte": instance.producto.precio_venta_cta_cte,
+            "precio_venta_cta_cte": instance.producto.precio_venta_cta_cte,
         }
         return data

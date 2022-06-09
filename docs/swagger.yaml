@@ -230,7 +230,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Invoice"
+              $ref: "#/components/schemas/InvoiceWithInvoiceItems"
       responses:
         201:
           description: "Invoice created"
@@ -294,6 +294,32 @@ paths:
         200:
           description: "Invoice succesfully deleted"
   /elementos_remito/:
+    get:
+      tags:
+        - Invoice Items
+      summary: "Get all invoice items or filter them by paid and/or client's code"
+      parameters:
+        - in: query
+          name: codigo_cliente
+          description: "Client's code"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: pago
+          description: "Paid or not"
+          required: false
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: "Invoice items list"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InvoiceItemWithProductData"
     post:
       tags:
         - Invoice Items
@@ -326,7 +352,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvoiceItem"
+                $ref: "#/components/schemas/InvoiceItemWithProductData"
         404:
           description: "Invoice item not found"
     patch:
@@ -352,21 +378,6 @@ paths:
           description: "Invoice item updated"
         404:
           description: "Invoice item not found"
-  /elementos_remito/buscar_por_codigo_cliente:
-    get:
-      tags:
-        - Invoice Items
-      summary: "Search invoice by client id"
-      parameters:
-        - in: query
-          name: codigo
-          description: "Client id"
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: "List of all the client's invoices"
   /elementos_remito/marcar_pagado/:
     post:
       tags:
@@ -382,21 +393,6 @@ paths:
       responses:
         200:
           description: "Invoice items successfully marked as paid"
-  /elementos_remito/guardar_elementos/:
-    post:
-      tags:
-        - Invoice Items
-      summary: "Store invoice items"
-      requestBody:
-        description: "List of invoice items"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InvoiceItemsList"
-      responses:
-        200:
-          description: "Invoice items successfully stored"
   /elementos_remito/modificar_cantidad/:
     post:
       tags:
@@ -730,6 +726,18 @@ components:
               example: "1 (producto 1) - 2 uds.; 2 (producto 2) - 5 uds."
             esta_pago:
               type: boolean
+    InvoiceWithInvoiceItems:
+      type: object
+      properties:
+        cliente:
+          type: string
+          example: Pedro Perez
+        fecha:
+          type: string
+          format: date
+          example: "2018-03-20"
+        elementos_remito:
+          $ref: "#/components/schemas/SimplifiedInvoiceItem"
     PaginatedInvoices:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -753,6 +761,28 @@ components:
           example: 1.0
         pagado:
           type: boolean
+    InvoiceItemWithProductData:
+      type: object
+      properties:
+        remito:
+          type: integer
+          example: 1
+        producto:
+          $ref: "#/components/schemas/SimplifiedProduct"
+        cantidad:
+          type: number
+          example: 1.0
+        pagado:
+          type: boolean
+    SimplifiedInvoiceItem:
+      type: object
+      properties:
+        producto:
+          type: integer
+          example: 1
+        cantidad:
+          type: number
+          example: 1.0
     InvoiceItemsIdsList:
       type: object
       properties:
@@ -761,13 +791,6 @@ components:
           items:
             type: integer
             example: 1
-    InvoiceItemsList:
-      type: object
-      properties:
-        elementos:
-          type: array
-          items:
-            $ref: "#/components/schemas/InvoiceItem"
     InvoiceItemQuantityList:
       type: object
       properties:
@@ -829,6 +852,18 @@ components:
         categoria:
           type: string
           example: "Lubricantes"
+    SimplifiedProduct:
+      type: object
+      properties:
+        codigo:
+          type: string
+          example: 1
+        detalle:
+          type: string
+          example: "Product 1"
+        precio_venta_cta_cte:
+          type: number
+          example: 1.0
     PaginatedProducts:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
