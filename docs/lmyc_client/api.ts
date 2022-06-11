@@ -1722,45 +1722,6 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
-         * @summary Delete invoice
-         * @param {string} codigo Invoice code
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        remitosBorrarRemitoGet: async (codigo: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'codigo' is not null or undefined
-            assertParamExists('remitosBorrarRemitoGet', 'codigo', codigo)
-            const localVarPath = `/remitos/borrar_remito`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication cookieAuth required
-
-            if (codigo !== undefined) {
-                localVarQueryParameter['codigo'] = codigo;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Get all invoices or filter them by client\'s name
          * @param {number} [page] Desired page
          * @param {string} [nombre] Client\&#39;s name
@@ -1833,6 +1794,42 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(invoiceWithInvoiceItems, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete invoice
+         * @param {number} remitoId Invoice id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remitosRemitoIdDelete: async (remitoId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'remitoId' is not null or undefined
+            assertParamExists('remitosRemitoIdDelete', 'remitoId', remitoId)
+            const localVarPath = `/remitos/{remito_id}/`
+                .replace(`{${"remito_id"}}`, encodeURIComponent(String(remitoId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication cookieAuth required
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1929,17 +1926,6 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Delete invoice
-         * @param {string} codigo Invoice code
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async remitosBorrarRemitoGet(codigo: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.remitosBorrarRemitoGet(codigo, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @summary Get all invoices or filter them by client\'s name
          * @param {number} [page] Desired page
          * @param {string} [nombre] Client\&#39;s name
@@ -1959,6 +1945,17 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
          */
         async remitosPost(invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.remitosPost(invoiceWithInvoiceItems, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete invoice
+         * @param {number} remitoId Invoice id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async remitosRemitoIdDelete(remitoId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.remitosRemitoIdDelete(remitoId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1996,16 +1993,6 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
-         * @summary Delete invoice
-         * @param {string} codigo Invoice code
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        remitosBorrarRemitoGet(codigo: string, options?: any): AxiosPromise<void> {
-            return localVarFp.remitosBorrarRemitoGet(codigo, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get all invoices or filter them by client\'s name
          * @param {number} [page] Desired page
          * @param {string} [nombre] Client\&#39;s name
@@ -2024,6 +2011,16 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
          */
         remitosPost(invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options?: any): AxiosPromise<void> {
             return localVarFp.remitosPost(invoiceWithInvoiceItems, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete invoice
+         * @param {number} remitoId Invoice id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        remitosRemitoIdDelete(remitoId: number, options?: any): AxiosPromise<void> {
+            return localVarFp.remitosRemitoIdDelete(remitoId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2058,18 +2055,6 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
 export class InvoicesApi extends BaseAPI {
     /**
      * 
-     * @summary Delete invoice
-     * @param {string} codigo Invoice code
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof InvoicesApi
-     */
-    public remitosBorrarRemitoGet(codigo: string, options?: AxiosRequestConfig) {
-        return InvoicesApiFp(this.configuration).remitosBorrarRemitoGet(codigo, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @summary Get all invoices or filter them by client\'s name
      * @param {number} [page] Desired page
      * @param {string} [nombre] Client\&#39;s name
@@ -2091,6 +2076,18 @@ export class InvoicesApi extends BaseAPI {
      */
     public remitosPost(invoiceWithInvoiceItems: InvoiceWithInvoiceItems, options?: AxiosRequestConfig) {
         return InvoicesApiFp(this.configuration).remitosPost(invoiceWithInvoiceItems, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete invoice
+     * @param {number} remitoId Invoice id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvoicesApi
+     */
+    public remitosRemitoIdDelete(remitoId: number, options?: AxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).remitosRemitoIdDelete(remitoId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

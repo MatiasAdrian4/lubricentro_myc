@@ -278,20 +278,19 @@ paths:
           description: "Invoice updated"
         404:
           description: "Invoice not found"
-  /remitos/borrar_remito:
-    get:
+    delete:
       tags:
         - Invoices
       summary: "Delete invoice"
       parameters:
-        - in: query
-          name: codigo
-          description: "Invoice code"
+        - in: path
+          name: remito_id
+          description: "Invoice id"
           required: true
           schema:
-            type: string
+            type: integer
       responses:
-        200:
+        204:
           description: "Invoice succesfully deleted"
   /elementos_remito/:
     get:

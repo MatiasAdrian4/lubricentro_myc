@@ -30,21 +30,3 @@ class RemitoViewSet(viewsets.ModelViewSet):
                 cantidad=elemento_remito.get("cantidad"),
             )
             producto.save()
-
-    @action(detail=False, methods=["get"])
-    def borrar_remito(self, request):
-        codigo = request.GET.get("codigo")
-        if not codigo:
-            return HttpResponse(status=400)
-        try:
-            remito = Remito.objects.get(codigo=codigo)
-        except Remito.DoesNotExist:
-            return HttpResponse(status=404)
-        elementos_remito = ElementoRemito.objects.filter(remito=codigo)
-        for elemento_remito in elementos_remito:
-            producto = Producto.objects.get(codigo=elemento_remito.producto.codigo)
-            producto.stock += elemento_remito.cantidad
-            producto.save()
-        elementos_remito.delete()
-        remito.delete()
-        return HttpResponse(status=200)

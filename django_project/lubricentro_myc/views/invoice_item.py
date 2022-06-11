@@ -47,13 +47,17 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
             if nueva_cantidad < elemento_remito.cantidad:
                 producto.stock += elemento_remito.cantidad - nueva_cantidad
                 producto.save()
-                elemento_remito.cantidad = nueva_cantidad
-                elemento_remito.save()
+                if nueva_cantidad != 0:
+                    elemento_remito.cantidad = nueva_cantidad
+                    elemento_remito.save()
+                else:
+                    elemento_remito.delete()
             elif nueva_cantidad > elemento_remito.cantidad:
                 producto.stock -= nueva_cantidad - elemento_remito.cantidad
                 producto.save()
-                elemento_remito.cantidad = nueva_cantidad
-                elemento_remito.save()
-            else:  # nueva_cantidad == 0
-                elemento_remito.delete()
+                if nueva_cantidad != 0:
+                    elemento_remito.cantidad = nueva_cantidad
+                    elemento_remito.save()
+                else:
+                    elemento_remito.delete()
         return HttpResponse(status=200)
