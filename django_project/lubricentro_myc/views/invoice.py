@@ -1,9 +1,6 @@
-from django.http import HttpResponse
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
-from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.invoice import RemitoSerializer
 from rest_framework import viewsets
-from rest_framework.decorators import action
 
 
 class RemitoViewSet(viewsets.ModelViewSet):
@@ -22,11 +19,8 @@ class RemitoViewSet(viewsets.ModelViewSet):
         remito = serializer.save()
         elementos_remito = self.request.data.get("elementos_remito")
         for elemento_remito in elementos_remito:
-            producto = Producto.objects.get(codigo=elemento_remito.get("producto"))
-            producto.stock -= elemento_remito.get("cantidad")
             ElementoRemito.objects.create(
                 remito=remito,
-                producto=producto,
+                producto_id=elemento_remito.get("producto"),
                 cantidad=elemento_remito.get("cantidad"),
             )
-            producto.save()

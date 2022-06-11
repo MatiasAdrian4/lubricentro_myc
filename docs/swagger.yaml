@@ -371,42 +371,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/InvoiceItem"
+              $ref: "#/components/schemas/UpdateInvoiceItem"
       responses:
         200:
           description: "Invoice item updated"
         404:
           description: "Invoice item not found"
-  /elementos_remito/marcar_pagado/:
-    post:
-      tags:
-        - Invoice Items
-      summary: "Marked invoice items as paid"
-      requestBody:
-        description: "List of invoice items ids"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InvoiceItemsIdsList"
-      responses:
-        200:
-          description: "Invoice items successfully marked as paid"
-  /elementos_remito/modificar_cantidad/:
-    post:
-      tags:
-        - Invoice Items
-      summary: "Update the invoice items quantity value"
-      requestBody:
-        description: "List containing invoice ids and new quantities"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InvoiceItemsQuantityList"
-      responses:
-        200:
-          description: "Invoice items quantities successfully updated"
   /productos/:
     get:
       tags:
@@ -782,30 +752,14 @@ components:
         cantidad:
           type: number
           example: 1.0
-    InvoiceItemsIdsList:
+    UpdateInvoiceItem:
       type: object
       properties:
-        elementos:
-          type: array
-          items:
-            type: integer
-            example: 1
-    InvoiceItemQuantityList:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
         cantidad:
           type: number
           example: 1.0
-    InvoiceItemsQuantityList:
-      type: object
-      properties:
-        elementos:
-          type: array
-          items:
-            $ref: "#/components/schemas/InvoiceItemQuantityList"
+        pagado:
+          type: boolean
     Product:
       type: object
       properties:
