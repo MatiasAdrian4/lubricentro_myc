@@ -51,7 +51,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-
   /account/login/:
     post:
       security: []
@@ -252,30 +251,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invoice"
-        404:
-          description: "Invoice not found"
-    patch:
-      tags:
-        - Invoices
-      summary: "Update invoice"
-      parameters:
-        - in: path
-          name: remito_id
-          description: "Invoice id"
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        description: "Invoice data"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Invoice"
-      responses:
-        200:
-          description: "Invoice updated"
+                $ref: "#/components/schemas/ExtendedInvoice"
         404:
           description: "Invoice not found"
     delete:
