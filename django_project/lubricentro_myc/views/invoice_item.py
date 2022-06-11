@@ -1,10 +1,8 @@
 from django.db.models import Q
 from django.http import HttpResponse
 from lubricentro_myc.models.invoice import ElementoRemito
-from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.invoice_item import ElementoRemitoSerializer
 from rest_framework import viewsets
-from rest_framework.decorators import action
 
 
 class ElementoRemitoViewSet(viewsets.ModelViewSet):
