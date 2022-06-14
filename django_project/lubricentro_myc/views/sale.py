@@ -3,9 +3,10 @@ from calendar import monthrange
 
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
+from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -14,31 +15,20 @@ class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all().order_by("id")
     serializer_class = VentaSerializer
 
-    def store_sale(self, request, update_stock=False):
-        serializer = VentasSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=400)
-        ventas = serializer.validated_data.get("ventas")
-        for venta in ventas:
-            nueva_venta = Venta(
-                producto=venta.get("producto"),
-                cantidad=venta.get("cantidad"),
-                precio=venta.get("precio"),
-            )
-            nueva_venta.save()
-            if update_stock:
-                producto = venta.get("producto")
-                producto.stock -= float(venta.get("cantidad"))
-                producto.save()
-        return HttpResponse(status=200)
-
-    @action(detail=False, methods=["post"])
-    def guardar_venta(self, request):
-        return self.store_sale(request)
-
-    @action(detail=False, methods=["post"])
-    def guardar_venta_y_actualizar_stock(self, request):
-        return self.store_sale(request, True)
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        update_stock = True if request.GET.get("update_stock") == "true" else False
+        product = Producto.objects.get(codigo=serializer.data["producto"])
+        Venta.objects.create(
+            producto=product,
+            cantidad=serializer.data["cantidad"],
+            precio=serializer.data["precio"],
+        )
+        if update_stock:
+            product.stock -= serializer.data["cantidad"]
+            product.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["get"])
     def ventas_por_anio(self, request):

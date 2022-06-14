@@ -379,6 +379,50 @@ export interface PaginatedProductsAllOf {
 /**
  * 
  * @export
+ * @interface PaginatedSales
+ */
+export interface PaginatedSales {
+    /**
+     * 
+     * @type {number}
+     * @memberof PaginatedSales
+     */
+    'count'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedSales
+     */
+    'next'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaginatedSales
+     */
+    'previous'?: string;
+    /**
+     * 
+     * @type {Array<Sale>}
+     * @memberof PaginatedSales
+     */
+    'results'?: Array<Sale>;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedSalesAllOf
+ */
+export interface PaginatedSalesAllOf {
+    /**
+     * 
+     * @type {Array<Sale>}
+     * @memberof PaginatedSalesAllOf
+     */
+    'results'?: Array<Sale>;
+}
+/**
+ * 
+ * @export
  * @interface PaginationItems
  */
 export interface PaginationItems {
@@ -554,19 +598,6 @@ export interface Sale {
      * @memberof Sale
      */
     'fecha'?: string;
-}
-/**
- * 
- * @export
- * @interface SaleList
- */
-export interface SaleList {
-    /**
-     * 
-     * @type {Array<Sale>}
-     * @memberof SaleList
-     */
-    'ventas'?: Array<Sale>;
 }
 /**
  * 
@@ -2292,12 +2323,12 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
-         * @summary Get all sakes
+         * @summary Get all sales
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         ventasRealizadasGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/ventas_realizadas`;
+            const localVarPath = `/ventas_realizadas/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2324,15 +2355,13 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @summary Create new sales
-         * @param {SaleList} saleList Required sale data
+         * @summary Create new sale
+         * @param {string} [updateStock] Update stock
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasGuardarVentaPost: async (saleList: SaleList, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'saleList' is not null or undefined
-            assertParamExists('ventasRealizadasGuardarVentaPost', 'saleList', saleList)
-            const localVarPath = `/ventas_realizadas/guardar_venta/`;
+        ventasRealizadasPost: async (updateStock?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/ventas_realizadas/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2346,52 +2375,15 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
 
             // authentication cookieAuth required
 
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(saleList, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Create new sale and update stock
-         * @param {SaleList} saleList Required sale data
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        ventasRealizadasGuardarVentaYActualizarStockPost: async (saleList: SaleList, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'saleList' is not null or undefined
-            assertParamExists('ventasRealizadasGuardarVentaYActualizarStockPost', 'saleList', saleList)
-            const localVarPath = `/ventas_realizadas/guardar_venta_y_actualizar_stock/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (updateStock !== undefined) {
+                localVarQueryParameter['update_stock'] = updateStock;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication cookieAuth required
-
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(saleList, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2573,7 +2565,7 @@ export const SalesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get all sakes
+         * @summary Get all sales
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2583,24 +2575,13 @@ export const SalesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Create new sales
-         * @param {SaleList} saleList Required sale data
+         * @summary Create new sale
+         * @param {string} [updateStock] Update stock
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasGuardarVentaPost(saleList: SaleList, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasGuardarVentaPost(saleList, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @summary Create new sale and update stock
-         * @param {SaleList} saleList Required sale data
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async ventasRealizadasGuardarVentaYActualizarStockPost(saleList: SaleList, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasGuardarVentaYActualizarStockPost(saleList, options);
+        async ventasRealizadasPost(updateStock?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasPost(updateStock, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2661,7 +2642,7 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
-         * @summary Get all sakes
+         * @summary Get all sales
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2670,23 +2651,13 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
-         * @summary Create new sales
-         * @param {SaleList} saleList Required sale data
+         * @summary Create new sale
+         * @param {string} [updateStock] Update stock
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasGuardarVentaPost(saleList: SaleList, options?: any): AxiosPromise<void> {
-            return localVarFp.ventasRealizadasGuardarVentaPost(saleList, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Create new sale and update stock
-         * @param {SaleList} saleList Required sale data
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        ventasRealizadasGuardarVentaYActualizarStockPost(saleList: SaleList, options?: any): AxiosPromise<void> {
-            return localVarFp.ventasRealizadasGuardarVentaYActualizarStockPost(saleList, options).then((request) => request(axios, basePath));
+        ventasRealizadasPost(updateStock?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.ventasRealizadasPost(updateStock, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2742,7 +2713,7 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
 export class SalesApi extends BaseAPI {
     /**
      * 
-     * @summary Get all sakes
+     * @summary Get all sales
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SalesApi
@@ -2753,26 +2724,14 @@ export class SalesApi extends BaseAPI {
 
     /**
      * 
-     * @summary Create new sales
-     * @param {SaleList} saleList Required sale data
+     * @summary Create new sale
+     * @param {string} [updateStock] Update stock
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasGuardarVentaPost(saleList: SaleList, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasGuardarVentaPost(saleList, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Create new sale and update stock
-     * @param {SaleList} saleList Required sale data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SalesApi
-     */
-    public ventasRealizadasGuardarVentaYActualizarStockPost(saleList: SaleList, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasGuardarVentaYActualizarStockPost(saleList, options).then((request) => request(this.axios, this.basePath));
+    public ventasRealizadasPost(updateStock?: string, options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasRealizadasPost(updateStock, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
