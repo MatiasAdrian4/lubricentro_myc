@@ -463,20 +463,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductUpdateCostResult"
-  /ventas_realizadas:
+  /ventas_realizadas/:
     get:
       tags:
         - Sales
-      summary: "Get all sakes"
+      summary: "Get all sales"
       responses:
         200:
-          description: "List containing all the sales"
+          description: "Paginated sales list"
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/Sale"
+    post:
+      tags:
+        - Sales
+      summary: "Create new sale"
+      parameters:
+        - in: query
+          name: update_stock
+          description: "Update stock"
+          required: false
+          schema:
+            type: string
+      responses:
+        201:
+          description: "Sale created"
   /ventas_realizadas/{venta_id}:
     get:
       tags:
@@ -521,36 +535,6 @@ paths:
           description: "Sale updated"
         404:
           description: "Sale not found"
-  /ventas_realizadas/guardar_venta/:
-    post:
-      tags:
-        - Sales
-      summary: "Create new sales"
-      requestBody:
-        description: "Required sale data"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SaleList"
-      responses:
-        201:
-          description: "Sales created"
-  /ventas_realizadas/guardar_venta_y_actualizar_stock/:
-    post:
-      tags:
-        - Sales
-      summary: "Create new sale and update stock"
-      requestBody:
-        description: "Required sale data"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SaleList"
-      responses:
-        201:
-          description: "Sales created"
   /ventas_realizadas/ventas_por_anio:
     get:
       tags:
@@ -835,13 +819,15 @@ components:
           type: string
           format: date
           example: "2018-03-20"
-    SaleList:
-      type: object
-      properties:
-        ventas:
-          type: array
-          items:
-            $ref: "#/components/schemas/Sale"
+    PaginatedSales:
+      allOf:
+        - $ref: "#/components/schemas/PaginationItems"
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: "#/components/schemas/Sale"
     SalesPerYear:
       type: object
       properties:

@@ -15,27 +15,29 @@ class SaleTestCase(TestCase):
         cls.client_url = "/lubricentro_myc/ventas_realizadas"
         cls.product_1 = ProductFactory(codigo=1, stock=5)
         cls.product_2 = ProductFactory(codigo=2, stock=4)
-        cls.mocked_sale = {
-            "ventas": [
-                {
-                    "producto": cls.product_1.codigo,
-                    "cantidad": 3,
-                    "precio": "700",
-                },
-                {
-                    "producto": cls.product_2.codigo,
-                    "cantidad": 1,
-                    "precio": "1500",
-                },
-            ]
+        cls.sale_1 = {
+            "producto": cls.product_1.codigo,
+            "cantidad": 3,
+            "precio": "700",
+        }
+        cls.sale_2 = {
+            "producto": cls.product_2.codigo,
+            "cantidad": 1,
+            "precio": "1500",
         }
 
     @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
     def test_new_sale_without_updating_stock(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
         self.client.post(
-            f"{self.client_url}/guardar_venta/",
-            json.dumps(self.mocked_sale),
+            f"{self.client_url}/",
+            json.dumps(self.sale_1),
+            content_type="application/json",
+            follow=True,
+        )
+        self.client.post(
+            f"{self.client_url}/",
+            json.dumps(self.sale_2),
             content_type="application/json",
             follow=True,
         )
@@ -52,8 +54,14 @@ class SaleTestCase(TestCase):
     def test_new_sale_updating_stock(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
         self.client.post(
-            f"{self.client_url}/guardar_venta_y_actualizar_stock/",
-            json.dumps(self.mocked_sale),
+            f"{self.client_url}/?update_stock=true",
+            json.dumps(self.sale_1),
+            content_type="application/json",
+            follow=True,
+        )
+        self.client.post(
+            f"{self.client_url}/?update_stock=true",
+            json.dumps(self.sale_2),
             content_type="application/json",
             follow=True,
         )
