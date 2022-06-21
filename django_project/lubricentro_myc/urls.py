@@ -13,7 +13,7 @@ router.register(r"clientes", ClienteViewSet)
 router.register(r"productos", ProductoViewSet)
 router.register(r"remitos", RemitoViewSet)
 router.register(r"elementos_remito", ElementoRemitoViewSet)
-router.register(r"ventas_realizadas", VentaViewSet)
+router.register(r"ventas", VentaViewSet)
 
 urlpatterns = [
     re_path(r"account/signup/", SignupView.as_view()),

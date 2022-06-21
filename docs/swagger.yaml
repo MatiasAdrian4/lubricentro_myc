@@ -463,7 +463,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductUpdateCostResult"
-  /ventas_realizadas/:
+  /ventas/:
     get:
       tags:
         - Sales
@@ -491,7 +491,7 @@ paths:
       responses:
         201:
           description: "Sale created"
-  /ventas_realizadas/{venta_id}:
+  /ventas/{venta_id}:
     get:
       tags:
         - Sales
@@ -535,7 +535,7 @@ paths:
           description: "Sale updated"
         404:
           description: "Sale not found"
-  /ventas_realizadas/ventas_por_anio:
+  /ventas/ventas_por_anio:
     get:
       tags:
         - Sales
@@ -554,7 +554,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SalesPerYear"
-  /ventas_realizadas/ventas_por_mes:
+  /ventas/ventas_por_mes:
     get:
       tags:
         - Sales
@@ -599,7 +599,7 @@ components:
       required:
         - nombre
       properties:
-        codigo:
+        id:
           type: integer
           example: 1
         nombre:

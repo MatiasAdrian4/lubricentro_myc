@@ -12,7 +12,7 @@ class SaleTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.api_client = APIClient()
-        cls.client_url = "/lubricentro_myc/ventas_realizadas"
+        cls.client_url = "/lubricentro_myc/ventas"
         cls.product_1 = ProductFactory(codigo=1, stock=5)
         cls.product_2 = ProductFactory(codigo=2, stock=4)
         cls.sale_1 = {

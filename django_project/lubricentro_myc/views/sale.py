@@ -3,6 +3,8 @@ from calendar import monthrange
 
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
+from lubricentro_myc.models.client import Cliente
+from lubricentro_myc.models.invoice import ElementoRemito
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
@@ -64,3 +66,27 @@ class VentaViewSet(viewsets.ModelViewSet):
             suma_ventas = ventas.aggregate(Sum("precio"))["precio__sum"]
             data.append(round(suma_ventas, 2) if suma_ventas else 0)
         return JsonResponse(data={"sales_per_month": data})
+
+    @action(detail=False, methods=["get"])
+    def historial_deudores(self, request):
+        total_debt = 0
+        clients = []
+        for client in Cliente.objects.all():
+            client_debt = client.deuda_actual
+            if client_debt > 0:
+                total_debt += client_debt
+                clients.append(
+                    {
+                        "id": client.id,
+                        "nombre": client.nombre,
+                        "deuda_actual": client_debt,
+                    }
+                )
+        return JsonResponse(
+            data={
+                "clientes": sorted(
+                    clients, key=lambda d: d["deuda_actual"], reverse=True
+                ),
+                "deuda_total": total_debt,
+            }
+        )
