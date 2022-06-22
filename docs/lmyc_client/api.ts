@@ -32,7 +32,7 @@ export interface Client {
      * @type {number}
      * @memberof Client
      */
-    'codigo'?: number;
+    'id'?: number;
     /**
      * 
      * @type {string}
@@ -2327,8 +2327,8 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/ventas_realizadas/`;
+        ventasGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/ventas/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2360,8 +2360,8 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasPost: async (updateStock?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/ventas_realizadas/`;
+        ventasPost: async (updateStock?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/ventas/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2397,10 +2397,10 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentaIdGet: async (ventaId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ventasVentaIdGet: async (ventaId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ventaId' is not null or undefined
-            assertParamExists('ventasRealizadasVentaIdGet', 'ventaId', ventaId)
-            const localVarPath = `/ventas_realizadas/{venta_id}`
+            assertParamExists('ventasVentaIdGet', 'ventaId', ventaId)
+            const localVarPath = `/ventas/{venta_id}`
                 .replace(`{${"venta_id"}}`, encodeURIComponent(String(ventaId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2434,12 +2434,12 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentaIdPatch: async (ventaId: number, sale: Sale, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ventasVentaIdPatch: async (ventaId: number, sale: Sale, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'ventaId' is not null or undefined
-            assertParamExists('ventasRealizadasVentaIdPatch', 'ventaId', ventaId)
+            assertParamExists('ventasVentaIdPatch', 'ventaId', ventaId)
             // verify required parameter 'sale' is not null or undefined
-            assertParamExists('ventasRealizadasVentaIdPatch', 'sale', sale)
-            const localVarPath = `/ventas_realizadas/{venta_id}`
+            assertParamExists('ventasVentaIdPatch', 'sale', sale)
+            const localVarPath = `/ventas/{venta_id}`
                 .replace(`{${"venta_id"}}`, encodeURIComponent(String(ventaId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2475,10 +2475,10 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentasPorAnioGet: async (year: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ventasVentasPorAnioGet: async (year: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'year' is not null or undefined
-            assertParamExists('ventasRealizadasVentasPorAnioGet', 'year', year)
-            const localVarPath = `/ventas_realizadas/ventas_por_anio`;
+            assertParamExists('ventasVentasPorAnioGet', 'year', year)
+            const localVarPath = `/ventas/ventas_por_anio`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2515,12 +2515,12 @@ export const SalesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentasPorMesGet: async (month: string, year: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ventasVentasPorMesGet: async (month: string, year: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'month' is not null or undefined
-            assertParamExists('ventasRealizadasVentasPorMesGet', 'month', month)
+            assertParamExists('ventasVentasPorMesGet', 'month', month)
             // verify required parameter 'year' is not null or undefined
-            assertParamExists('ventasRealizadasVentasPorMesGet', 'year', year)
-            const localVarPath = `/ventas_realizadas/ventas_por_mes`;
+            assertParamExists('ventasVentasPorMesGet', 'year', year)
+            const localVarPath = `/ventas/ventas_por_mes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2569,8 +2569,8 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Sale>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasGet(options);
+        async ventasGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Sale>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2580,8 +2580,8 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasPost(updateStock?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasPost(updateStock, options);
+        async ventasPost(updateStock?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasPost(updateStock, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2591,8 +2591,8 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasVentaIdGet(ventaId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Sale>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasVentaIdGet(ventaId, options);
+        async ventasVentaIdGet(ventaId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Sale>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasVentaIdGet(ventaId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2603,8 +2603,8 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasVentaIdPatch(ventaId: number, sale: Sale, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasVentaIdPatch(ventaId, sale, options);
+        async ventasVentaIdPatch(ventaId: number, sale: Sale, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasVentaIdPatch(ventaId, sale, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2614,8 +2614,8 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasVentasPorAnioGet(year: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalesPerYear>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasVentasPorAnioGet(year, options);
+        async ventasVentasPorAnioGet(year: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalesPerYear>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasVentasPorAnioGet(year, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2626,8 +2626,8 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasRealizadasVentasPorMesGet(month: string, year: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalesPerMonth>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasRealizadasVentasPorMesGet(month, year, options);
+        async ventasVentasPorMesGet(month: string, year: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SalesPerMonth>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ventasVentasPorMesGet(month, year, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2646,8 +2646,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasGet(options?: any): AxiosPromise<Array<Sale>> {
-            return localVarFp.ventasRealizadasGet(options).then((request) => request(axios, basePath));
+        ventasGet(options?: any): AxiosPromise<Array<Sale>> {
+            return localVarFp.ventasGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2656,8 +2656,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasPost(updateStock?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.ventasRealizadasPost(updateStock, options).then((request) => request(axios, basePath));
+        ventasPost(updateStock?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.ventasPost(updateStock, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2666,8 +2666,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentaIdGet(ventaId: number, options?: any): AxiosPromise<Sale> {
-            return localVarFp.ventasRealizadasVentaIdGet(ventaId, options).then((request) => request(axios, basePath));
+        ventasVentaIdGet(ventaId: number, options?: any): AxiosPromise<Sale> {
+            return localVarFp.ventasVentaIdGet(ventaId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2677,8 +2677,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentaIdPatch(ventaId: number, sale: Sale, options?: any): AxiosPromise<void> {
-            return localVarFp.ventasRealizadasVentaIdPatch(ventaId, sale, options).then((request) => request(axios, basePath));
+        ventasVentaIdPatch(ventaId: number, sale: Sale, options?: any): AxiosPromise<void> {
+            return localVarFp.ventasVentaIdPatch(ventaId, sale, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2687,8 +2687,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentasPorAnioGet(year: string, options?: any): AxiosPromise<SalesPerYear> {
-            return localVarFp.ventasRealizadasVentasPorAnioGet(year, options).then((request) => request(axios, basePath));
+        ventasVentasPorAnioGet(year: string, options?: any): AxiosPromise<SalesPerYear> {
+            return localVarFp.ventasVentasPorAnioGet(year, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2698,8 +2698,8 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasRealizadasVentasPorMesGet(month: string, year: string, options?: any): AxiosPromise<SalesPerMonth> {
-            return localVarFp.ventasRealizadasVentasPorMesGet(month, year, options).then((request) => request(axios, basePath));
+        ventasVentasPorMesGet(month: string, year: string, options?: any): AxiosPromise<SalesPerMonth> {
+            return localVarFp.ventasVentasPorMesGet(month, year, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2718,8 +2718,8 @@ export class SalesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasGet(options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasGet(options).then((request) => request(this.axios, this.basePath));
+    public ventasGet(options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2730,8 +2730,8 @@ export class SalesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasPost(updateStock?: string, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasPost(updateStock, options).then((request) => request(this.axios, this.basePath));
+    public ventasPost(updateStock?: string, options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasPost(updateStock, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2742,8 +2742,8 @@ export class SalesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasVentaIdGet(ventaId: number, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasVentaIdGet(ventaId, options).then((request) => request(this.axios, this.basePath));
+    public ventasVentaIdGet(ventaId: number, options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasVentaIdGet(ventaId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2755,8 +2755,8 @@ export class SalesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasVentaIdPatch(ventaId: number, sale: Sale, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasVentaIdPatch(ventaId, sale, options).then((request) => request(this.axios, this.basePath));
+    public ventasVentaIdPatch(ventaId: number, sale: Sale, options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasVentaIdPatch(ventaId, sale, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2767,8 +2767,8 @@ export class SalesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasVentasPorAnioGet(year: string, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasVentasPorAnioGet(year, options).then((request) => request(this.axios, this.basePath));
+    public ventasVentasPorAnioGet(year: string, options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasVentasPorAnioGet(year, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2780,8 +2780,8 @@ export class SalesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SalesApi
      */
-    public ventasRealizadasVentasPorMesGet(month: string, year: string, options?: AxiosRequestConfig) {
-        return SalesApiFp(this.configuration).ventasRealizadasVentasPorMesGet(month, year, options).then((request) => request(this.axios, this.basePath));
+    public ventasVentasPorMesGet(month: string, year: string, options?: AxiosRequestConfig) {
+        return SalesApiFp(this.configuration).ventasVentasPorMesGet(month, year, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
