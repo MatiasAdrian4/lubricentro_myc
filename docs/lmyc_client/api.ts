@@ -79,6 +79,92 @@ export interface Client {
 /**
  * 
  * @export
+ * @interface ExtendedClient
+ */
+export interface ExtendedClient {
+    /**
+     * 
+     * @type {number}
+     * @memberof ExtendedClient
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'nombre': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'direccion'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'localidad'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'codigo_postal'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'telefono'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'cuit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendedClient
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {Array<ExtendedInvoice>}
+     * @memberof ExtendedClient
+     */
+    'lista_remitos'?: Array<ExtendedInvoice>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExtendedClient
+     */
+    'deuda_actual'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface ExtendedClientAllOf
+ */
+export interface ExtendedClientAllOf {
+    /**
+     * 
+     * @type {Array<ExtendedInvoice>}
+     * @memberof ExtendedClientAllOf
+     */
+    'lista_remitos'?: Array<ExtendedInvoice>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExtendedClientAllOf
+     */
+    'deuda_actual'?: number;
+}
+/**
+ * 
+ * @export
  * @interface ExtendedInvoice
  */
 export interface ExtendedInvoice {
@@ -270,10 +356,10 @@ export interface PaginatedClients {
     'previous'?: string;
     /**
      * 
-     * @type {Array<Client>}
+     * @type {Array<ExtendedClient>}
      * @memberof PaginatedClients
      */
-    'results'?: Array<Client>;
+    'results'?: Array<ExtendedClient>;
 }
 /**
  * 
@@ -283,10 +369,10 @@ export interface PaginatedClients {
 export interface PaginatedClientsAllOf {
     /**
      * 
-     * @type {Array<Client>}
+     * @type {Array<ExtendedClient>}
      * @memberof PaginatedClientsAllOf
      */
-    'results'?: Array<Client>;
+    'results'?: Array<ExtendedClient>;
 }
 /**
  * 
@@ -908,7 +994,7 @@ export const ClientsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async clientesClienteIdGet(clienteId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Client>> {
+        async clientesClienteIdGet(clienteId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExtendedClient>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.clientesClienteIdGet(clienteId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -964,7 +1050,7 @@ export const ClientsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        clientesClienteIdGet(clienteId: number, options?: any): AxiosPromise<Client> {
+        clientesClienteIdGet(clienteId: number, options?: any): AxiosPromise<ExtendedClient> {
             return localVarFp.clientesClienteIdGet(clienteId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2569,7 +2655,7 @@ export const SalesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ventasGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Sale>>> {
+        async ventasGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PaginatedSales>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.ventasGet(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2646,7 +2732,7 @@ export const SalesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ventasGet(options?: any): AxiosPromise<Array<Sale>> {
+        ventasGet(options?: any): AxiosPromise<Array<PaginatedSales>> {
             return localVarFp.ventasGet(options).then((request) => request(axios, basePath));
         },
         /**
