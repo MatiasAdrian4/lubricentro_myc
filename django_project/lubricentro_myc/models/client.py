@@ -1,5 +1,5 @@
 from django.db import models
-from lubricentro_myc.models.invoice import ElementoRemito
+from lubricentro_myc.models.invoice import ElementoRemito, Remito
 
 
 class Cliente(models.Model):
@@ -24,3 +24,7 @@ class Cliente(models.Model):
                 invoice_item.producto.precio_venta_cta_cte * invoice_item.cantidad
             )
         return actual_price
+
+    @property
+    def lista_remitos(self):
+        return Remito.objects.filter(cliente__id=self.id)

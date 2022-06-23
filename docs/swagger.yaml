@@ -136,7 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Client"
+                $ref: "#/components/schemas/ExtendedClient"
         404:
           description: "Client not found"
     patch:
@@ -476,7 +476,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Sale"
+                  $ref: "#/components/schemas/PaginatedSales"
     post:
       tags:
         - Sales
@@ -623,6 +623,18 @@ components:
         email:
           type: string
           example: "matiasadrianpp4@gmail.com"
+    ExtendedClient:
+      allOf:
+        - $ref: "#/components/schemas/Client"
+        - type: object
+          properties:
+            lista_remitos:
+              type: array
+              items:
+                $ref: "#/components/schemas/ExtendedInvoice"
+            deuda_actual:
+              type: number
+              example: 1000.0
     PaginatedClients:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -631,7 +643,7 @@ components:
             results:
               type: array
               items:
-                $ref: "#/components/schemas/Client"
+                $ref: "#/components/schemas/ExtendedClient"
     Invoice:
       type: object
       properties:
