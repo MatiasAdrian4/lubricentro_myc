@@ -20,4 +20,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r django_project/requirements.txt
       - name: Run Tests
-        run: python django_project/manage.py test
+        run: python django_project/manage.py test lubricentro_myc
