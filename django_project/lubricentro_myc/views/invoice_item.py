@@ -1,3 +1,5 @@
+import json
+
 from django.db.models import Q
 from django.http import HttpResponse
 from lubricentro_myc.models.invoice import ElementoRemito
@@ -17,7 +19,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
         if codigo_cliente:
             filters &= Q(remito__cliente=codigo_cliente)
         if pago:
-            filters &= Q(pagado=pago)
+            filters &= Q(pagado=json.loads(pago))
         if filters:
             self.queryset = ElementoRemito.objects.filter(filters).order_by("id")
         return super().list(request)
