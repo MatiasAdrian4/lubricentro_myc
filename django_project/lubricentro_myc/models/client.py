@@ -27,4 +27,4 @@ class Cliente(models.Model):
 
     @property
     def lista_remitos(self):
-        return Remito.objects.filter(cliente__id=self.id)
+        return Remito.objects.filter(cliente__id=self.id).order_by("-fecha")
