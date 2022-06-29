@@ -71,7 +71,7 @@ class InvoiceItemTestCase(TestCase):
     def test_search_by_paid(self, mock_auth):
         mock_auth.return_value = (MagicMock(), None)
         response = self.client.get(
-            f"{self.client_url}?pago=True",
+            f"{self.client_url}?pago=true",
             follow=True,
         )
         invoice_items = response.data
