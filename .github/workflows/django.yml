@@ -16,13 +16,20 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-  build:
+  lint:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Lint
+        uses: jpetrucciani/black-check@master
+        with:
+          path: "."
+
+  test:
     runs-on: ubuntu-18.04
     env:
       DB_NAME: lubricentro_myc
       DB_USER: matiasadrian4
       DB_PASSWORD: matiasadrian4
-
     services:
       postgres:
         image: postgres:14
@@ -37,7 +44,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
