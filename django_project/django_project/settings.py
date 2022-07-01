@@ -81,13 +81,11 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "lubricentro_myc",
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'password',
-        "USER": "matiasadrian4",
-        "PASSWORD": "matiasadrian4",
-        "HOST": "localhost",  # Or an IP Address that your DB is hosted on
-        "PORT": "5432",
+        "NAME": os.environ.get('DB_NAME'),
+        "USER": os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": os.environ.get('DB_HOST', 'localhost'), 
+        "PORT": os.environ.get('DB_PORT'),
     }
 }
 

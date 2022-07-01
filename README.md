@@ -1,11 +1,7 @@
 # Lubricentro M&C
 
-## Installation
+## Setup
 
-#### Clone Repository
-```bash
-git clone https://github.com/MatiasAdrian4/lubricentro_myc.git
-```
 #### Create Environment and Install Dependencies
 
 ##### conda
@@ -31,4 +27,17 @@ python manage.py runserver
 #### Migrate Old Database
 ```bash
 python manage.py runscript migrate_old_database
+```
+
+## Setup Using Docker
+
+#### Build Image and Run Containers
+```bash
+docker-compose build
+docker-compose up
+```
+
+#### Run Migrations
+```bash
+docker exec -it lubricentro_myc_web_1 python manage.py migrate
 ```
