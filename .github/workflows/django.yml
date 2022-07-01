@@ -8,6 +8,14 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  avoid_redundancy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
   build:
     runs-on: ubuntu-18.04
     env:
@@ -31,10 +39,6 @@ jobs:
           - 5432:5432
 
     steps:
-      - name: Cancel Previous Redundant Builds
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
