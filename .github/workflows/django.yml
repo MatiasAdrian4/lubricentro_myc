@@ -10,14 +10,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
+    env:
+      DB_NAME: lubricentro_myc
+      DB_USER: matiasadrian4
+      DB_PASSWORD: matiasadrian4
 
     services:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_PASSWORD: matiasadrian4
-          POSTGRES_USER: matiasadrian4
-          POSTGRES_DB: lubricentro_myc
+          POSTGRES_DB: ${{ env.DB_NAME }}
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
