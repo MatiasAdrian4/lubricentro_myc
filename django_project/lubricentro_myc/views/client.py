@@ -10,7 +10,5 @@ class ClienteViewSet(viewsets.ModelViewSet):
     def list(self, request):
         nombre = request.GET.get("nombre", None)
         if nombre:
-            self.queryset = Cliente.objects.filter(nombre__icontains=nombre).order_by(
-                "id"
-            )
+            self.queryset = Cliente.objects.filter(nombre__icontains=nombre).order_by("id")
         return super().list(request)
