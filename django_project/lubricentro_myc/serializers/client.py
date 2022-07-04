@@ -4,7 +4,7 @@ from rest_framework import serializers
 from lubricentro_myc.serializers.invoice import RemitoSerializer
 
 
-class ClienteSerializer(serializers.ModelSerializer):
+class SingleClienteSerializer(serializers.ModelSerializer):
     lista_remitos = serializers.ListField(child=RemitoSerializer(), read_only=True)
 
     class Meta:
@@ -21,3 +21,9 @@ class ClienteSerializer(serializers.ModelSerializer):
             "lista_remitos",
             "deuda_actual",
         ]
+
+
+class ClienteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = "__all__"
