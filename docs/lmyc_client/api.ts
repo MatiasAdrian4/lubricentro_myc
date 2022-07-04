@@ -356,10 +356,10 @@ export interface PaginatedClients {
     'previous'?: string;
     /**
      * 
-     * @type {Array<ExtendedClient>}
+     * @type {Array<Client>}
      * @memberof PaginatedClients
      */
-    'results'?: Array<ExtendedClient>;
+    'results'?: Array<Client>;
 }
 /**
  * 
@@ -369,10 +369,10 @@ export interface PaginatedClients {
 export interface PaginatedClientsAllOf {
     /**
      * 
-     * @type {Array<ExtendedClient>}
+     * @type {Array<Client>}
      * @memberof PaginatedClientsAllOf
      */
-    'results'?: Array<ExtendedClient>;
+    'results'?: Array<Client>;
 }
 /**
  * 

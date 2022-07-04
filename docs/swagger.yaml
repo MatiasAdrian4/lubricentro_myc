@@ -643,7 +643,7 @@ components:
             results:
               type: array
               items:
-                $ref: "#/components/schemas/ExtendedClient"
+                $ref: "#/components/schemas/Client"
     Invoice:
       type: object
       properties:
@@ -887,7 +887,7 @@ components:
               0,
               0,
               0,
-              0
+              0,
             ]
     User:
       type: object
