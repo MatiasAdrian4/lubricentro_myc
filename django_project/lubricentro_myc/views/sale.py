@@ -17,6 +17,22 @@ class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all().order_by("id")
     serializer_class = VentaSerializer
 
+    def list(self, request):
+        fecha = request.GET.get("fecha")
+        mes = request.GET.get("mes")
+        if fecha:
+            self.queryset = Venta.objects.filter(
+                fecha__day=int(fecha[0:2]),
+                fecha__month=int(fecha[3:5]),
+                fecha__year=int(fecha[6:10])
+            ).order_by('fecha')
+        elif mes:
+            self.queryset = Venta.objects.filter(
+                fecha__month=int(mes[0:2]),
+                fecha__year=int(mes[3:7])
+            ).order_by('fecha')
+        return super().list(request)
+
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

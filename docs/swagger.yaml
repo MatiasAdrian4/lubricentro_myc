@@ -468,6 +468,21 @@ paths:
       tags:
         - Sales
       summary: "Get all sales"
+      parameters:
+        - in: query
+          name: fecha
+          description: "Specific day"
+          example: "21-02-2020"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: mes
+          description: "Specific month"
+          example: "02-2020"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "Paginated sales list"
