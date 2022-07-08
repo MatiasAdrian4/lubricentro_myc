@@ -467,19 +467,23 @@ paths:
     get:
       tags:
         - Sales
-      summary: "Get all sales"
+      summary: "Get all sales or filter them by day or month"
       parameters:
         - in: query
-          name: fecha
-          description: "Specific day"
-          example: "21-02-2020"
+          name: dia
+          example: "21"
           required: false
           schema:
             type: string
         - in: query
           name: mes
-          description: "Specific month"
-          example: "02-2020"
+          example: "02"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: anio
+          example: "2020"
           required: false
           schema:
             type: string
