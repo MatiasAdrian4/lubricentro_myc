@@ -27,6 +27,40 @@ class SaleTestCase(TestCase):
         }
 
     @mock_auth
+    def test_get_sales_by_date(self):
+        sale_1 = SaleFactory(fecha="2020-01-12")
+        sale_2 = SaleFactory(fecha="2020-03-05")
+        sale_3 = SaleFactory(fecha="2021-03-15")
+        sale_4 = SaleFactory(fecha="2021-03-25")
+        cases = (
+            {
+                "case_name": "Should return sales made in 2020-01-12",
+                "query_parameters": "?dia=12&mes=01&anio=2020",
+                "expected_result": [sale_1.id],
+            },
+            {
+                "case_name": "Should return sales made in 2020",
+                "query_parameters": "?anio=2020",
+                "expected_result": [sale_1.id, sale_2.id],
+            },
+            {
+                "case_name": "Should return sales made in March 2021",
+                "query_parameters": "?mes=03&anio=2021",
+                "expected_result": [sale_3.id, sale_4.id],
+            },
+        )
+        for case in cases:
+            with self.subTest(msg=case["case_name"]):
+                response = self.client.get(
+                    f"{self.client_url}{case['query_parameters']}",
+                    follow=True,
+                )
+                self.assertEqual(
+                    list(map(lambda x: x["id"], response.data["results"])),
+                    case["expected_result"],
+                )
+
+    @mock_auth
     def test_new_sale_without_updating_stock(self):
         self.client.post(
             f"{self.client_url}/",
