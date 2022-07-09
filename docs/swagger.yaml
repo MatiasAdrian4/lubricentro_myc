@@ -467,7 +467,26 @@ paths:
     get:
       tags:
         - Sales
-      summary: "Get all sales"
+      summary: "Get all sales or filter them by day, month or year"
+      parameters:
+        - in: query
+          name: dia
+          example: "21"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: mes
+          example: "02"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: anio
+          example: "2020"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "Paginated sales list"

@@ -21,7 +21,8 @@ class SaleFactory(factory.django.DjangoModelFactory):
         model = "lubricentro_myc.Venta"
 
     producto_id = 1
-    cantidad = 1
+    cantidad = 1.0
+    precio = 1.0
 
 
 class InvoiceFactory(factory.django.DjangoModelFactory):

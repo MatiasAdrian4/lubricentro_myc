@@ -1,7 +1,7 @@
 import calendar
 from calendar import monthrange
 
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.models.invoice import ElementoRemito
@@ -16,6 +16,26 @@ from rest_framework.response import Response
 class VentaViewSet(viewsets.ModelViewSet):
     queryset = Venta.objects.all().order_by("id")
     serializer_class = VentaSerializer
+
+    def list(self, request):
+        dia = request.GET.get("dia")
+        mes = request.GET.get("mes")
+        anio = request.GET.get("anio")
+        if dia or mes or anio:
+            filters = Q()
+            if anio:
+                filters &= Q(fecha__year=int(anio))
+            else:
+                return HttpResponse(status=400)
+            if mes:
+                filters &= Q(fecha__month=int(mes))
+            elif dia:
+                return HttpResponse(status=400)
+            if dia:
+                filters &= Q(fecha__day=int(dia))
+            if filters:
+                self.queryset = Venta.objects.filter(filters).order_by("fecha")
+        return super().list(request)
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)

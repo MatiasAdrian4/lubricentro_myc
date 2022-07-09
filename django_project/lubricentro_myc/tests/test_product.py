@@ -1,9 +1,9 @@
 import json
-from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.tests.factories import ProductFactory
+from lubricentro_myc.utils import mock_auth
 from rest_framework.test import APIClient
 
 
@@ -49,18 +49,16 @@ class ProductTestCase(TestCase):
             precio_costo=147.0,
         )
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_search_by_detail(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_search_by_detail(self):
         response = self.client.get(f"{self.client_url}?detalle=correa", follow=True)
         productos = json.loads(response.content)["results"]
         self.assertEqual(len(productos), 2)
         self.assertEqual(productos[0]["codigo"], self.product_1.codigo)
         self.assertEqual(productos[1]["codigo"], self.product_4.codigo)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_search_by_category(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_search_by_category(self):
         response = self.client.get(
             f"{self.client_url}?categoria=electricidad",
             follow=True,
@@ -71,9 +69,8 @@ class ProductTestCase(TestCase):
         self.assertEqual(productos[1]["codigo"], self.product_5.codigo)
         self.assertEqual(productos[2]["codigo"], self.product_6.codigo)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_update_products_cost(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_update_products_cost(self):
         response = self.client.post(
             f"{self.client_url}/aumento_masivo_precio_costo/",
             json.dumps(

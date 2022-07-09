@@ -1,5 +1,4 @@
 import json
-from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
@@ -9,6 +8,7 @@ from lubricentro_myc.tests.factories import (
     InvoiceItemFactory,
     ProductFactory,
 )
+from lubricentro_myc.utils import mock_auth
 from rest_framework.test import APIClient
 
 
@@ -27,17 +27,15 @@ class InvoiceTestCase(TestCase):
         InvoiceItemFactory(remito=cls.invoice_1, producto=cls.product_1, cantidad=1.5)
         InvoiceItemFactory(remito=cls.invoice_1, producto=cls.product_2, cantidad=7.0)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_list_invoices_by_clients_name(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_list_invoices_by_clients_name(self):
         response = self.client.get(f"{self.client_url}?nombre=jua", follow=True)
         invoices = response.data["results"]
         self.assertEqual(len(invoices), 1)
         self.assertEqual(invoices[0]["cliente"], "Juan")
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_store_invoice_items(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_store_invoice_items(self):
         self.client.post(
             f"{self.client_url}/",
             json.dumps(
