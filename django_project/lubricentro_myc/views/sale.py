@@ -1,7 +1,7 @@
 import calendar
 from calendar import monthrange
 
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.models.invoice import ElementoRemito
@@ -22,19 +22,19 @@ class VentaViewSet(viewsets.ModelViewSet):
         mes = request.GET.get("mes")
         anio = request.GET.get("anio")
         if dia or mes or anio:
-            if not mes or not anio:
+            filters = Q()
+            if anio:
+                filters &= Q(fecha__year=int(anio))
+            else:
+                return HttpResponse(status=400)
+            if mes:
+                filters &= Q(fecha__month=int(mes))
+            elif dia:
                 return HttpResponse(status=400)
             if dia:
-                self.queryset = Venta.objects.filter(
-                    fecha__day=int(dia),
-                    fecha__month=int(mes),
-                    fecha__year=int(anio)
-                ).order_by('fecha')
-            else:
-                self.queryset = Venta.objects.filter(
-                    fecha__month=int(mes),
-                    fecha__year=int(anio)
-                ).order_by('fecha')
+                filters &= Q(fecha__day=int(dia))
+            if filters:
+                self.queryset = Venta.objects.filter(filters).order_by("fecha")
         return super().list(request)
 
     def create(self, request):

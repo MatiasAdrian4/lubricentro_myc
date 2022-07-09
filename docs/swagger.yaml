@@ -467,7 +467,7 @@ paths:
     get:
       tags:
         - Sales
-      summary: "Get all sales or filter them by day or month"
+      summary: "Get all sales or filter them by day, month or year"
       parameters:
         - in: query
           name: dia
