@@ -1,5 +1,4 @@
 import json
-from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
 from lubricentro_myc.tests.factories import (
@@ -8,6 +7,7 @@ from lubricentro_myc.tests.factories import (
     InvoiceItemFactory,
     ProductFactory,
 )
+from lubricentro_myc.utils import mock_auth
 from rest_framework.test import APIClient
 
 
@@ -54,9 +54,8 @@ class InvoiceItemTestCase(TestCase):
             pagado=False,
         )
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_search_by_client_code(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_search_by_client_code(self):
         response = self.client.get(
             f"{self.client_url}?codigo_cliente={self.client_1.id}",
             follow=True,
@@ -67,9 +66,8 @@ class InvoiceItemTestCase(TestCase):
         self.assertEqual(invoice_items[1]["id"], self.invoice_item_2.id)
         self.assertEqual(invoice_items[2]["id"], self.invoice_item_3.id)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_search_by_paid(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_search_by_paid(self):
         response = self.client.get(
             f"{self.client_url}?pago=true",
             follow=True,
@@ -79,9 +77,8 @@ class InvoiceItemTestCase(TestCase):
         self.assertEqual(invoice_items[0]["id"], self.invoice_item_1.id)
         self.assertEqual(invoice_items[1]["id"], self.invoice_item_3.id)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_update_dont_allow_to_update_invoice(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_update_dont_allow_to_update_invoice(self):
         response = self.client.patch(
             f"{self.client_url}/{self.invoice_item_1.id}/",
             json.dumps({"producto": self.product_2.codigo}),
@@ -90,9 +87,8 @@ class InvoiceItemTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_update_dont_allow_to_update_product(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_update_dont_allow_to_update_product(self):
         response = self.client.patch(
             f"{self.client_url}/{self.invoice_item_1.id}/",
             json.dumps({"remito": self.invoice_2.codigo}),

@@ -1,8 +1,8 @@
 import json
-from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
 from lubricentro_myc.tests.factories import ClientFactory
+from lubricentro_myc.utils import mock_auth
 from rest_framework.test import APIClient
 
 
@@ -16,9 +16,8 @@ class ClientTestCase(TestCase):
         cls.client_3 = ClientFactory(nombre="Maria Fernandez")
         cls.client_4 = ClientFactory(nombre="Jose Hernandez")
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_search_client(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_search_client(self):
         response = self.client.get(f"{self.client_url}?nombre=jose", follow=True)
         clientes = json.loads(response.content)["results"]
         self.assertEqual(len(clientes), 2)

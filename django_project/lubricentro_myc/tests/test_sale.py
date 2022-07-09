@@ -1,10 +1,10 @@
 import json
-from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.tests.factories import ProductFactory, SaleFactory
+from lubricentro_myc.utils import mock_auth
 from rest_framework.test import APIClient
 
 
@@ -26,9 +26,8 @@ class SaleTestCase(TestCase):
             "precio": "1500",
         }
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_new_sale_without_updating_stock(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_new_sale_without_updating_stock(self):
         self.client.post(
             f"{self.client_url}/",
             json.dumps(self.sale_1),
@@ -50,9 +49,8 @@ class SaleTestCase(TestCase):
         self.assertEqual(producto_1.stock, 5)
         self.assertEqual(producto_2.stock, 4)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_new_sale_updating_stock(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
+    @mock_auth
+    def test_new_sale_updating_stock(self):
         self.client.post(
             f"{self.client_url}/?update_stock=true",
             json.dumps(self.sale_1),
@@ -74,10 +72,8 @@ class SaleTestCase(TestCase):
         self.assertEqual(producto_1.stock, 2)
         self.assertEqual(producto_2.stock, 3)
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_sales_per_year(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
-
+    @mock_auth
+    def test_sales_per_year(self):
         SaleFactory(fecha="2021-03-12", precio=3500)
         SaleFactory(fecha="2021-05-05", precio=1750)
         SaleFactory(fecha="2021-04-29", precio=275)
@@ -92,10 +88,8 @@ class SaleTestCase(TestCase):
             ventas, [0, 0, 3500.0, 275.0, 2875.0, 0, 0, 0, 0, 2250.0, 0, 0]
         )
 
-    @patch("lubricentro_myc.authentication.JWTAuthentication.authenticate")
-    def test_sales_per_month(self, mock_auth):
-        mock_auth.return_value = (MagicMock(), None)
-
+    @mock_auth
+    def test_sales_per_month(self):
         SaleFactory(fecha="2021-05-12", precio=1050)
         SaleFactory(fecha="2021-05-05", precio=700)
         SaleFactory(fecha="2021-05-30", precio=2250)
