@@ -35,24 +35,24 @@ class SaleTestCase(TestCase):
         cases = (
             {
                 "case_name": "Should return sales made in 2020-01-12",
-                "query_parameters": "?dia=12&mes=01&anio=2020",
+                "query_params": "?dia=12&mes=01&anio=2020",
                 "expected_result": [sale_1.id],
             },
             {
                 "case_name": "Should return sales made in 2020",
-                "query_parameters": "?anio=2020",
+                "query_params": "?anio=2020",
                 "expected_result": [sale_1.id, sale_2.id],
             },
             {
                 "case_name": "Should return sales made in March 2021",
-                "query_parameters": "?mes=03&anio=2021",
+                "query_params": "?mes=03&anio=2021",
                 "expected_result": [sale_3.id, sale_4.id],
             },
         )
         for case in cases:
             with self.subTest(msg=case["case_name"]):
                 response = self.client.get(
-                    f"{self.client_url}{case['query_parameters']}",
+                    f"{self.client_url}{case['query_params']}",
                     follow=True,
                 )
                 self.assertEqual(
