@@ -9,9 +9,14 @@ class VentaSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super(VentaSerializer, self).to_representation(instance)
+        # TODO: Improve this hacky solution
+        try:
+            producto = instance.producto
+        except AttributeError:
+            producto = instance["producto"]
         data["producto"] = {
-            "codigo": instance.producto.codigo,
-            "detalle": instance.producto.detalle,
+            "codigo": producto.codigo,
+            "detalle": producto.detalle,
         }
         return data
 
