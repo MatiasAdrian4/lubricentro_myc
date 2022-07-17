@@ -470,6 +470,12 @@ paths:
       summary: "Get all sales or filter them by day, month or year"
       parameters:
         - in: query
+          name: page
+          description: "Desired page"
+          required: false
+          schema:
+            type: integer
+        - in: query
           name: dia
           example: "21"
           required: false
@@ -808,6 +814,15 @@ components:
         precio_venta_cta_cte:
           type: number
           example: 1.0
+    BasicProduct:
+      type: object
+      properties:
+        codigo:
+          type: string
+          example: 1
+        detalle:
+          type: string
+          example: "Product 1"
     PaginatedProducts:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -850,6 +865,13 @@ components:
           type: string
           format: date
           example: "2018-03-20"
+    ExtendedSale:
+      allOf:
+        - $ref: "#/components/schemas/Sale"
+        - type: object
+          properties:
+            producto:
+              $ref: "#/components/schemas/BasicProduct"
     PaginatedSales:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -858,7 +880,7 @@ components:
             results:
               type: array
               items:
-                $ref: "#/components/schemas/Sale"
+                $ref: "#/components/schemas/ExtendedSale"
     SalesPerYear:
       type: object
       properties:

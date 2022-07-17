@@ -41,7 +41,7 @@ class VentaViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         update_stock = True if request.GET.get("update_stock") == "true" else False
-        product = Producto.objects.get(codigo=serializer.data["producto"])
+        product = Producto.objects.get(codigo=serializer.data["producto"]["codigo"])
         Venta.objects.create(
             producto=product,
             cantidad=serializer.data["cantidad"],
