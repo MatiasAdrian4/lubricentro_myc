@@ -357,7 +357,7 @@ paths:
     get:
       tags:
         - Products
-      summary: "Get all products or filter them by detail or category"
+      summary: "Get all products or filter them by code, detail or category"
       parameters:
         - in: query
           name: page
@@ -374,6 +374,12 @@ paths:
         - in: query
           name: categoria
           description: "Product's category"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: query
+          description: "Code, detail or category of the product"
           required: false
           schema:
             type: string

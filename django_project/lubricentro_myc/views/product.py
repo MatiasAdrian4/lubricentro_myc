@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.product import ProductoSerializer
@@ -12,6 +13,7 @@ class ProductoViewSet(viewsets.ModelViewSet):
     def list(self, request):
         detalle = request.GET.get("detalle", None)
         categoria = request.GET.get("categoria", None)
+        query = request.GET.get("query", None)
         if detalle:
             self.queryset = Producto.objects.filter(
                 detalle__icontains=detalle
@@ -19,6 +21,12 @@ class ProductoViewSet(viewsets.ModelViewSet):
         elif categoria:
             self.queryset = Producto.objects.filter(
                 categoria__iexact=categoria
+            ).order_by("codigo")
+        elif query:
+            self.queryset = Producto.objects.filter(
+                Q(codigo_en_pantalla__contains=query)
+                | Q(detalle__icontains=query)
+                | Q(categoria__icontains=query)
             ).order_by("codigo")
         return super().list(request)
 
