@@ -106,6 +106,7 @@ class ProductTestCase(TestCase):
                 "expected_result": [self.product_4.codigo, product_7.codigo],
             },
         )
+
         for case in cases:
             with self.subTest(msg=case["case_name"]):
                 response = self.client.get(
