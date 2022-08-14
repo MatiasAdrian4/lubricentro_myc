@@ -90,6 +90,12 @@ paths:
           schema:
             type: integer
         - in: query
+          name: page_size
+          description: "Page size"
+          required: false
+          schema:
+            type: integer
+        - in: query
           name: nombre
           description: "Client's name"
           required: false
@@ -201,6 +207,12 @@ paths:
         - in: query
           name: page
           description: "Desired page"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          description: "Page size"
           required: false
           schema:
             type: integer
@@ -366,6 +378,12 @@ paths:
           schema:
             type: integer
         - in: query
+          name: page_size
+          description: "Page size"
+          required: false
+          schema:
+            type: integer
+        - in: query
           name: detalle
           description: "Product's detail"
           required: false
@@ -478,6 +496,12 @@ paths:
         - in: query
           name: page
           description: "Desired page"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: page_size
+          description: "Page size"
           required: false
           schema:
             type: integer

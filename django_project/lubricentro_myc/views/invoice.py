@@ -1,11 +1,13 @@
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
 from lubricentro_myc.serializers.invoice import RemitoSerializer
+from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import viewsets
 
 
-class RemitoViewSet(viewsets.ModelViewSet):
+class RemitoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
     queryset = Remito.objects.all().order_by("-fecha")
     serializer_class = RemitoSerializer
+    pagination_class = CustomPageNumberPagination
 
     def list(self, request):
         nombre = request.GET.get("nombre", None)

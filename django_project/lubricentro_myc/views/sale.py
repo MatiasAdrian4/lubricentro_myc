@@ -4,18 +4,19 @@ from calendar import monthrange
 from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models.client import Cliente
-from lubricentro_myc.models.invoice import ElementoRemito
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
-from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
+from lubricentro_myc.serializers.sale import VentaSerializer
+from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 
-class VentaViewSet(viewsets.ModelViewSet):
+class VentaViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
     queryset = Venta.objects.all().order_by("id")
     serializer_class = VentaSerializer
+    pagination_class = CustomPageNumberPagination
 
     def list(self, request):
         dia = request.GET.get("dia")

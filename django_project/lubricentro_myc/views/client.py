@@ -3,12 +3,14 @@ from lubricentro_myc.serializers.client import (
     ClienteSerializer,
     SingleClienteSerializer,
 )
+from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import viewsets
 
 
-class ClienteViewSet(viewsets.ModelViewSet):
+class ClienteViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
     queryset = Cliente.objects.all().order_by("id")
     serializer_class = ClienteSerializer
+    pagination_class = CustomPageNumberPagination
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = SingleClienteSerializer
