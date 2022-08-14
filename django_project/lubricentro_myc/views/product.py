@@ -2,13 +2,15 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.product import ProductoSerializer
+from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import viewsets
 from rest_framework.decorators import action
 
 
-class ProductoViewSet(viewsets.ModelViewSet):
+class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
     queryset = Producto.objects.all().order_by("codigo")
     serializer_class = ProductoSerializer
+    pagination_class = CustomPageNumberPagination
 
     def list(self, request):
         detalle = request.GET.get("detalle", None)
