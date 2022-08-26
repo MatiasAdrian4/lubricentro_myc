@@ -1,3 +1,4 @@
+from django.db.models import Q
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.serializers.client import (
     ClienteSerializer,
@@ -18,8 +19,13 @@ class ClienteViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     def list(self, request):
         nombre = request.GET.get("nombre")
+        query = request.GET.get("query")
         if nombre:
             self.queryset = Cliente.objects.filter(nombre__icontains=nombre).order_by(
                 "id"
             )
+        elif query:
+            self.queryset = Cliente.objects.filter(
+                Q(id__contains=query) | Q(nombre__icontains=query)
+            ).order_by("id")
         return super().list(request)

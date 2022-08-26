@@ -101,6 +101,12 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: query
+          description: "Id or name of the client"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "Paginated clients list"
