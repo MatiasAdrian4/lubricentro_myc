@@ -549,6 +549,13 @@ paths:
           required: false
           schema:
             type: string
+      requestBody:
+        description: "Required sale data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BasicSale"
       responses:
         201:
           description: "Sale created"
@@ -896,7 +903,7 @@ components:
         resultado:
           type: string
           example: "5 producto/s actualizado/s satisfactoriamente."
-    Sale:
+    BasicSale:
       type: object
       properties:
         producto:
@@ -908,10 +915,15 @@ components:
         precio:
           type: number
           example: 1.0
-        fecha:
-          type: string
-          format: date
-          example: "2018-03-20"
+    Sale:
+      allOf:
+        - $ref: "#/components/schemas/BasicSale"
+        - type: object
+          properties:
+            fecha:
+              type: string
+              format: date
+              example: "2018-03-20"
     ExtendedSale:
       allOf:
         - $ref: "#/components/schemas/Sale"
