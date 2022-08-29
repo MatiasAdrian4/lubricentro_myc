@@ -599,6 +599,28 @@ paths:
           description: "Sale updated"
         404:
           description: "Sale not found"
+  /ventas/bulk/:
+    post:
+      tags:
+        - Sales
+      summary: "Create new sales"
+      parameters:
+        - in: query
+          name: update_stock
+          description: "Update stock"
+          required: false
+          schema:
+            type: string
+      requestBody:
+        description: "Required sales data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SalesList"
+      responses:
+        201:
+          description: "Sales created"
   /ventas/ventas_por_anio:
     get:
       tags:
@@ -927,6 +949,13 @@ components:
           properties:
             producto:
               $ref: "#/components/schemas/BasicProduct"
+    SalesList:
+      type: object
+      properties:
+        ventas:
+          type: array
+          items:
+            $ref: "#/components/schemas/BasicSale"
     PaginatedSales:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"

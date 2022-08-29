@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
-from lubricentro_myc.serializers.sale import VentaSerializer
+from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -38,19 +38,31 @@ class VentaViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
                 self.queryset = Venta.objects.filter(filters).order_by("fecha")
         return super().list(request)
 
+    def store_sale(self, venta, update_stock):
+        product = Producto.objects.get(codigo=venta["producto"]["codigo"])
+        Venta.objects.create(
+            producto=product,
+            cantidad=venta["cantidad"],
+            precio=venta["precio"],
+        )
+        if update_stock:
+            product.stock -= venta["cantidad"]
+            product.save()
+
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         update_stock = True if request.GET.get("update_stock") == "true" else False
-        product = Producto.objects.get(codigo=serializer.data["producto"]["codigo"])
-        Venta.objects.create(
-            producto=product,
-            cantidad=serializer.data["cantidad"],
-            precio=serializer.data["precio"],
-        )
-        if update_stock:
-            product.stock -= serializer.data["cantidad"]
-            product.save()
+        self.store_sale(serializer.data, update_stock)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=["post"])
+    def bulk(self, request):
+        serializer = VentasSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        update_stock = True if request.GET.get("update_stock") == "true" else False
+        for venta in serializer.data["ventas"]:
+            self.store_sale(venta, update_stock)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["get"])

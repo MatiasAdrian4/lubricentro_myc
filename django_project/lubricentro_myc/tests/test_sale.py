@@ -107,6 +107,18 @@ class SaleTestCase(TestCase):
         self.assertEqual(producto_2.stock, 3)
 
     @mock_auth
+    def test_bulk_sale(self):
+        sales = [self.sale_1, self.sale_2]
+        self.client.post(
+            f"{self.client_url}/bulk/?update_stock=true",
+            json.dumps({"ventas": sales}),
+            content_type="application/json",
+            follow=True,
+        )
+        sales = Venta.objects.all()
+        self.assertEqual(len(sales), 2)
+
+    @mock_auth
     def test_sales_per_year(self):
         SaleFactory(fecha="2021-03-12", precio=3500)
         SaleFactory(fecha="2021-05-05", precio=1750)
