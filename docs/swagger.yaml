@@ -764,7 +764,9 @@ components:
           format: date
           example: "2018-03-20"
         elementos_remito:
-          $ref: "#/components/schemas/SimplifiedInvoiceItem"
+          type: array
+          items:
+            $ref: "#/components/schemas/SimplifiedInvoiceItem"
     PaginatedInvoices:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
