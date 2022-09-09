@@ -19,8 +19,8 @@ $(function(){
     $('.carrito-table tr td:nth-child(3) input').change(function() {
         $(this).addClass('prod-modified')
         var precio = this.value
-        var cantidad = $('.carrito-table tr:has("td .prod-modified") td:nth-child(4) input').val()
-        $('.carrito-table tr:has("td .prod-modified") td:nth-child(5) input').val((precio * cantidad).toFixed(2))
+        var cantidad = $('.carrito-table tr:has(td .prod-modified) td:nth-child(4) input').val()
+        $('.carrito-table tr:has(td .prod-modified) td:nth-child(5) input').val((precio * cantidad).toFixed(2))
         $(this).removeClass('prod-modified')
 
         var total = 0;
@@ -34,8 +34,8 @@ $(function(){
     $('.carrito-table tr td:nth-child(4) input').change(function() {
         $(this).addClass('prod-modified')
         var cantidad = this.value
-        var precio = $('.carrito-table tr:has("td .prod-modified") td:nth-child(3) input').val()
-        $('.carrito-table tr:has("td .prod-modified") td:nth-child(5) input').val((precio * cantidad).toFixed(2))
+        var precio = $('.carrito-table tr:has(td .prod-modified) td:nth-child(3) input').val()
+        $('.carrito-table tr:has(td .prod-modified) td:nth-child(5) input').val((precio * cantidad).toFixed(2))
         $(this).removeClass('prod-modified')
 
         var total = 0;
