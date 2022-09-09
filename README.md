@@ -24,11 +24,6 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-#### Migrate Old Database
-```bash
-python manage.py runscript migrate_old_database
-```
-
 ## Setup Using Docker
 
 #### Build Image and Run Containers
