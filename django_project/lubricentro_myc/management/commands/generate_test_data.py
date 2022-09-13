@@ -14,7 +14,9 @@ class Command(BaseCommand):
             User.objects.get(username="test_user")
             logger.info("0 users were created.")
         except User.DoesNotExist:
-            User.objects.create(username="test_user", password="test_password")
+            User.objects.create_user(
+                username="test_user", email="", password="test_password"
+            )
             logger.info("1 user was created.")
 
     def store_mock_products(self):
