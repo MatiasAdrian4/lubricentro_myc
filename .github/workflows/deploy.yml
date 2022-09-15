@@ -2,7 +2,7 @@ name: Deploy to ECR
 
 on:
   workflow_run:
-    workflows: [E2E Tests]
+    workflows: [Tests]
     branches: [develop]
     types: 
       - completed
