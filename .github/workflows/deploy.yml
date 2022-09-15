@@ -1,14 +1,15 @@
 name: Deploy
 
 on:
-  push: # check that this should run if "test" workflow success
+  workflow_run:
+    workflows: ["test"]
     branches: [develop]
-  pull_request: # this should be removed
-    branches: [develop]
-    types: [opened, synchronize]
+    types: 
+      - completed
 
 jobs:
   avoid_redundancy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-18.04
     steps:
       - name: Cancel Previous Redundant Builds
@@ -16,7 +17,8 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-  build:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
