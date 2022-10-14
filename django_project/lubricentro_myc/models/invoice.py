@@ -16,7 +16,10 @@ class Remito(models.Model):
         return [
             {
                 "id": elemento.id,
-                "producto": f"{elemento.producto.codigo} ({elemento.producto.detalle})",
+                "producto": {
+                    "codigo": elemento.producto.codigo,
+                    "detalle": elemento.producto.detalle,
+                },
                 "cantidad": elemento.cantidad,
                 "pagado": elemento.pagado,
             }
