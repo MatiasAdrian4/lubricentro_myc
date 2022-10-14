@@ -820,8 +820,7 @@ components:
           type: number
           example: 1
         producto:
-          type: string
-          example: "1 (producto 1)"
+          $ref: "#/components/schemas/BasicProduct"
         cantidad:
           type: number
           example: 1.0
