@@ -12,16 +12,20 @@ class Remito(models.Model):
         return f"Remito n°{str(self.codigo)}"
 
     @property
-    def resumen_elementos(self) -> str:
-        elementos_remito = ElementoRemito.objects.filter(remito_id=self.codigo)
-        resumen_elementos = ""
-        for elemento in elementos_remito:
-            resumen_elementos += f"{elemento.cantidad} und. - {elemento.producto.codigo} ({elemento.producto.detalle});"
-        return resumen_elementos[:-1]
+    def resumen_elementos(self):
+        return [
+            {
+                "id": elemento.id,
+                "producto": f"{elemento.producto.codigo} ({elemento.producto.detalle})",
+                "cantidad": elemento.cantidad,
+                "pagado": elemento.pagado,
+            }
+            for elemento in ElementoRemito.objects.filter(remito_id=self.codigo)
+        ]
 
     @property
     def esta_pago(self) -> bool:
         elementos_remito_no_pagos = ElementoRemito.objects.filter(
             remito_id=self.codigo, pagado=False
         )
-        return True if len(elementos_remito_no_pagos) == 0 else False
+        return len(elementos_remito_no_pagos) == 0
