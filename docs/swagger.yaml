@@ -749,8 +749,9 @@ components:
         - type: object
           properties:
             resumen_elementos:
-              type: string
-              example: "1 (producto 1) - 2 uds.; 2 (producto 2) - 5 uds."
+              type: array
+              items:
+                $ref: "#/components/schemas/SimplifiedInvoiceItem"
             esta_pago:
               type: boolean
     InvoiceWithInvoiceItems:
@@ -766,7 +767,7 @@ components:
         elementos_remito:
           type: array
           items:
-            $ref: "#/components/schemas/SimplifiedInvoiceItem"
+            $ref: "#/components/schemas/CreateInvoiceItem"
     PaginatedInvoices:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -803,7 +804,7 @@ components:
           example: 1.0
         pagado:
           type: boolean
-    SimplifiedInvoiceItem:
+    CreateInvoiceItem:
       type: object
       properties:
         producto:
@@ -812,6 +813,20 @@ components:
         cantidad:
           type: number
           example: 1.0
+    SimplifiedInvoiceItem:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        producto:
+          type: string
+          example: "1 (producto 1)"
+        cantidad:
+          type: number
+          example: 1.0
+        pagado:
+          type: boolean
     UpdateInvoiceItem:
       type: object
       properties:
