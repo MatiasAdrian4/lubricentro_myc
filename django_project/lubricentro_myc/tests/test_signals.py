@@ -13,8 +13,8 @@ class SignalsTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.client_1 = ClientFactory()
-        cls.product_1 = ProductFactory(stock=5.0)
-        cls.product_2 = ProductFactory(stock=11.5)
+        cls.product_1 = ProductFactory(codigo=1, stock=5.0)
+        cls.product_2 = ProductFactory(codigo=2, stock=11.5)
         cls.invoice = InvoiceFactory(cliente=cls.client_1)
 
     def test_save_invoice_item_with_new_invoice_item(self):

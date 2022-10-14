@@ -18,8 +18,8 @@ class InvoiceItemTestCase(TestCase):
         cls.client_url = "/lubricentro_myc/elementos_remito"
         cls.client_1 = ClientFactory(nombre="Juan")
         cls.client_2 = ClientFactory(nombre="Pedro")
-        cls.product_1 = ProductFactory(stock=5.0)
-        cls.product_2 = ProductFactory(stock=7.5)
+        cls.product_1 = ProductFactory(codigo=1, stock=5.0)
+        cls.product_2 = ProductFactory(codigo=2, stock=7.5)
         cls.invoice_1 = InvoiceFactory(cliente=cls.client_1)
         cls.invoice_2 = InvoiceFactory(cliente=cls.client_2)
         cls.invoice_3 = InvoiceFactory(cliente=cls.client_2)
