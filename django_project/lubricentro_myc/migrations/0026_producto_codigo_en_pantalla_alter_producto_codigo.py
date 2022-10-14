@@ -22,10 +22,5 @@ class Migration(migrations.Migration):
             name="codigo_en_pantalla",
             field=models.IntegerField(null=True, unique=True),
         ),
-        migrations.AlterField(
-            model_name="producto",
-            name="codigo",
-            field=models.AutoField(primary_key=True, serialize=False),
-        ),
         migrations.RunPython(set_display_codes, migrations.RunPython.noop),
     ]
