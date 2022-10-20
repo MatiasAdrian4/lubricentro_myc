@@ -249,6 +249,22 @@ paths:
       responses:
         201:
           description: "Invoice created"
+    patch:
+      tags:
+        - Invoices
+      summary: "Update invoice"
+      requestBody:
+        description: "Invoice data"
+        required: True
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInvoice"
+      responses:
+        200:
+          description: "Invoice updated"
+        404:
+          description: "Invoice not found"
   /remitos/{remito_id}/:
     get:
       tags:
@@ -777,6 +793,13 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/ExtendedInvoice"
+    UpdateInvoice:
+      type: object
+      properties:
+        elementos_remito:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvoiceItemForInvoiceUpdate"
     InvoiceItem:
       type: object
       properties:
@@ -834,6 +857,15 @@ components:
           example: 1.0
         pagado:
           type: boolean
+    InvoiceItemForInvoiceUpdate:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        cantidad:
+          type: number
+          example: 1.0
     Product:
       type: object
       properties:
