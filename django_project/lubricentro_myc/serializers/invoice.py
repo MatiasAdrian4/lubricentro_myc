@@ -1,8 +1,29 @@
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 
-class ElementoRemitoSinRemitoAsignado(serializers.ModelSerializer):
+class UpdateElementoRemitoSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
+    class Meta:
+        model = ElementoRemito
+        fields = ["id", "cantidad"]
+
+
+class UpdateRemitoSerializer(serializers.Serializer):
+    elementos_remito = serializers.ListField(child=UpdateElementoRemitoSerializer())
+
+    def validate(self, data):
+        invoice_id = self.context.get("invoice_id")
+        if ElementoRemito.objects.filter(remito_id=invoice_id, pagado=True).count() > 0:
+            raise ValidationError(
+                "Remito no puede ser actualizado dado que 1 o mas Elementos de Remito ya estan pagos."
+            )
+        return data
+
+
+class GetElementoRemitoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ElementoRemito
         fields = ["producto", "cantidad"]
@@ -10,7 +31,7 @@ class ElementoRemitoSinRemitoAsignado(serializers.ModelSerializer):
 
 class RemitoSerializer(serializers.ModelSerializer):
     elementos_remito = serializers.ListField(
-        child=ElementoRemitoSinRemitoAsignado(), write_only=True
+        child=GetElementoRemitoSerializer(), write_only=True
     )
 
     class Meta:
