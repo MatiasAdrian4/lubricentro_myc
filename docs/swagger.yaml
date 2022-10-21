@@ -249,6 +249,22 @@ paths:
       responses:
         201:
           description: "Invoice created"
+    patch:
+      tags:
+        - Invoices
+      summary: "Update invoice"
+      requestBody:
+        description: "Invoice data"
+        required: True
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInvoice"
+      responses:
+        200:
+          description: "Invoice updated"
+        404:
+          description: "Invoice not found"
   /remitos/{remito_id}/:
     get:
       tags:
