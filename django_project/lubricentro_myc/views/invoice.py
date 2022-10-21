@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import HttpResponse
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
 from lubricentro_myc.serializers.invoice import RemitoSerializer, UpdateRemitoSerializer
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
@@ -62,4 +63,4 @@ class RemitoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
         invoice_items_to_delete.delete()
 
-        return super().update(request, *args, **kwargs)
+        return HttpResponse(status=200)
