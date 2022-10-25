@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
+from lubricentro_myc.models import ProductPriceHistory
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.product import ProductoSerializer
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
@@ -51,5 +52,25 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
         return JsonResponse(
             data={
                 "resultado": f"{updated_products} producto/s actualizado/s satisfactoriamente."
+            }
+        )
+
+    @action(detail=True, methods=["get"])
+    def historial_precios(self, request, pk=None):
+        try:
+            Producto.objects.get(codigo=pk)
+        except Producto.DoesNotExist:
+            return HttpResponse(status=404)
+        prices_history = ProductPriceHistory.objects.filter(product__codigo=pk)
+        return JsonResponse(
+            data={
+                "prices": [
+                    {
+                        "old_price": round(price.old_price, 2),
+                        "new_price": round(price.new_price, 2),
+                        "date": price.timestamp,
+                    }
+                    for price in prices_history
+                ]
             }
         )
