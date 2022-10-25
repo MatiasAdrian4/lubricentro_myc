@@ -1,5 +1,8 @@
+import datetime
+
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
+from lubricentro_myc.models import ProductCostHistory
 from lubricentro_myc.models.invoice import ElementoRemito
 from lubricentro_myc.models.product import Producto
 
@@ -24,3 +27,21 @@ def delete_invoice_item(sender, instance, **kwargs):
     product = Producto.objects.get(codigo=instance.producto.codigo)
     product.stock += instance.cantidad
     product.save()
+
+
+@receiver(pre_save, sender=Producto)
+def save_product(sender, instance, **kwargs):
+    if not instance.codigo:
+        return
+
+    product_being_updated = Producto.objects.get(codigo=instance.codigo)
+    old_price = product_being_updated.precio_costo
+    new_price = instance.precio_costo
+
+    if old_price != new_price:
+        ProductCostHistory.objects.create(
+            product=product_being_updated,
+            old_price=old_price,
+            new_price=new_price,
+            timestamp=datetime.datetime.utcnow(),
+        )
