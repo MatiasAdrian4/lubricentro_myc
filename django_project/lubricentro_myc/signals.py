@@ -2,7 +2,7 @@ import datetime
 
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
-from lubricentro_myc.models import ProductCostHistory
+from lubricentro_myc.models import ProductPriceHistory
 from lubricentro_myc.models.invoice import ElementoRemito
 from lubricentro_myc.models.product import Producto
 
@@ -39,7 +39,7 @@ def save_product(sender, instance, **kwargs):
     new_price = instance.precio_costo
 
     if old_price != new_price:
-        ProductCostHistory.objects.create(
+        ProductPriceHistory.objects.create(
             product=product_being_updated,
             old_price=old_price,
             new_price=new_price,
