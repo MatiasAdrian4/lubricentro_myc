@@ -31,10 +31,10 @@ def delete_invoice_item(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=Producto)
 def save_product(sender, instance, **kwargs):
-    if not instance.codigo:
+    try:
+        product_being_updated = Producto.objects.get(codigo=instance.codigo)
+    except Producto.DoesNotExist:
         return
-
-    product_being_updated = Producto.objects.get(codigo=instance.codigo)
     old_price = product_being_updated.precio_costo
     new_price = instance.precio_costo
 
