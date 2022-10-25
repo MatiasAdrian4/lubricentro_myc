@@ -495,6 +495,27 @@ paths:
           description: "Product updated"
         404:
           description: "Product not found"
+  /productos/{producto_id}/historial_precios:
+    get:
+      tags:
+        - Products
+      summary: "Get Product Price History"
+      parameters:
+        - name: producto_id
+          in: path
+          description: "Product id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "List containing history prices"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductPriceHistoryList"
+        404:
+          description: "Product not found"
   /producto/aumento_masivo_precio_costo:
     post:
       tags:
@@ -976,6 +997,26 @@ components:
         resultado:
           type: string
           example: "5 producto/s actualizado/s satisfactoriamente."
+    ProductPriceHistory:
+      type: object
+      properties:
+        old_price:
+          type: number
+          example: 25.0
+        new_price:
+          type: number
+          example: 30.0
+        date:
+          type: string
+          format: date
+          example: "2018-03-20"
+    ProductPriceHistoryList:
+      type: object
+      properties:
+        prices:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductPriceHistory"
     BasicSale:
       type: object
       properties:
