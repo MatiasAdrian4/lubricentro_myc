@@ -10,5 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL('ALTER SEQUENCE lubricentro_myc_producto_codigo_seq RESTART WITH 100000;')
+        migrations.RunSQL(
+            "ALTER SEQUENCE lubricentro_myc_producto_codigo_seq RESTART WITH 100000;"
+        )
     ]
