@@ -137,3 +137,28 @@ class ProductTestCase(TestCase):
         self.assertEqual(productos[3].precio_costo, 642.5)
         self.assertEqual(productos[4].precio_costo, 1446.25)
         self.assertEqual(productos[5].precio_costo, 183.75)
+
+    @mock_auth
+    def test_available_codes(self):
+        product_70 = ProductFactory(
+            codigo=70,
+            codigo_en_pantalla=77,
+            detalle="BATERIA CLOREX 12V.75AMP.",
+            categoria="Baterias",
+            precio_costo=12215.50,
+        )
+
+        response = self.client.get(
+            f"{self.client_url}/codigos_disponibles", follow=True
+        )
+        available_codes = json.loads(response.content)["available_codes"]
+
+        self.assertNotIn(self.product_1.codigo_en_pantalla, available_codes)
+        self.assertNotIn(self.product_2.codigo_en_pantalla, available_codes)
+        self.assertNotIn(self.product_3.codigo_en_pantalla, available_codes)
+        self.assertNotIn(self.product_4.codigo_en_pantalla, available_codes)
+        self.assertNotIn(self.product_5.codigo_en_pantalla, available_codes)
+        self.assertNotIn(self.product_6.codigo_en_pantalla, available_codes)
+        self.assertNotIn(product_70.codigo_en_pantalla, available_codes)
+        self.assertIn(7, available_codes)
+        self.assertIn(70, available_codes)
