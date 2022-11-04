@@ -2,15 +2,17 @@
 
 from django.db import migrations
 
+PRODUCT_CODE_SEQUENCE_NAME = "lubricentro_myc_producto_codigo_seq"
+
 
 def reset_product_code_auto_increment(apps, schema_editor):
     with schema_editor.connection.cursor() as cursor:
         cursor.execute(
-            "SELECT oid FROM pg_class where relname='lubricentro_myc_producto_codigo_seq'"
+            f"SELECT oid FROM pg_class where relname='{PRODUCT_CODE_SEQUENCE_NAME}'"
         )
         if cursor.fetchone():
             cursor.execute(
-                "ALTER SEQUENCE lubricentro_myc_producto_codigo_seq RESTART WITH 100000"
+                f"ALTER SEQUENCE {PRODUCT_CODE_SEQUENCE_NAME} RESTART WITH 100000"
             )
 
 
