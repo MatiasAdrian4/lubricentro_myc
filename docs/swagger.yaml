@@ -535,6 +535,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductUpdateCostResult"
+  /producto/codigos_disponibles:
+    get:
+      tags:
+        - Products
+      summary: "List containing available codes"
+      responses:
+        200:
+          description: "Available codes list"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AvailableCodesList"
   /ventas/:
     get:
       tags:
@@ -1017,6 +1029,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ProductPriceHistory"
+    AvailableCodesList:
+      type: object
+      properties:
+        available_codes:
+          type: array
+          items:
+            type: number
+          example: [3, 4, 10, 15, 16, 17]
     BasicSale:
       type: object
       properties:

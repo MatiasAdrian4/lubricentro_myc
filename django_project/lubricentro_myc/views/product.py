@@ -74,3 +74,17 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
                 ]
             }
         )
+
+    @action(detail=False, methods=["get"])
+    def codigos_disponibles(self, request):
+        codes_in_used = [
+            product.codigo_en_pantalla
+            for product in Producto.objects.all().order_by("codigo_en_pantalla")
+        ]
+        return JsonResponse(
+            data={
+                "available_codes": [
+                    code for code in list(range(1, 100001)) if code not in codes_in_used
+                ]
+            }
+        )
