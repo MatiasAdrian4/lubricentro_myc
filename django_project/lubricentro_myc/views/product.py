@@ -77,14 +77,21 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     @action(detail=False, methods=["get"])
     def codigos_disponibles(self, request):
+        start = int(request.GET.get("start", 1))
+        amount = int(request.GET.get("amount", 10))
         codes_in_used = [
             product.codigo_en_pantalla
             for product in Producto.objects.all().order_by("codigo_en_pantalla")
         ]
+        available_codes = [
+            code for code in list(range(start, 100001)) if code not in codes_in_used
+        ]
+        closest_code = min(available_codes, key=lambda x: abs(x - start))
+        closest_code_index = available_codes.index(closest_code)
         return JsonResponse(
             data={
-                "available_codes": [
-                    code for code in list(range(1, 100001)) if code not in codes_in_used
+                "available_codes": available_codes[
+                    closest_code_index : closest_code_index + amount
                 ]
             }
         )

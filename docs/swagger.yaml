@@ -540,6 +540,19 @@ paths:
       tags:
         - Products
       summary: "List containing available codes"
+      parameters:
+        - in: query
+          name: start
+          description: "Code where the search starts"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: amount
+          description: "Amount of codes in response"
+          required: false
+          schema:
+            type: integer
       responses:
         200:
           description: "Available codes list"
