@@ -17,7 +17,7 @@ class Remito(models.Model):
             {
                 "id": elemento.id,
                 "producto": {
-                    "codigo": elemento.producto.codigo,
+                    "codigo": elemento.producto.codigo_en_pantalla,
                     "detalle": elemento.producto.detalle,
                 },
                 "cantidad": elemento.cantidad,

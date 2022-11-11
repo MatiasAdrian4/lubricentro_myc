@@ -25,7 +25,7 @@
             </thead>
             {% for producto in productos %}
                 <tr>
-                    <td>{{ producto.codigo }}</td>
+                    <td>{{ producto.codigo_en_pantalla }}</td>
                     <td>{{ producto.detalle }}</td>
                     <td>{{ producto.stock }}</td>
                     <td>{{ producto.precio_costo_con_descuentos|floatformat:2 }}</td>
