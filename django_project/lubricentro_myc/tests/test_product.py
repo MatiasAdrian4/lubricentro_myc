@@ -149,7 +149,7 @@ class ProductTestCase(TestCase):
         )
 
         response = self.client.get(
-            f"{self.client_url}/codigos_disponibles", follow=True
+            f"{self.client_url}/codigos_disponibles?amount=100", follow=True
         )
         available_codes = json.loads(response.content)["available_codes"]
 
