@@ -15,7 +15,7 @@ class VentaSerializer(serializers.ModelSerializer):
         except AttributeError:
             producto = instance["producto"]
         data["producto"] = {
-            "codigo": producto.codigo,
+            "codigo": producto.codigo,  # TODO: not sure if it should be codigo or codigo_en_pantalla
             "detalle": producto.detalle,
         }
         return data

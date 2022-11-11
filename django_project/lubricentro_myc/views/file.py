@@ -46,7 +46,7 @@ def generar_remito_pdf(request):
     for elemento in ElementoRemito.objects.filter(remito=remito):
         producto = Producto.objects.get(codigo=elemento.producto_id)
         elemento_remito = {
-            "codigo": producto.codigo,
+            "codigo": producto.codigo_en_pantalla,
             "detalle": producto.detalle,
             "cantidad": elemento.cantidad,
         }

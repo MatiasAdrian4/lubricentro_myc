@@ -9,7 +9,7 @@ from rest_framework.decorators import action
 
 
 class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
-    queryset = Producto.objects.all().order_by("codigo")
+    queryset = Producto.objects.all().order_by("codigo_en_pantalla")
     serializer_class = ProductoSerializer
     pagination_class = CustomPageNumberPagination
 
@@ -20,17 +20,17 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
         if detalle:
             self.queryset = Producto.objects.filter(
                 detalle__icontains=detalle
-            ).order_by("codigo")
+            ).order_by("codigo_en_pantalla")
         elif categoria:
             self.queryset = Producto.objects.filter(
                 categoria__iexact=categoria
-            ).order_by("codigo")
+            ).order_by("codigo_en_pantalla")
         elif query:
             self.queryset = Producto.objects.filter(
                 Q(codigo_en_pantalla__contains=query)
                 | Q(detalle__icontains=query)
                 | Q(categoria__icontains=query)
-            ).order_by("codigo")
+            ).order_by("codigo_en_pantalla")
         return super().list(request)
 
     @action(detail=False, methods=["post"])
