@@ -392,6 +392,21 @@ paths:
           description: "Invoice item updated"
         404:
           description: "Invoice item not found"
+  /elementos_remito/bulk/:
+    post:
+      tags:
+        - Invoice Items
+      summary: "Mark invoice items as paid"
+      requestBody:
+        description: "List of invoice item ids"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceItemIds"
+      responses:
+        200:
+          description: "Invoice items marked as paid"
   /productos/:
     get:
       tags:
@@ -919,6 +934,14 @@ components:
         cantidad:
           type: number
           example: 1.0
+    InvoiceItemIds:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: integer
+            example: 1
     Product:
       type: object
       properties:
