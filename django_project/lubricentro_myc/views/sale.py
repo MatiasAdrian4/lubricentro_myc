@@ -58,7 +58,9 @@ class VentaViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     @action(detail=False, methods=["post"])
     def bulk(self, request):
-        serializer = VentasSerializer(data=request.data)
+        serializer = VentasSerializer(
+            data=request.data
+        )  # TODO: change for VentaSerializer with many=True
         serializer.is_valid(raise_exception=True)
         update_stock = True if request.GET.get("update_stock") == "true" else False
         for venta in serializer.data["ventas"]:

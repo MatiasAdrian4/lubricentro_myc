@@ -1,6 +1,7 @@
 import json
 
 from django.test import TestCase
+from lubricentro_myc.models import ElementoRemito, Venta
 from lubricentro_myc.tests.factories import (
     ClientFactory,
     InvoiceFactory,
@@ -18,11 +19,14 @@ class InvoiceItemTestCase(TestCase):
         cls.client_url = "/lubricentro_myc/elementos_remito"
         cls.client_1 = ClientFactory(nombre="Juan")
         cls.client_2 = ClientFactory(nombre="Pedro")
+        cls.client_3 = ClientFactory(nombre="Matias")
         cls.product_1 = ProductFactory(codigo=1, stock=5.0)
         cls.product_2 = ProductFactory(codigo=2, stock=7.5)
+        cls.product_3 = ProductFactory(codigo=3, stock=3.0)
         cls.invoice_1 = InvoiceFactory(cliente=cls.client_1)
         cls.invoice_2 = InvoiceFactory(cliente=cls.client_2)
         cls.invoice_3 = InvoiceFactory(cliente=cls.client_2)
+        cls.invoice_4 = InvoiceFactory(cliente=cls.client_3)
         cls.invoice_item_1 = InvoiceItemFactory(
             remito=cls.invoice_1,
             producto_id=cls.product_1.codigo,
@@ -51,6 +55,24 @@ class InvoiceItemTestCase(TestCase):
             remito=cls.invoice_2,
             producto_id=cls.product_2.codigo,
             cantidad=1,
+            pagado=False,
+        )
+        cls.invoice_item_6 = InvoiceItemFactory(
+            remito=cls.invoice_4,
+            producto_id=cls.product_1.codigo,
+            cantidad=5.0,
+            pagado=False,
+        )
+        cls.invoice_item_7 = InvoiceItemFactory(
+            remito=cls.invoice_4,
+            producto_id=cls.product_2.codigo,
+            cantidad=2.0,
+            pagado=False,
+        )
+        cls.invoice_item_8 = InvoiceItemFactory(
+            remito=cls.invoice_4,
+            producto_id=cls.product_3.codigo,
+            cantidad=8.0,
             pagado=False,
         )
 
@@ -96,3 +118,48 @@ class InvoiceItemTestCase(TestCase):
             follow=True,
         )
         self.assertEqual(response.status_code, 400)
+
+    @mock_auth
+    def test_billing(self):
+        invoice_item_ids = [
+            self.invoice_item_6.id,
+            self.invoice_item_7.id,
+            self.invoice_item_8.id,
+        ]
+        response = self.client.post(
+            f"{self.client_url}/bulk/",
+            json.dumps(
+                {
+                    "items": invoice_item_ids,
+                }
+            ),
+            content_type="application/json",
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(
+            ElementoRemito.objects.filter(
+                id__in=invoice_item_ids, pagado=False
+            ).count(),
+            0,
+        )
+
+        self.assertTrue(
+            Venta.objects.filter(
+                producto=self.invoice_item_6.producto,
+                cantidad=self.invoice_item_6.cantidad,
+            ).exists()
+        )
+        self.assertTrue(
+            Venta.objects.filter(
+                producto=self.invoice_item_7.producto,
+                cantidad=self.invoice_item_7.cantidad,
+            ).exists()
+        )
+        self.assertTrue(
+            Venta.objects.filter(
+                producto=self.invoice_item_7.producto,
+                cantidad=self.invoice_item_7.cantidad,
+            ).exists()
+        )

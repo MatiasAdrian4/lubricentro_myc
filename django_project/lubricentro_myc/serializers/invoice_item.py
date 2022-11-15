@@ -15,3 +15,9 @@ class ElementoRemitoSerializer(serializers.ModelSerializer):
             "precio_venta_cta_cte": instance.producto.precio_venta_cta_cte,
         }
         return data
+
+
+class BillingSerializer(serializers.Serializer):
+    items = serializers.PrimaryKeyRelatedField(
+        queryset=ElementoRemito.objects.filter(pagado=False), many=True
+    )
