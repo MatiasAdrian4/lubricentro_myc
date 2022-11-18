@@ -30,9 +30,9 @@ class InvoiceTestCase(TestCase):
         cls.product_4 = ProductFactory(codigo=4, stock=62)
         cls.product_5 = ProductFactory(codigo=5, stock=201.5)
 
-        cls.invoice_1 = InvoiceFactory(cliente=cls.client_1)
-        cls.invoice_2 = InvoiceFactory(cliente=cls.client_3)
-        cls.invoice_3 = InvoiceFactory(cliente=cls.client_4)
+        cls.invoice_1 = InvoiceFactory(codigo=4250, cliente=cls.client_1)
+        cls.invoice_2 = InvoiceFactory(codigo=4230, cliente=cls.client_3)
+        cls.invoice_3 = InvoiceFactory(codigo=35, cliente=cls.client_4)
 
         InvoiceItemFactory(remito=cls.invoice_1, producto=cls.product_1, cantidad=1.5)
         InvoiceItemFactory(remito=cls.invoice_1, producto=cls.product_2, cantidad=7.0)
@@ -61,6 +61,18 @@ class InvoiceTestCase(TestCase):
         invoices = response.data["results"]
         self.assertEqual(len(invoices), 1)
         self.assertEqual(invoices[0]["cliente"], "Juan")
+
+    @mock_auth
+    def test_list_invoices_using_query_param(self):
+        response = self.client.get(f"{self.client_url}?query=jua", follow=True)
+        invoices = response.data["results"]
+        self.assertEqual(len(invoices), 1)
+        self.assertEqual(invoices[0]["cliente"], "Juan")
+
+        response = self.client.get(f"{self.client_url}?query=425", follow=True)
+        invoices = response.data["results"]
+        self.assertEqual(len(invoices), 1)
+        self.assertEqual(invoices[0]["codigo"], 4250)
 
     @mock_auth
     def test_store_invoice_items(self):

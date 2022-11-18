@@ -228,6 +228,12 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: query
+          description: "Code or client's name of the invoice"
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: "Paginated invoices list"
