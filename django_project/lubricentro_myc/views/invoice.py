@@ -13,9 +13,14 @@ class RemitoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     def list(self, request):
         nombre = request.GET.get("nombre", None)
+        query = request.GET.get("query", None)
         if nombre:
             self.queryset = Remito.objects.filter(
                 cliente__nombre__icontains=nombre
+            ).order_by("-fecha")
+        elif query:
+            self.queryset = Remito.objects.filter(
+                Q(cliente__nombre__icontains=query) | Q(codigo__icontains=query)
             ).order_by("-fecha")
         return super().list(request)
 
