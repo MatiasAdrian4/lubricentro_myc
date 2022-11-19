@@ -26,11 +26,16 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
                 categoria__iexact=categoria
             ).order_by("codigo_en_pantalla")
         elif query:
-            self.queryset = Producto.objects.filter(
-                Q(codigo_en_pantalla__contains=query)
-                | Q(detalle__icontains=query)
-                | Q(categoria__icontains=query)
-            ).order_by("codigo_en_pantalla")
+            if query.isnumeric():
+                self.queryset = Producto.objects.filter(
+                    codigo_en_pantalla__gte=query
+                ).order_by("codigo_en_pantalla")
+            else:
+                self.queryset = Producto.objects.filter(
+                    Q(codigo_en_pantalla__contains=query)
+                    | Q(detalle__icontains=query)
+                    | Q(categoria__icontains=query)
+                ).order_by("codigo_en_pantalla")
         return super().list(request)
 
     @action(detail=False, methods=["post"])
