@@ -24,7 +24,7 @@ def export_file(filename: str, queryset):
 
 
 class Command(BaseCommand):
-    help = "Exportes models data in a CSV file"
+    help = "Exports models data in a CSV file"
 
     def handle(self, *args, **kwargs):
         logger.info("Starting to export models data...")
