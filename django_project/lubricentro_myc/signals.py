@@ -35,8 +35,8 @@ def save_product(sender, instance, **kwargs):
         product_being_updated = Producto.objects.get(codigo=instance.codigo)
     except Producto.DoesNotExist:
         return
-    old_price = product_being_updated.precio_costo
-    new_price = instance.precio_costo
+    old_price = round(product_being_updated.precio_costo, 2)
+    new_price = round(instance.precio_costo, 2)
 
     if old_price != new_price:
         ProductPriceHistory.objects.create(
