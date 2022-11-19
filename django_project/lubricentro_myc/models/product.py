@@ -42,3 +42,22 @@ class Producto(models.Model):
         return round(
             self.precio_venta_contado * ((100 + self.agregado_cta_cte) / 100), 2
         )
+
+    @property
+    def data(self):
+        return (
+            self.codigo,
+            self.codigo_en_pantalla,
+            self.detalle,
+            self.stock,
+            self.precio_costo,
+            self.desc1,
+            self.desc2,
+            self.desc3,
+            self.desc4,
+            self.flete,
+            self.ganancia,
+            self.iva,
+            self.agregado_cta_cte,
+            self.categoria,
+        )

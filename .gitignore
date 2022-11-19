@@ -7,3 +7,4 @@ dumps
 data/*
 .env
 .vscode
+django_project/files
