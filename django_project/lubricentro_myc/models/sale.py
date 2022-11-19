@@ -7,3 +7,7 @@ class Venta(models.Model):
     cantidad = models.FloatField(null=False)
     precio = models.FloatField(null=False)
     fecha = models.DateTimeField(default=timezone.now)
+
+    @property
+    def data(self):
+        return self.id, self.producto.codigo, self.cantidad, self.precio, self.fecha

@@ -28,3 +28,16 @@ class Cliente(models.Model):
     @property
     def lista_remitos(self):
         return Remito.objects.filter(cliente__id=self.id).order_by("-fecha")
+
+    @property
+    def data(self):
+        return (
+            self.id,
+            self.nombre,
+            self.direccion,
+            self.localidad,
+            self.codigo_postal,
+            self.telefono,
+            self.cuit,
+            self.email,
+        )

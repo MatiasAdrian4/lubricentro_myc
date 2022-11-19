@@ -32,3 +32,7 @@ class Remito(models.Model):
             remito_id=self.codigo, pagado=False
         )
         return len(elementos_remito_no_pagos) == 0
+
+    @property
+    def data(self):
+        return self.codigo, self.cliente.id, self.fecha
