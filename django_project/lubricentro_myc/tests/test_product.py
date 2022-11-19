@@ -101,9 +101,14 @@ class ProductTestCase(TestCase):
                 "expected_result": [self.product_6.codigo, product_7.codigo],
             },
             {
-                "case_name": "Should return products with code matching '4'",
+                "case_name": "Should return products with code greater or equal than '4'",
                 "query_params": "?query=4",
-                "expected_result": [self.product_4.codigo, product_7.codigo],
+                "expected_result": [
+                    self.product_4.codigo,
+                    self.product_5.codigo,
+                    self.product_6.codigo,
+                    product_7.codigo,
+                ],
             },
         )
 
