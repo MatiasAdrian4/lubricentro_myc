@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lubricentro_myc", "0023_auto_20201109_0802"),
     ]
