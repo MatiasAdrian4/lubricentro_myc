@@ -537,7 +537,7 @@ paths:
                 $ref: "#/components/schemas/ProductPriceHistoryList"
         404:
           description: "Product not found"
-  /productos/aumento_masivo_precio_costo:
+  /productos/aumento_masivo_precio_costo/:
     post:
       tags:
         - Products

@@ -11,7 +11,6 @@ def set_display_codes(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lubricentro_myc", "0025_cliente_email"),
     ]
