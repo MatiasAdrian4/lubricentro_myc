@@ -17,7 +17,6 @@ def reset_product_code_auto_increment(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lubricentro_myc", "0027_productpricehistory"),
     ]

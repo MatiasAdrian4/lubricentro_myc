@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("lubricentro_myc", "0026_producto_codigo_en_pantalla_alter_producto_codigo"),
     ]
