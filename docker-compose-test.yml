@@ -3,21 +3,21 @@ version: "3.9"
 services:
   db:
     image: postgres:14
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
     expose:
-      - 5432
+      - 5433
+    ports:
+      - 5433:5432
     environment:
-      - POSTGRES_DB=lubricentro_myc
+      - POSTGRES_DB=lubricentro_myc_test
       - POSTGRES_USER=matiasadrian4
       - POSTGRES_PASSWORD=matiasadrian4
   web:
     build: .
     ports:
-      - 8000:8000
+      - 8001:8000
     environment:
       - DB_HOST=db
-      - DB_NAME=lubricentro_myc
+      - DB_NAME=lubricentro_myc_test
       - DB_USER=matiasadrian4
       - DB_PASSWORD=matiasadrian4
       - DB_PORT=5432
