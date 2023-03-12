@@ -177,3 +177,5 @@ LOGGING = {
         },
     },
 }
+
+TESTING_MODE = int(os.environ.get("TESTING_MODE", 0))

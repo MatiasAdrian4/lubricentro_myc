@@ -21,5 +21,6 @@ services:
       - DB_USER=matiasadrian4
       - DB_PASSWORD=matiasadrian4
       - DB_PORT=5432
+      - TESTING_MODE=1
     depends_on:
       - db
