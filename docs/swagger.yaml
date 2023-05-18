@@ -39,7 +39,7 @@ paths:
           description: "User created"
         400:
           description: "User already exists"
-  /account/user:
+  /account/user/:
     get:
       tags:
         - Users
@@ -174,7 +174,7 @@ paths:
           description: "Client updated"
         404:
           description: "Client not found"
-  /generar_stock_pdf:
+  /generar_stock_pdf/:
     get:
       tags:
         - File Actions
@@ -189,7 +189,7 @@ paths:
       responses:
         200:
           description: "PDF containing the products stock"
-  /generar_remito_pdf:
+  /generar_remito_pdf/:
     get:
       tags:
         - File Actions
@@ -516,7 +516,7 @@ paths:
           description: "Product updated"
         404:
           description: "Product not found"
-  /productos/{producto_id}/historial_precios:
+  /productos/{producto_id}/historial_precios/:
     get:
       tags:
         - Products
@@ -556,7 +556,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductUpdateCostResult"
-  /productos/codigos_disponibles:
+  /productos/codigos_disponibles/:
     get:
       tags:
         - Products
@@ -645,7 +645,7 @@ paths:
       responses:
         201:
           description: "Sale created"
-  /ventas/{venta_id}:
+  /ventas/{venta_id}/:
     get:
       tags:
         - Sales
@@ -711,7 +711,7 @@ paths:
       responses:
         201:
           description: "Sales created"
-  /ventas/ventas_por_anio:
+  /ventas/ventas_por_anio/:
     get:
       tags:
         - Sales
@@ -730,7 +730,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SalesPerYear"
-  /ventas/ventas_por_mes:
+  /ventas/ventas_por_mes/:
     get:
       tags:
         - Sales
