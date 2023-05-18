@@ -36,3 +36,7 @@ docker-compose up
 ```bash
 docker exec -it lubricentro_myc_web_1 python manage.py migrate
 ```
+or
+```bash
+docker compose run web python manage.py migrate
+```
