@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 ##### virtualenv
 ```bash
-virtualenv -p python3 lubricentro_myc
+virtualenv -p python3.10 lubricentro_myc
 source lubricentro_myc/bin/activate
 pip install -r requirements.txt
 ```
