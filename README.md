@@ -2,20 +2,12 @@
 
 ## Setup
 
-#### Create Environment and Install Dependencies
+#### Create Environment and Install Dependencies (with virtualenv)
 
-##### conda
-```bash
-conda create --name lubricentro_myc python=3.7
-conda activate lubricentro_myc
-pip install -r requirements.txt
-```
-
-##### virtualenv
 ```bash
 virtualenv -p python3.10 lubricentro_myc
 source lubricentro_myc/bin/activate
-pip install -r requirements.txt
+pip install -r django_project/requirements.txt
 ```
 
 #### Run Migrations and Run Server
