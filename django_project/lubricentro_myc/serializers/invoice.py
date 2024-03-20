@@ -47,10 +47,7 @@ class RemitoSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super(RemitoSerializer, self).to_representation(instance)
-        data["cliente"] = {
-            "id": instance.cliente.id,
-            "nombre": instance.cliente.nombre
-        }
+        data["cliente"] = {"id": instance.cliente.id, "nombre": instance.cliente.nombre}
         return data
 
     def create(self, validated_data):
