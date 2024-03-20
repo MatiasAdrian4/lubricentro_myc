@@ -60,14 +60,14 @@ class InvoiceTestCase(TestCase):
         response = self.client.get(f"{self.client_url}?nombre=jua", follow=True)
         invoices = response.data["results"]
         self.assertEqual(len(invoices), 1)
-        self.assertEqual(invoices[0]["cliente"], "Juan")
+        self.assertEqual(invoices[0]["cliente"], {"id": 1, "nombre": "Juan"})
 
     @mock_auth
     def test_list_invoices_using_query_param(self):
         response = self.client.get(f"{self.client_url}?query=jua", follow=True)
         invoices = response.data["results"]
         self.assertEqual(len(invoices), 1)
-        self.assertEqual(invoices[0]["cliente"], "Juan")
+        self.assertEqual(invoices[0]["cliente"], {"id": 1, "nombre": "Juan"})
 
         response = self.client.get(f"{self.client_url}?query=425", follow=True)
         invoices = response.data["results"]
