@@ -811,6 +811,15 @@ components:
             deuda_actual:
               type: number
               example: 1000.0
+    ReducedClient:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Matias Peñalba Paz"
     PaginatedClients:
       allOf:
         - $ref: "#/components/schemas/PaginationItems"
@@ -827,8 +836,7 @@ components:
           type: integer
           example: 1
         cliente:
-          type: string
-          example: Pedro Perez
+          $ref: "#/components/schemas/ReducedClient"
         fecha:
           type: string
           format: date
@@ -848,8 +856,8 @@ components:
       type: object
       properties:
         cliente:
-          type: string
-          example: Pedro Perez
+          type: number
+          example: 1
         fecha:
           type: string
           format: date
