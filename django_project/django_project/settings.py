@@ -53,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "lubricentro_myc.middlewares.error_handling_middleware.ErrorHandlingMiddleware",
 ]
 
 ROOT_URLCONF = "django_project.urls"
