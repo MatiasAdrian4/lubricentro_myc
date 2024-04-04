@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                         choices=[
                             ("error", "Error"),
                             ("info", "Info"),
-                            ("unhandled_error", "Unhandled Exception"),
+                            ("unhandled_exception", "Unhandled Exception"),
                         ],
                         max_length=20,
                     ),

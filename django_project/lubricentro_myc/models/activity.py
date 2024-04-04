@@ -3,7 +3,7 @@ from django.utils import timezone
 
 ERROR = "error"
 INFO = "info"
-UNHANDLED_EXCEPTION = "unhandled_error"
+UNHANDLED_EXCEPTION = "unhandled_exception"
 
 TYPE_CHOICES = [
     (ERROR, "Error"),
