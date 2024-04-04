@@ -1,3 +1,4 @@
+from .activity import Activity
 from .client import Cliente
 from .invoice import Remito
 from .invoice_item import ElementoRemito
