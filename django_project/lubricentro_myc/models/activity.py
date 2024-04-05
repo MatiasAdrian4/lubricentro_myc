@@ -13,7 +13,9 @@ TYPE_CHOICES = [
 
 
 class Activity(models.Model):
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    request = models.CharField(max_length=100)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
-    timestamp = models.DateTimeField(default=timezone.now)
     title = models.TextField()
     description = models.TextField(blank=True)
+    timestamp = models.DateTimeField(default=timezone.now)
