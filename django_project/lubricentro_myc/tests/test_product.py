@@ -1,5 +1,4 @@
 import json
-from unittest import mock
 from unittest.mock import patch, MagicMock
 
 from django.test import TestCase
@@ -127,7 +126,7 @@ class ProductTestCase(TestCase):
 
     @patch(
         "lubricentro_myc.views.product.log_activity",
-        mock.MagicMock(return_value=MagicMock()),
+        MagicMock(return_value=MagicMock()),
     )
     @mock_auth
     def test_update_products_cost(self):

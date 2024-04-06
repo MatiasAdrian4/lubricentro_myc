@@ -1,6 +1,5 @@
 from functools import wraps
 from io import BytesIO
-from unittest import mock
 from unittest.mock import MagicMock, patch
 
 from django.http import HttpResponse
@@ -24,7 +23,7 @@ def mock_auth(func):
     @wraps(func)
     @patch(
         "lubricentro_myc.authentication.JWTAuthentication.authenticate",
-        mock.MagicMock(return_value=(MagicMock(), None)),
+        MagicMock(return_value=(MagicMock(), None)),
     )
     def wrapper(*args, **kwd):
         return func(*args, **kwd)

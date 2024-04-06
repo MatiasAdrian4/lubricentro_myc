@@ -1,5 +1,4 @@
 import json
-from unittest import mock
 from unittest.mock import patch, MagicMock
 
 from django.test import TestCase
@@ -78,7 +77,7 @@ class InvoiceTestCase(TestCase):
 
     @patch(
         "lubricentro_myc.views.invoice.log_activity",
-        mock.MagicMock(return_value=MagicMock()),
+        MagicMock(return_value=MagicMock()),
     )
     @mock_auth
     def test_store_invoice_items(self):
@@ -114,7 +113,7 @@ class InvoiceTestCase(TestCase):
 
     @patch(
         "lubricentro_myc.views.invoice.log_activity",
-        mock.MagicMock(return_value=MagicMock()),
+        MagicMock(return_value=MagicMock()),
     )
     @mock_auth
     def test_update_invoice(self):
