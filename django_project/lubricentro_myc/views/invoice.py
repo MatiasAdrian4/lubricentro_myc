@@ -43,9 +43,7 @@ class RemitoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
             )
 
     def update(self, request, *args, **kwargs):
-        log_activity(
-            request, INFO, "Invoice Edition", json.dumps(request.data)
-        )
+        log_activity(request, INFO, "Invoice Edition", json.dumps(request.data))
         serializer = UpdateRemitoSerializer(
             data=request.data, context={"invoice_id": kwargs["pk"]}
         )
