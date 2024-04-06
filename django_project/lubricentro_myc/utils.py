@@ -1,4 +1,3 @@
-import json
 from functools import wraps
 from io import BytesIO
 from unittest import mock

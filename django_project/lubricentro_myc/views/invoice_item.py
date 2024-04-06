@@ -33,6 +33,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
         return super().list(request)
 
     def update(self, request, *args, **kwargs):
+        log_activity(request, INFO, "Invoice Item Update", json.dumps(request.data))
         remito = request.data.get("remito", None)
         producto = request.data.get("producto", None)
         if remito or producto:
