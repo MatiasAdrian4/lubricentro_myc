@@ -1,6 +1,7 @@
 import traceback
 
-from lubricentro_myc.models.activity import Activity, UNHANDLED_EXCEPTION
+from lubricentro_myc.models.activity import UNHANDLED_EXCEPTION
+from lubricentro_myc.utils import log_activity
 
 
 class ErrorHandlingMiddleware:
@@ -12,10 +13,9 @@ class ErrorHandlingMiddleware:
         return response
 
     def process_exception(self, request, exception):
-        Activity.objects.create(
-            user=request.user,
-            request=f"{request.method} {request.get_full_path()}",
-            type=UNHANDLED_EXCEPTION,
-            title=str(exception),
-            description=traceback.format_exc(),
+        log_activity(
+            request,
+            UNHANDLED_EXCEPTION,
+            "Unhandled Exception Thrown",
+            traceback.format_exc(),
         )

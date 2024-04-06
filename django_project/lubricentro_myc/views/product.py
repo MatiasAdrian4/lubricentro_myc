@@ -1,8 +1,12 @@
+import json
+
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models import ProductPriceHistory
+from lubricentro_myc.models.activity import INFO
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.product import ProductoSerializer
+from lubricentro_myc.utils import log_activity
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -40,6 +44,12 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     @action(detail=False, methods=["post"])
     def aumento_masivo_precio_costo(self, request):
+        log_activity(
+            request,
+            INFO,
+            "Bulk Products Prices Update",
+            json.dumps(request.data),
+        )
         producto_ids = request.data.get("productos")
         porcentaje_aumento = request.data.get("porcentaje_aumento")
         if not producto_ids or not porcentaje_aumento:

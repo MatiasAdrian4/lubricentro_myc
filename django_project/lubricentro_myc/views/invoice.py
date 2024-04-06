@@ -1,7 +1,12 @@
+import json
+
 from django.db.models import Q
 from django.http import HttpResponse
+
+from lubricentro_myc.models.activity import INFO
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
 from lubricentro_myc.serializers.invoice import RemitoSerializer, UpdateRemitoSerializer
+from lubricentro_myc.utils import log_activity
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import viewsets
 
@@ -25,6 +30,9 @@ class RemitoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
         return super().list(request)
 
     def perform_create(self, serializer):
+        log_activity(
+            self.request, INFO, "Invoice Creation", json.dumps(self.request.data)
+        )
         remito = serializer.save()
         elementos_remito = self.request.data.get("elementos_remito")
         for elemento_remito in elementos_remito:
@@ -35,6 +43,9 @@ class RemitoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
             )
 
     def update(self, request, *args, **kwargs):
+        log_activity(
+            request, INFO, "Invoice Edition", json.dumps(request.data)
+        )
         serializer = UpdateRemitoSerializer(
             data=request.data, context={"invoice_id": kwargs["pk"]}
         )

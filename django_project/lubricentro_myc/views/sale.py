@@ -1,12 +1,16 @@
 import calendar
+import json
 from calendar import monthrange
 
 from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse
+
+from lubricentro_myc.models.activity import INFO
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
+from lubricentro_myc.utils import log_activity
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -50,6 +54,7 @@ class VentaViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
             product.save()
 
     def create(self, request):
+        log_activity(request, INFO, "Sale Creation", json.dumps(request.data))
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         update_stock = True if request.GET.get("update_stock") == "true" else False
@@ -58,6 +63,7 @@ class VentaViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     @action(detail=False, methods=["post"])
     def bulk(self, request):
+        log_activity(request, INFO, "Bulk Sale Creation", json.dumps(request.data))
         serializer = VentasSerializer(
             data=request.data
         )  # TODO: change for VentaSerializer with many=True

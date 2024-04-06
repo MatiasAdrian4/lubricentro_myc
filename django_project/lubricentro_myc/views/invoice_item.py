@@ -3,6 +3,7 @@ import json
 from django.db.models import Q
 from django.http import HttpResponse
 from lubricentro_myc.models import Venta
+from lubricentro_myc.models.activity import INFO
 from lubricentro_myc.models.invoice import ElementoRemito
 from lubricentro_myc.serializers.invoice_item import (
     BillingSerializer,
@@ -10,6 +11,8 @@ from lubricentro_myc.serializers.invoice_item import (
 )
 from rest_framework import viewsets
 from rest_framework.decorators import action
+
+from lubricentro_myc.utils import log_activity
 
 
 class ElementoRemitoViewSet(viewsets.ModelViewSet):
@@ -38,6 +41,7 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"])
     def bulk(self, request):
+        log_activity(request, INFO, "Billing", json.dumps(request.data))
         serializer = BillingSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         for invoice_item in ElementoRemito.objects.filter(
