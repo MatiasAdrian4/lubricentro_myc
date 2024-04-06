@@ -13,6 +13,8 @@ class ErrorHandlingMiddleware:
 
     def process_exception(self, request, exception):
         Activity.objects.create(
+            user=request.user,
+            request=f"{request.method} {request.get_full_path()}",
             type=UNHANDLED_EXCEPTION,
             title=str(exception),
             description=traceback.format_exc(),
