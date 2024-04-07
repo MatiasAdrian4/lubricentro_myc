@@ -1,9 +1,10 @@
 import json
+import traceback
 
 from django.db.models import Q
 from django.http import HttpResponse
 from lubricentro_myc.models import Venta
-from lubricentro_myc.models.activity import INFO
+from lubricentro_myc.models.activity import INFO, EXCEPTION
 from lubricentro_myc.models.invoice import ElementoRemito
 from lubricentro_myc.serializers.invoice_item import (
     BillingSerializer,
@@ -33,29 +34,54 @@ class ElementoRemitoViewSet(viewsets.ModelViewSet):
         return super().list(request)
 
     def update(self, request, *args, **kwargs):
-        log_activity(request, INFO, "Invoice Item Update", json.dumps(request.data))
-        remito = request.data.get("remito", None)
-        producto = request.data.get("producto", None)
-        if remito or producto:
-            return HttpResponse(status=400)
-        return super().update(request, *args, **kwargs)
+        start_activity = log_activity(
+            request, INFO, "Invoice Item Update", json.dumps(request.data)
+        )
+        try:
+            remito = request.data.get("remito", None)
+            producto = request.data.get("producto", None)
+            if remito or producto:
+                return HttpResponse(status=400)
+            return super().update(request, *args, **kwargs)
+        except:
+            log_activity(
+                request,
+                EXCEPTION,
+                "Invoice Item Update Failed",
+                traceback.format_exc(),
+                start_activity,
+            )
+            return HttpResponse(status=500)
 
     @action(detail=False, methods=["post"])
     def bulk(self, request):
-        log_activity(request, INFO, "Billing", json.dumps(request.data))
-        serializer = BillingSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        for invoice_item in ElementoRemito.objects.filter(
-            id__in=serializer.data["items"]
-        ):
-            invoice_item.pagado = True
-            invoice_item.save()
-            # save sale without updating stock
-            Venta.objects.create(
-                producto=invoice_item.producto,
-                cantidad=invoice_item.cantidad,
-                precio=(
-                    invoice_item.producto.precio_venta_cta_cte * invoice_item.cantidad
-                ),
+        start_activity = log_activity(
+            request, INFO, "Billing", json.dumps(request.data)
+        )
+        try:
+            serializer = BillingSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            for invoice_item in ElementoRemito.objects.filter(
+                id__in=serializer.data["items"]
+            ):
+                invoice_item.pagado = True
+                invoice_item.save()
+                # save sale without updating stock
+                Venta.objects.create(
+                    producto=invoice_item.producto,
+                    cantidad=invoice_item.cantidad,
+                    precio=(
+                        invoice_item.producto.precio_venta_cta_cte
+                        * invoice_item.cantidad
+                    ),
+                )
+            return HttpResponse(status=200)
+        except:
+            log_activity(
+                request,
+                EXCEPTION,
+                "Billing Failed",
+                traceback.format_exc(),
+                start_activity,
             )
-        return HttpResponse(status=200)
+            return HttpResponse(status=500)

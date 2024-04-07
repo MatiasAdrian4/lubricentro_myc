@@ -1,9 +1,10 @@
 import json
+import traceback
 
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from lubricentro_myc.models import ProductPriceHistory
-from lubricentro_myc.models.activity import INFO
+from lubricentro_myc.models.activity import INFO, EXCEPTION
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.serializers.product import ProductoSerializer
 from lubricentro_myc.utils import log_activity
@@ -44,31 +45,41 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     @action(detail=False, methods=["post"])
     def aumento_masivo_precio_costo(self, request):
-        log_activity(
+        start_activity = log_activity(
             request,
             INFO,
             "Bulk Products Prices Update",
             json.dumps(request.data),
         )
-        producto_ids = request.data.get("productos")
-        porcentaje_aumento = request.data.get("porcentaje_aumento")
-        if not producto_ids or not porcentaje_aumento:
-            return HttpResponse(status=400)
-        aumento = 1 + int(porcentaje_aumento) / 100
-        updated_products = 0
-        for producto_id in producto_ids:
-            try:
-                p = Producto.objects.get(codigo=producto_id)
-                p.precio_costo = p.precio_costo * aumento
-                p.save()
-                updated_products += 1
-            except Producto.DoesNotExist:
-                pass
-        return JsonResponse(
-            data={
-                "resultado": f"{updated_products} producto/s actualizado/s satisfactoriamente."
-            }
-        )
+        try:
+            producto_ids = request.data.get("productos")
+            porcentaje_aumento = request.data.get("porcentaje_aumento")
+            if not producto_ids or not porcentaje_aumento:
+                return HttpResponse(status=400)
+            aumento = 1 + int(porcentaje_aumento) / 100
+            updated_products = 0
+            for producto_id in producto_ids:
+                try:
+                    p = Producto.objects.get(codigo=producto_id)
+                    p.precio_costo = p.precio_costo * aumento
+                    p.save()
+                    updated_products += 1
+                except Producto.DoesNotExist:
+                    pass
+            return JsonResponse(
+                data={
+                    "resultado": f"{updated_products} producto/s actualizado/s satisfactoriamente."
+                }
+            )
+        except:
+            log_activity(
+                request,
+                EXCEPTION,
+                "Bulk Products Prices Update Failed",
+                traceback.format_exc(),
+                start_activity,
+            )
+            return HttpResponse(status=500)
 
     @action(detail=True, methods=["get"])
     def historial_precios(self, request, pk=None):

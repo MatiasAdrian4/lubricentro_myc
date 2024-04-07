@@ -31,14 +31,15 @@ def mock_auth(func):
     return wrapper
 
 
-def log_activity(request, type, title, description):
+def log_activity(request, type, title, description, parent_activity=None) -> Activity:
     # For unhandled exceptions the description field will be used to store the error's traceback
     # For info exceptions the description field will be used to store the request payload
 
-    Activity.objects.create(
+    return Activity.objects.create(
         user=request.user,
         request=f"{request.method} {request.get_full_path()}",
         type=type,
         title=title,
         description=description,
+        parent=parent_activity,
     )
