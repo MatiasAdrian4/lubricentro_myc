@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch, MagicMock
 
 from django.test import TestCase
 from lubricentro_myc.models.invoice import ElementoRemito, Remito
@@ -74,6 +75,10 @@ class InvoiceTestCase(TestCase):
         self.assertEqual(len(invoices), 1)
         self.assertEqual(invoices[0]["codigo"], 4250)
 
+    @patch(
+        "lubricentro_myc.views.invoice.log_activity",
+        MagicMock(return_value=MagicMock()),
+    )
     @mock_auth
     def test_store_invoice_items(self):
         self.client.post(
@@ -106,6 +111,10 @@ class InvoiceTestCase(TestCase):
         self.assertEqual(invoice_items[1].remito.codigo, invoice.codigo)
         self.assertEqual(invoice_items[1].cantidad, 2.0)
 
+    @patch(
+        "lubricentro_myc.views.invoice.log_activity",
+        MagicMock(return_value=MagicMock()),
+    )
     @mock_auth
     def test_update_invoice(self):
         self.client.patch(

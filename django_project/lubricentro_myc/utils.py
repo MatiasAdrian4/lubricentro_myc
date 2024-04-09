@@ -1,11 +1,12 @@
 from functools import wraps
 from io import BytesIO
-from unittest import mock
 from unittest.mock import MagicMock, patch
 
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+
+from lubricentro_myc.models.activity import Activity
 
 
 def render_to_pdf(template_src, context_dict={}):
@@ -22,9 +23,23 @@ def mock_auth(func):
     @wraps(func)
     @patch(
         "lubricentro_myc.authentication.JWTAuthentication.authenticate",
-        mock.MagicMock(return_value=(MagicMock(), None)),
+        MagicMock(return_value=(MagicMock(), None)),
     )
     def wrapper(*args, **kwd):
         return func(*args, **kwd)
 
     return wrapper
+
+
+def log_activity(request, type, title, description, parent_activity=None) -> Activity:
+    # Info : the description field is used to store the request payload
+    # Exception: the description field is used to store the error's traceback
+
+    return Activity.objects.create(
+        user=request.user,
+        request=f"{request.method} {request.get_full_path()}",
+        type=type,
+        title=title,
+        description=description,
+        parent=parent_activity,
+    )

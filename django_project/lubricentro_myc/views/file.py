@@ -35,6 +35,8 @@ def generar_stock_pdf(request):
 
 
 def generar_remito_pdf(request):
+    # Add this here later (there is an issue with a non-authenticated call which will break the Activity's User FK)
+    # log_activity(request, INFO, "Invoice PDF Generation", "")
     codigo_remito = request.GET.get("cod_remito")
     if not codigo_remito:
         return HttpResponse(status=400)

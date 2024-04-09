@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch, MagicMock
 
 from django.test import TestCase
 from lubricentro_myc.models.product import Producto
@@ -60,6 +61,10 @@ class SaleTestCase(TestCase):
                     case["expected_result"],
                 )
 
+    @patch(
+        "lubricentro_myc.views.sale.log_activity",
+        MagicMock(return_value=MagicMock()),
+    )
     @mock_auth
     def test_new_sale_without_updating_stock(self):
         self.client.post(
@@ -83,6 +88,10 @@ class SaleTestCase(TestCase):
         self.assertEqual(producto_1.stock, 5)
         self.assertEqual(producto_2.stock, 4)
 
+    @patch(
+        "lubricentro_myc.views.sale.log_activity",
+        MagicMock(return_value=MagicMock()),
+    )
     @mock_auth
     def test_new_sale_updating_stock(self):
         self.client.post(
@@ -106,6 +115,10 @@ class SaleTestCase(TestCase):
         self.assertEqual(producto_1.stock, 2)
         self.assertEqual(producto_2.stock, 3)
 
+    @patch(
+        "lubricentro_myc.views.sale.log_activity",
+        MagicMock(return_value=MagicMock()),
+    )
     @mock_auth
     def test_bulk_sale(self):
         sales = [self.sale_1, self.sale_2]

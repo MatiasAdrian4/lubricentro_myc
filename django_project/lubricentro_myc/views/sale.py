@@ -1,12 +1,17 @@
 import calendar
+import json
+import traceback
 from calendar import monthrange
 
 from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse
+
+from lubricentro_myc.models.activity import INFO, EXCEPTION
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.models.product import Producto
 from lubricentro_myc.models.sale import Venta
 from lubricentro_myc.serializers.sale import VentaSerializer, VentasSerializer
+from lubricentro_myc.utils import log_activity
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -50,22 +55,48 @@ class VentaViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
             product.save()
 
     def create(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        update_stock = True if request.GET.get("update_stock") == "true" else False
-        self.store_sale(serializer.data, update_stock)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        start_activity = log_activity(
+            request, INFO, "Sale Creation", json.dumps(request.data)
+        )
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            update_stock = True if request.GET.get("update_stock") == "true" else False
+            self.store_sale(serializer.data, update_stock)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except:
+            log_activity(
+                request,
+                EXCEPTION,
+                "Bulk Sale Creation Failed",
+                traceback.format_exc(),
+                start_activity,
+            )
+            return HttpResponse(status=500)
 
     @action(detail=False, methods=["post"])
     def bulk(self, request):
-        serializer = VentasSerializer(
-            data=request.data
-        )  # TODO: change for VentaSerializer with many=True
-        serializer.is_valid(raise_exception=True)
-        update_stock = True if request.GET.get("update_stock") == "true" else False
-        for venta in serializer.data["ventas"]:
-            self.store_sale(venta, update_stock)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        start_activity = log_activity(
+            request, INFO, "Bulk Sale Creation", json.dumps(request.data)
+        )
+        try:
+            serializer = VentasSerializer(
+                data=request.data
+            )  # TODO: change for VentaSerializer with many=True
+            serializer.is_valid(raise_exception=True)
+            update_stock = True if request.GET.get("update_stock") == "true" else False
+            for venta in serializer.data["ventas"]:
+                self.store_sale(venta, update_stock)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except:
+            log_activity(
+                request,
+                EXCEPTION,
+                "Bulk Sale Creation Failed",
+                traceback.format_exc(),
+                start_activity,
+            )
+            return HttpResponse(status=500)
 
     @action(detail=False, methods=["get"])
     def ventas_por_anio(self, request):
