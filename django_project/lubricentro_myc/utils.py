@@ -32,8 +32,8 @@ def mock_auth(func):
 
 
 def log_activity(request, type, title, description, parent_activity=None) -> Activity:
-    # For unhandled exceptions the description field will be used to store the error's traceback
-    # For info exceptions the description field will be used to store the request payload
+    # Info : the description field is used to store the request payload
+    # Exception: the description field is used to store the error's traceback
 
     return Activity.objects.create(
         user=request.user,
