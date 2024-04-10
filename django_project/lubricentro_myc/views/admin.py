@@ -65,14 +65,14 @@ def export_models_backup(request):
                 ("invoice_items", ElementoRemito.objects.all()),
             ]
 
-            for filename, queryset in models_to_export:
-                f = open(f"{filename}.csv", "w")
+            for model_name, queryset in models_to_export:
+                f = open(f"{model_name}.csv", "w")
                 writer = csv.writer(f, delimiter="|")
                 for obj in queryset:
                     writer.writerow(obj.data)
 
-                zipf.write(f"{filename}.csv", arcname=f"{filename}.csv")
-                os.remove(f"{filename}.csv")
+                zipf.write(f"{model_name}.csv", arcname=f"{model_name}.csv")
+                os.remove(f"{model_name}.csv")
 
         return response
     except:
