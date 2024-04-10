@@ -1,4 +1,6 @@
 from django.urls import include, re_path
+
+from lubricentro_myc.views.admin import activity_details, activities_list
 from lubricentro_myc.views.client import ClienteViewSet
 from lubricentro_myc.views.db import reset
 from lubricentro_myc.views.file import generar_remito_pdf, generar_stock_pdf
@@ -25,6 +27,12 @@ urlpatterns = [
     re_path(r"account/logout/", LogoutView.as_view()),
     re_path(r"generar_remito_pdf/", generar_remito_pdf, name="generar_remito_pdf"),
     re_path(r"generar_stock_pdf/", generar_stock_pdf, name="generar_stock_pdf"),
+    re_path(
+        r"admin/activities/(?P<activity_id>\d+)/?$",
+        activity_details,
+        name="activity-details",
+    ),
+    re_path(r"admin/activities/", activities_list, name="activities-list"),
     re_path("", include(router.urls)),
 ]
 
