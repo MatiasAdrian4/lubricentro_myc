@@ -1,6 +1,10 @@
 from django.urls import include, re_path
 
-from lubricentro_myc.views.admin import activity_details, activities_list
+from lubricentro_myc.views.admin import (
+    activity_details,
+    activities_list,
+    export_models_backup,
+)
 from lubricentro_myc.views.client import ClienteViewSet
 from lubricentro_myc.views.db import reset
 from lubricentro_myc.views.file import generar_remito_pdf, generar_stock_pdf
@@ -33,6 +37,11 @@ urlpatterns = [
         name="activity-details",
     ),
     re_path(r"admin/activities/", activities_list, name="activities-list"),
+    re_path(
+        r"admin/export_models_backup/",
+        export_models_backup,
+        name="export-models-backup",
+    ),
     re_path("", include(router.urls)),
 ]
 
