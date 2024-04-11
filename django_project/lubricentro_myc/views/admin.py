@@ -8,7 +8,6 @@ from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 
 from rest_framework.decorators import permission_classes, api_view
-from rest_framework.permissions import IsAuthenticated
 
 from lubricentro_myc.models import (
     Activity,
@@ -20,19 +19,20 @@ from lubricentro_myc.models import (
     ElementoRemito,
 )
 from lubricentro_myc.models.activity import EXCEPTION, INFO
+from lubricentro_myc.permissions import IsSuperAdmin
 from lubricentro_myc.serializers.activity import ActivitySerializer
 from lubricentro_myc.utils import log_activity
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsSuperAdmin])
 def activities_list(_):
     serializer = ActivitySerializer(Activity.objects.all(), many=True)
     return JsonResponse(data={"activities": serializer.data})
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsSuperAdmin])
 def activity_details(_, activity_id):
     try:
         activity = Activity.objects.get(id=activity_id)
@@ -44,7 +44,7 @@ def activity_details(_, activity_id):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsSuperAdmin])
 def export_models_backup(request):
     start_activity = log_activity(
         request, INFO, "Models Backup Export", json.dumps(request.data)
