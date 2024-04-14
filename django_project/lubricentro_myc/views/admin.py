@@ -26,8 +26,10 @@ from lubricentro_myc.utils import log_activity
 
 @api_view(["GET"])
 @permission_classes([IsSuperAdmin])
-def activities_list(_):
-    serializer = ActivitySerializer(Activity.objects.all(), many=True)
+def activities_list(request):
+    type = request.query_params.get("type")
+    activities = Activity.objects.filter(type=type) if type else Activity.objects.all()
+    serializer = ActivitySerializer(activities, many=True)
     return JsonResponse(data={"activities": serializer.data})
 
 
