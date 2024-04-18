@@ -133,7 +133,7 @@ class ProductTestCase(TestCase):
         response = self.client.post(
             f"{self.client_url}/aumento_masivo_precio_costo/",
             json.dumps(
-                {"porcentaje_aumento": 25, "productos": [1, 2, 3, 4, 5, 6, 999999]}
+                {"porcentaje_aumento": 23, "productos": [1, 2, 3, 4, 5, 6, 999999]}
             ),
             content_type="application/json",
             follow=True,
@@ -141,12 +141,12 @@ class ProductTestCase(TestCase):
         resultado = json.loads(response.content)["resultado"]
         productos = Producto.objects.all()
         self.assertEqual(resultado, "6 producto/s actualizado/s satisfactoriamente.")
-        self.assertEqual(productos[0].precio_costo, 2531.25)
-        self.assertEqual(productos[1].precio_costo, 166.25)
-        self.assertEqual(productos[2].precio_costo, 31432.5)
-        self.assertEqual(productos[3].precio_costo, 642.5)
-        self.assertEqual(productos[4].precio_costo, 1446.25)
-        self.assertEqual(productos[5].precio_costo, 183.75)
+        self.assertEqual(productos[0].precio_costo, 2491)
+        self.assertEqual(productos[1].precio_costo, 164)
+        self.assertEqual(productos[2].precio_costo, 30930)
+        self.assertEqual(productos[3].precio_costo, 633)
+        self.assertEqual(productos[4].precio_costo, 1424)
+        self.assertEqual(productos[5].precio_costo, 181)
 
     @mock_auth
     def test_available_codes(self):

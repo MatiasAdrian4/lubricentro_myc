@@ -1,4 +1,5 @@
 import json
+import math
 import traceback
 
 from django.db.models import Q
@@ -61,7 +62,7 @@ class ProductoViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
             for producto_id in producto_ids:
                 try:
                     p = Producto.objects.get(codigo=producto_id)
-                    p.precio_costo = p.precio_costo * aumento
+                    p.precio_costo = math.ceil(p.precio_costo * aumento)
                     p.save()
                     updated_products += 1
                 except Producto.DoesNotExist:
