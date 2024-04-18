@@ -141,12 +141,12 @@ class ProductTestCase(TestCase):
         resultado = json.loads(response.content)["resultado"]
         productos = Producto.objects.all()
         self.assertEqual(resultado, "6 producto/s actualizado/s satisfactoriamente.")
-        self.assertEqual(productos[0].precio_costo, 2490.75)
-        self.assertEqual(productos[1].precio_costo, 163.59)
-        self.assertEqual(productos[2].precio_costo, 30929.579999999998)
-        self.assertEqual(productos[3].precio_costo, 632.22)
-        self.assertEqual(productos[4].precio_costo, 1423.11)
-        self.assertEqual(productos[5].precio_costo, 180.81)
+        self.assertEqual(productos[0].precio_costo, 2491)
+        self.assertEqual(productos[1].precio_costo, 164)
+        self.assertEqual(productos[2].precio_costo, 30930)
+        self.assertEqual(productos[3].precio_costo, 633)
+        self.assertEqual(productos[4].precio_costo, 1424)
+        self.assertEqual(productos[5].precio_costo, 181)
 
     @mock_auth
     def test_available_codes(self):
