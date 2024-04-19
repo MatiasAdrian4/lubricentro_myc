@@ -47,4 +47,4 @@ def log_activity(request, type, title, description, parent_activity=None) -> Act
 
 
 def round_up_price(price: float) -> float:
-    return float(f"{math.ceil(price)}")
+    return float(math.ceil(price))
