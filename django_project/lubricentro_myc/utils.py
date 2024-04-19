@@ -1,3 +1,4 @@
+import math
 from functools import wraps
 from io import BytesIO
 from unittest.mock import MagicMock, patch
@@ -43,3 +44,7 @@ def log_activity(request, type, title, description, parent_activity=None) -> Act
         description=description,
         parent=parent_activity,
     )
+
+
+def round_up_price(price: float) -> float:
+    return float(f"{math.ceil(price)}")
