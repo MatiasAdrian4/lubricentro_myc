@@ -1,6 +1,8 @@
 from lubricentro_myc.models.product import Producto
 from rest_framework import serializers
 
+from lubricentro_myc.utils import round_up_price
+
 
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,5 +37,7 @@ class ProductoSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super(ProductoSerializer, self).to_representation(instance)
-        data["precio_costo"] = round(instance.precio_costo, 2)
+        data["precio_costo"] = round_up_price(instance.precio_costo)
+        data["precio_venta_contado"] = round_up_price(instance.precio_venta_contado)
+        data["precio_venta_cta_cte"] = round_up_price(instance.precio_venta_cta_cte)
         return data
