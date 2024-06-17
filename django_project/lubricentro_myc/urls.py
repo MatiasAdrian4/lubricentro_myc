@@ -1,5 +1,6 @@
 from django.urls import include, re_path
 
+from lubricentro_myc.views.account_summary_item import AccountSummaryItemViewSet
 from lubricentro_myc.views.admin import (
     activity_details,
     activities_list,
@@ -23,6 +24,7 @@ router.register(r"productos", ProductoViewSet)
 router.register(r"remitos", RemitoViewSet)
 router.register(r"elementos_remito", ElementoRemitoViewSet)
 router.register(r"ventas", VentaViewSet)
+router.register(r"account_summaries", AccountSummaryItemViewSet)
 
 urlpatterns = [
     re_path(r"account/signup/", SignupView.as_view()),
