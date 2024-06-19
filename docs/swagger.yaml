@@ -774,14 +774,14 @@ paths:
           required: false
           schema:
             type: string
-          example: "2024-01-01T00:00:00.000000+00:00"
+          example: "2024-01-01"
         - in: query
           name: end_date
           description: "End Date"
           required: false
           schema:
             type: string
-          example: "2024-12-31T00:00:00.000000+00:00"
+          example: "2024-12-31"
       responses:
         200:
           description: "List containing all the account summary items"
@@ -1261,7 +1261,7 @@ components:
         date:
           type: string
           format: date
-          example: "2024-07-20T00:00:00.000000+00:00"
+          example: "2024-07-20T00:00:00"
         description:
           type: string
           example: "Test"
