@@ -3,6 +3,7 @@ import logging
 
 from django.core.management import BaseCommand
 from lubricentro_myc.models import (
+    AccountSummaryItem,
     Cliente,
     ElementoRemito,
     Producto,
@@ -41,5 +42,7 @@ class Command(BaseCommand):
         create_file("invoices", Remito.objects.all())
         logger.info("Saving invoice items...")
         create_file("invoice_items", ElementoRemito.objects.all())
+        logger.info("Saving account summary items...")
+        create_file("account_summary_items", AccountSummaryItem.objects.all())
 
         logger.info("Finished.")

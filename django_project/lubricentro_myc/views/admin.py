@@ -17,6 +17,7 @@ from lubricentro_myc.models import (
     Venta,
     Remito,
     ElementoRemito,
+    AccountSummaryItem,
 )
 from lubricentro_myc.models.activity import EXCEPTION, INFO
 from lubricentro_myc.permissions import IsSuperAdmin
@@ -65,6 +66,7 @@ def export_models_backup(request):
                 ("sales", Venta.objects.all()),
                 ("invoices", Remito.objects.all()),
                 ("invoice_items", ElementoRemito.objects.all()),
+                ("account_summary_items", AccountSummaryItem.objects.all()),
             ]
 
             for model_name, queryset in models_to_export:
@@ -72,6 +74,9 @@ def export_models_backup(request):
                 writer = csv.writer(f, delimiter="|")
                 for obj in queryset:
                     writer.writerow(obj.data)
+
+                # Explicitly flush buffer to ensure data is written to disk
+                f.flush()
 
                 zipf.write(f"{model_name}.csv", arcname=f"{model_name}.csv")
                 os.remove(f"{model_name}.csv")

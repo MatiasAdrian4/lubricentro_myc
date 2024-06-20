@@ -16,3 +16,14 @@ class AccountSummaryItem(models.Model):
     description = models.TextField(blank=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     amount = models.FloatField(null=False)
+
+    @property
+    def data(self):
+        return (
+            self.id,
+            self.client.id,
+            self.date,
+            self.description,
+            self.type,
+            self.amount,
+        )
