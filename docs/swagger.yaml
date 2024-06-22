@@ -824,6 +824,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountSummaryItem"
+    delete:
+      tags:
+        - Account Summaries
+      summary: "Delete account summary item"
+      parameters:
+        - in: path
+          name: account_summary_id
+          description: "Account summary item id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: "Account summary item succesfully deleted"
 
 components:
   schemas:
