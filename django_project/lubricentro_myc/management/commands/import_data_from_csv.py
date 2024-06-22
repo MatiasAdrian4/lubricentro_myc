@@ -9,6 +9,7 @@ from lubricentro_myc.models import (
     ProductPriceHistory,
     Remito,
     Venta,
+    AccountSummaryItem,
 )
 
 logger = logging.getLogger("django")
@@ -144,6 +145,26 @@ def store_invoice_items():
     get_reader("invoice_items", store_data)
 
 
+def store_account_summary_items():
+    def store_data(reader):
+        account_summary_items = []
+        for row in reader:
+            account_summary_items.append(
+                AccountSummaryItem(
+                    id=row[0],
+                    client=Cliente.objects.get(id=row[1]),
+                    date=row[2],
+                    description=row[3],
+                    type=row[4],
+                    amount=row[5],
+                )
+            )
+        AccountSummaryItem.objects.all().delete()
+        AccountSummaryItem.objects.bulk_create(account_summary_items)
+
+    get_reader("account_summary_items", store_data)
+
+
 class Command(BaseCommand):
     help = "Imports models data from a CSV file"
 
@@ -162,5 +183,7 @@ class Command(BaseCommand):
         store_invoices()
         logger.info("Storing invoice items...")
         store_invoice_items()
+        logger.info("Storing account summary items...")
+        store_account_summary_items()
 
         logger.info("Finished.")
