@@ -1269,7 +1269,7 @@ components:
         id:
           type: integer
           example: 1
-        client_id:
+        client:
           type: integer
           example: 1
         date:
