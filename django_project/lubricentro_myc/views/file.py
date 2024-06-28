@@ -71,3 +71,24 @@ def generar_remito_pdf(request):
         content = f"attachment; filename={filename}"
     response["Content-Disposition"] = content
     return response
+
+
+def generate_account_summary_pdf(request):
+    client_id = request.GET.get("client_id")
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
+
+    # parse dates as the viewset does
+
+    context = {"client": {"id": client_id}}
+    pdf = render_to_pdf("pdf/account_summary_pdf.html", context)
+    if not pdf:
+        return HttpResponse(status=500)
+    response = HttpResponse(pdf, content_type="application/pdf")
+    filename = f"resumen_de_cuenta_cliente_{client_id}.pdf"
+    content = f"inline; filename='{filename}'"
+    download = request.GET.get("download")
+    if download:
+        content = f"attachment; filename={filename}"
+    response["Content-Disposition"] = content
+    return response

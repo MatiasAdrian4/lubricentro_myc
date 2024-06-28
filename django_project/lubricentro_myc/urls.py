@@ -8,7 +8,11 @@ from lubricentro_myc.views.admin import (
 )
 from lubricentro_myc.views.client import ClienteViewSet
 from lubricentro_myc.views.db import reset
-from lubricentro_myc.views.file import generar_remito_pdf, generar_stock_pdf
+from lubricentro_myc.views.file import (
+    generar_remito_pdf,
+    generar_stock_pdf,
+    generate_account_summary_pdf,
+)
 from lubricentro_myc.views.invoice import RemitoViewSet
 from lubricentro_myc.views.invoice_item import ElementoRemitoViewSet
 from lubricentro_myc.views.product import ProductoViewSet
@@ -33,6 +37,11 @@ urlpatterns = [
     re_path(r"account/logout/", LogoutView.as_view()),
     re_path(r"generar_remito_pdf/", generar_remito_pdf, name="generar_remito_pdf"),
     re_path(r"generar_stock_pdf/", generar_stock_pdf, name="generar_stock_pdf"),
+    re_path(
+        r"generate_account_summary_pdf/",
+        generate_account_summary_pdf,
+        name="generate_account_summary_pdf",
+    ),
     re_path(
         r"admin/activities/(?P<activity_id>\d+)/?$",
         activity_details,

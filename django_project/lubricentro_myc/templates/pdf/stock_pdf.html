@@ -1,46 +1,48 @@
 <html>
-    <head>
-        <title>stock-{{ categoria }}</title>
-        <style type="text/css">
-            body {
-                font-size: 12px;
-            }
-            
-            table td {
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="stock">
-            <h1>Categoría: {{ categoria | upper }}</h1>
-        </div>
-        <table>
-            <thead>
-                <td style="width: 20%">Código</td>
-                <td style="width: 40%">Detalle</td>
-                <td style="width: 10%">Stock</td>
-                <td style="width: 15%">Precio de Costo</td>
-                <td style="width: 15%">Precio de Venta</td>
-            </thead>
-            {% for producto in productos %}
-                <tr>
-                    <td>{{ producto.codigo_en_pantalla }}</td>
-                    <td>{{ producto.detalle }}</td>
-                    <td>{{ producto.stock }}</td>
-                    <td>{{ producto.precio_costo_con_descuentos|floatformat:2 }}</td>
-                    <td>{{ producto.precio_venta_contado|floatformat:2 }}</td>
-                </tr>
-            {% endfor %}
-            <tr style="border-bottom: 1px solid #000;"><td></td></tr>
-            <tr></tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{ total_precio_costo |floatformat:2 }}</td>
-                <td>{{ total_precio_venta |floatformat:2 }}</td>
-            </tr>
+  <head>
+    <title>stock-{{ categoria }}</title>
+    <style type="text/css">
+      body {
+        font-size: 12px;
+      }
 
-        </body>
+      table td {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stock">
+      <h1>Categoría: {{ categoria | upper }}</h1>
+    </div>
+    <table>
+      <thead>
+        <td style="width: 20%">Código</td>
+        <td style="width: 40%">Detalle</td>
+        <td style="width: 10%">Stock</td>
+        <td style="width: 15%">Precio de Costo</td>
+        <td style="width: 15%">Precio de Venta</td>
+      </thead>
+      {% for producto in productos %}
+      <tr>
+        <td>{{ producto.codigo_en_pantalla }}</td>
+        <td>{{ producto.detalle }}</td>
+        <td>{{ producto.stock }}</td>
+        <td>{{ producto.precio_costo_con_descuentos|floatformat:2 }}</td>
+        <td>{{ producto.precio_venta_contado|floatformat:2 }}</td>
+      </tr>
+      {% endfor %}
+      <tr style="border-bottom: 1px solid #000">
+        <td></td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ total_precio_costo |floatformat:2 }}</td>
+        <td>{{ total_precio_venta |floatformat:2 }}</td>
+      </tr>
+    </table>
+  </body>
 </html>
