@@ -5,7 +5,7 @@ from lubricentro_myc.models.product import Producto
 from lubricentro_myc.utils import render_to_pdf
 
 
-# TODO: add auth
+# TODO: move to ProductoViewSset
 def generar_stock_pdf(request):
     categoria = request.GET.get("categoria")
     if not categoria:
@@ -35,7 +35,7 @@ def generar_stock_pdf(request):
     return response
 
 
-# TODO: add auth
+# TODO: move to RemitoViewSet
 def generar_remito_pdf(request):
     # Add this here later (there is an issue with a non-authenticated call which will break the Activity's User FK)
     # log_activity(request, INFO, "Invoice PDF Generation", "")
@@ -65,27 +65,6 @@ def generar_remito_pdf(request):
         return HttpResponse(status=500)
     response = HttpResponse(pdf, content_type="application/pdf")
     filename = f"remito_{codigo_remito}.pdf"
-    content = f"inline; filename='{filename}'"
-    download = request.GET.get("download")
-    if download:
-        content = f"attachment; filename={filename}"
-    response["Content-Disposition"] = content
-    return response
-
-
-def generate_account_summary_pdf(request):
-    client_id = request.GET.get("client_id")
-    start_date = request.GET.get("start_date")
-    end_date = request.GET.get("end_date")
-
-    # parse dates as the viewset does
-
-    context = {"client": {"id": client_id}}
-    pdf = render_to_pdf("pdf/account_summary_pdf.html", context)
-    if not pdf:
-        return HttpResponse(status=500)
-    response = HttpResponse(pdf, content_type="application/pdf")
-    filename = f"resumen_de_cuenta_cliente_{client_id}.pdf"
     content = f"inline; filename='{filename}'"
     download = request.GET.get("download")
     if download:
