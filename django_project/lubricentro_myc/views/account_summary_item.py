@@ -6,7 +6,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 
-from lubricentro_myc.models import AccountSummaryItem
+from lubricentro_myc.models import AccountSummaryItem, Cliente
+from lubricentro_myc.models.account_summary_item import DEBE
 from lubricentro_myc.serializers.account_summary_item import (
     AccountSummaryItemSerializer,
 )
@@ -34,7 +35,7 @@ class AccountSummaryItemViewSet(viewsets.ModelViewSet):
 
         return client_id, start_date, end_date
 
-    def get_filtered_account_summaries(self, client_id, start_date, end_date):
+    def get_filtered_account_summary_items(self, client_id, start_date, end_date):
         return AccountSummaryItem.objects.filter(
             client__id=client_id, date__date__gte=start_date, date__date__lte=end_date
         ).order_by("date")
@@ -45,7 +46,7 @@ class AccountSummaryItemViewSet(viewsets.ModelViewSet):
         except ParseError:
             return HttpResponse(status=400)
 
-        self.queryset = self.get_filtered_account_summaries(
+        self.queryset = self.get_filtered_account_summary_items(
             client_id, start_date, end_date
         )
         return super().list(request)
@@ -57,11 +58,31 @@ class AccountSummaryItemViewSet(viewsets.ModelViewSet):
         except ParseError:
             return HttpResponse(status=400)
 
-        account_summaries = self.get_filtered_account_summaries(
+        account_summary_items = self.get_filtered_account_summary_items(
             client_id, start_date, end_date
         )
 
-        context = {"client": {"id": client_id}, "account_summaries": []}
+        parsed_account_summary_items = []
+        total = 0
+        for item in account_summary_items:
+            parsed_item = {
+                "date": item.date,
+                "description": item.description,
+            }
+            if item.type == DEBE:
+                parsed_item["debe"] = item.amount
+                total += item.amount
+            else:  # item.type == HABER
+                parsed_item["haber"] = item.amount
+                total -= item.amount
+            parsed_item["total"] = total
+            parsed_account_summary_items.append(parsed_item)
+        parsed_account_summary_items.append({"total": total})
+
+        context = {
+            "client": Cliente.objects.get(id=client_id),
+            "account_summary_items": parsed_account_summary_items,
+        }
         pdf = render_to_pdf("pdf/account_summary_pdf.html", context)
         if not pdf:
             return HttpResponse(status=500)

@@ -66,20 +66,6 @@ class AccountSummaryItemTestCase(TestCase):
         )
 
     @mock_auth
-    def test_account_summary_items_for_client(self):
-        response = self.client.get(
-            f"{self.client_url}?client_id=10",
-            follow=True,
-        )
-        account_summary_items = response.data
-        self.assertEqual(len(account_summary_items), 5)
-        self.assertEqual(account_summary_items[0]["id"], self.account_summary_item_1.id)
-        self.assertEqual(account_summary_items[1]["id"], self.account_summary_item_2.id)
-        self.assertEqual(account_summary_items[2]["id"], self.account_summary_item_4.id)
-        self.assertEqual(account_summary_items[3]["id"], self.account_summary_item_5.id)
-        self.assertEqual(account_summary_items[4]["id"], self.account_summary_item_6.id)
-
-    @mock_auth
     def test_account_summary_items_for_client_in_a_date_range(self):
         response = self.client.get(
             f"{self.client_url}?client_id=10&start_date=2024-01-01&end_date=2024-12-31",

@@ -771,14 +771,14 @@ paths:
         - in: query
           name: start_date
           description: "Start Date"
-          required: false
+          required: true
           schema:
             type: string
           example: "2024-01-01"
         - in: query
           name: end_date
           description: "End Date"
-          required: false
+          required: true
           schema:
             type: string
           example: "2024-12-31"
@@ -838,6 +838,35 @@ paths:
       responses:
         204:
           description: "Account summary item succesfully deleted"
+  /account_summaries/download_pdf/:
+    get:
+      tags:
+        - Account Summaries
+      summary: "Get Account Summary PDF"
+      parameters:
+        - in: query
+          name: client_id
+          description: "Client id"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: start_date
+          description: "Start Date"
+          required: true
+          schema:
+            type: string
+          example: "2024-01-01"
+        - in: query
+          name: end_date
+          description: "End Date"
+          required: true
+          schema:
+            type: string
+          example: "2024-12-31"
+      responses:
+        200:
+          description: "Account Summary PDF"
 
 components:
   schemas:

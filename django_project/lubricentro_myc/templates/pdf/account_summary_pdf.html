@@ -2,5 +2,41 @@
   <head>
     <title>Resumen de Cuenta: Cliente {{ client.id }}</title>
   </head>
-  <body></body>
+  <body>
+    <table>
+      <td style="width: 25%">
+        7637 La Dulce<br />
+        Tel:<br />
+        <br />
+        <div style="border: 1px solid black; padding: 5px">
+          {{ client.id }} {{ client.nombre|title }}<br />
+          {{ client.codigo_postal }} {{ client.localidad|title }}<br />
+          Cta. Cte.
+        </div>
+      </td>
+    </table>
+    <table style="margin: 30px">
+      <thead>
+        <tr style="border: 1px solid black; padding: 2px">
+          <td style="width: 16%">Fecha</td>
+          <td style="width: 36%">Descripción</td>
+          <td style="width: 16%">Debe</td>
+          <td style="width: 16%">Haber</td>
+          <td style="width: 16%">Total</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr></tr>
+        {% for item in account_summary_items %}
+        <tr>
+          <td>{{ item.date | date:"d-m-Y" }}</td>
+          <td>{{ item.description | upper }}</td>
+          <td>{{ item.debe | floatformat:2 }}</td>
+          <td>{{ item.haber | floatformat:2 }}</td>
+          <td>{{ item.total | floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
 </html>
