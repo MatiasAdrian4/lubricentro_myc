@@ -33,3 +33,8 @@ class InvoiceFactory(factory.django.DjangoModelFactory):
 class InvoiceItemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "lubricentro_myc.ElementoRemito"
+
+
+class AccountSummaryItemFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "lubricentro_myc.AccountSummaryItem"

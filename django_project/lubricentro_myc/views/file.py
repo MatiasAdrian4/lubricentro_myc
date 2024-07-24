@@ -5,7 +5,7 @@ from lubricentro_myc.models.product import Producto
 from lubricentro_myc.utils import render_to_pdf
 
 
-# TODO: add auth
+# TODO: move to ProductoViewSset
 def generar_stock_pdf(request):
     categoria = request.GET.get("categoria")
     if not categoria:
@@ -35,7 +35,7 @@ def generar_stock_pdf(request):
     return response
 
 
-# TODO: add auth
+# TODO: move to RemitoViewSet
 def generar_remito_pdf(request):
     # Add this here later (there is an issue with a non-authenticated call which will break the Activity's User FK)
     # log_activity(request, INFO, "Invoice PDF Generation", "")

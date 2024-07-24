@@ -19,6 +19,7 @@ tags:
   - name: Invoice Items
   - name: Products
   - name: Sales
+  - name: Account Summaries
 
 paths:
   /account/signup/:
@@ -755,6 +756,117 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SalesPerMonth"
+  /account_summaries/:
+    get:
+      tags:
+        - Account Summaries
+      summary: "Get all account summaries or filter them by client, start date and end date"
+      parameters:
+        - in: query
+          name: client_id
+          description: "Client id"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: start_date
+          description: "Start Date"
+          required: true
+          schema:
+            type: string
+          example: "2024-01-01"
+        - in: query
+          name: end_date
+          description: "End Date"
+          required: true
+          schema:
+            type: string
+          example: "2024-12-31"
+      responses:
+        200:
+          description: "List containing all the account summary items"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AccountSummaryItem"
+    post:
+      tags:
+        - Account Summaries
+      summary: "Create new account summary item"
+      requestBody:
+        description: "Required account summary item data"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountSummaryItem"
+      responses:
+        201:
+          description: "Account summary item created"
+  /account_summaries/{account_summary_id}/:
+    get:
+      tags:
+        - Account Summaries
+      summary: "Get account summary item"
+      parameters:
+        - name: account_summary_id
+          in: path
+          description: "Account summary item id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Succesfully get account summary item"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountSummaryItem"
+    delete:
+      tags:
+        - Account Summaries
+      summary: "Delete account summary item"
+      parameters:
+        - in: path
+          name: account_summary_id
+          description: "Account summary item id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: "Account summary item succesfully deleted"
+  /account_summaries/download_pdf/:
+    get:
+      tags:
+        - Account Summaries
+      summary: "Get Account Summary PDF"
+      parameters:
+        - in: query
+          name: client_id
+          description: "Client id"
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: start_date
+          description: "Start Date"
+          required: true
+          schema:
+            type: string
+          example: "2024-01-01"
+        - in: query
+          name: end_date
+          description: "End Date"
+          required: true
+          schema:
+            type: string
+          example: "2024-12-31"
+      responses:
+        200:
+          description: "Account Summary PDF"
 
 components:
   schemas:
@@ -1180,6 +1292,28 @@ components:
               0,
               0,
             ]
+    AccountSummaryItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        client:
+          type: integer
+          example: 1
+        date:
+          type: string
+          format: date
+          example: "2024-07-20T00:00:00"
+        description:
+          type: string
+          example: "Test"
+        type:
+          type: string
+          example: "debe"
+        amount:
+          type: number
+          example: 3270.75
     User:
       type: object
       properties:

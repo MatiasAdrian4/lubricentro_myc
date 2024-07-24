@@ -1,3 +1,4 @@
+from .account_summary_item import AccountSummaryItem
 from .activity import Activity
 from .client import Cliente
 from .invoice import Remito
