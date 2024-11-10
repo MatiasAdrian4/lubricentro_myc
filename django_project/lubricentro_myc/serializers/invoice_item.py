@@ -11,6 +11,7 @@ class ElementoRemitoSerializer(serializers.ModelSerializer):
         data = super(ElementoRemitoSerializer, self).to_representation(instance)
         data["producto"] = {
             "codigo": instance.producto.codigo,
+            "codigo_en_pantalla": instance.producto.codigo_en_pantalla,
             "detalle": instance.producto.detalle,
             "precio_venta_cta_cte": instance.producto.precio_venta_cta_cte,
         }

@@ -1119,6 +1119,9 @@ components:
         codigo:
           type: string
           example: 1
+        codigo_en_pantalla:
+          type: string
+          example: 1
         detalle:
           type: string
           example: "Product 1"
