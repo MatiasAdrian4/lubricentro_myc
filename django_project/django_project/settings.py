@@ -180,3 +180,7 @@ LOGGING = {
 }
 
 TESTING_MODE = int(os.environ.get("TESTING_MODE", 0))
+
+# AI
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
