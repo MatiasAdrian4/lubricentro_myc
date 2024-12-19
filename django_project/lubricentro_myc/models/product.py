@@ -21,6 +21,16 @@ class Producto(models.Model):
         return self.detalle
 
     @property
+    def precio_costo_con_descuentos(self) -> float:
+        return (
+            self.precio_costo
+            * ((100 - self.desc1) / 100)
+            * ((100 - self.desc2) / 100)
+            * ((100 - self.desc3) / 100)
+            * ((100 - self.desc4) / 100)
+        )
+
+    @property
     def precio_venta_contado(self) -> float:
         precio_total_con_descuentos = (
             self.precio_costo
