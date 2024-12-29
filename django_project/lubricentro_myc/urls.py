@@ -6,7 +6,7 @@ from lubricentro_myc.views.admin import (
     activities_list,
     export_models_backup,
 )
-from lubricentro_myc.views.chatbot import get_clients
+from lubricentro_myc.views.chatbot import get_clients, get_sales
 from lubricentro_myc.views.client import ClienteViewSet
 from lubricentro_myc.views.db import reset
 from lubricentro_myc.views.file import generar_remito_pdf, generar_stock_pdf
@@ -46,6 +46,7 @@ urlpatterns = [
         name="export-models-backup",
     ),
     re_path(r"chatbot/clients/", get_clients, name="chatbot-get-clients"),
+    re_path(r"chatbot/sales/", get_sales, name="chatbot-get-sales"),
     re_path("", include(router.urls)),
 ]
 

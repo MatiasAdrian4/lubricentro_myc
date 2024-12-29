@@ -5,9 +5,15 @@ from rest_framework.decorators import (
     permission_classes,
 )
 
-from lubricentro_myc.models import Cliente
-from lubricentro_myc.serializers.chatbot import SearchClientsSerializer
+from lubricentro_myc.models import Cliente, Venta
+from lubricentro_myc.serializers.chatbot import (
+    SearchClientsSerializer,
+    SearchSalesSerializer,
+)
 from lubricentro_myc.serializers.client import ClienteSerializer
+from lubricentro_myc.utilities.date import str_to_date
+
+from lubricentro_myc.serializers.sale import VentaSerializer
 
 
 #######################################################################
@@ -15,7 +21,9 @@ from lubricentro_myc.serializers.client import ClienteSerializer
 #######################################################################
 
 
-# TODO: add authentication
+# TODO: re-add authentication
+
+
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
@@ -30,3 +38,20 @@ def get_clients(request):
     serialized_data = ClienteSerializer(clients, many=True)
 
     return JsonResponse(data={"clients": serialized_data.data})
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+def get_sales(request):
+    serializer = SearchSalesSerializer(data=request.data)
+    if not serializer.is_valid():
+        return JsonResponse(data={"errors": serializer.errors}, status=400)
+
+    start_data = str_to_date(serializer.data["start_date"])
+    end_date = str_to_date(serializer.data["end_date"])
+    sales = Venta.objects.filter(fecha__range=(start_data, end_date))
+
+    serialized_data = VentaSerializer(sales, many=True)
+
+    return JsonResponse(data={"sales": serialized_data.data})
