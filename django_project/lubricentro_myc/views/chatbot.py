@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import JsonResponse
 from rest_framework.decorators import (
     api_view,
@@ -5,15 +6,16 @@ from rest_framework.decorators import (
     permission_classes,
 )
 
-from lubricentro_myc.models import Cliente, Venta
+from lubricentro_myc.models import Cliente, Producto, Venta
 from lubricentro_myc.serializers.chatbot import (
     SearchClientsSerializer,
+    SearchProductsSerializer,
     SearchSalesSerializer,
 )
 from lubricentro_myc.serializers.client import ClienteSerializer
-from lubricentro_myc.utilities.date import str_to_date
-
+from lubricentro_myc.serializers.product import ProductoSerializer
 from lubricentro_myc.serializers.sale import VentaSerializer
+from lubricentro_myc.utilities.date import str_to_date
 
 
 #######################################################################
@@ -38,6 +40,29 @@ def get_clients(request):
     serialized_data = ClienteSerializer(clients, many=True)
 
     return JsonResponse(data={"clients": serialized_data.data})
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+def get_products(request):
+    serializer = SearchProductsSerializer(data=request.data)
+    if not serializer.is_valid():
+        return JsonResponse(data={"errors": serializer.errors}, status=400)
+
+    detail = serializer.data.get("detail")
+    category = serializer.data.get("category")
+
+    filters = Q()
+    if detail:
+        filters &= Q(detalle__icontains=detail)
+    if category:
+        filters &= Q(categoria__icontains=category)
+    products = Producto.objects.filter(filters)
+
+    serialized_data = ProductoSerializer(products, many=True)
+
+    return JsonResponse(data={"products": serialized_data.data})
 
 
 @api_view(["POST"])
