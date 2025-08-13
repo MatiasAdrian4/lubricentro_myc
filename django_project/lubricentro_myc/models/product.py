@@ -1,4 +1,8 @@
+from datetime import date
+
 from django.db import models
+
+#from lubricentro_myc.models import Venta
 
 
 class Producto(models.Model):
@@ -71,3 +75,12 @@ class Producto(models.Model):
             self.agregado_cta_cte,
             self.categoria,
         )
+
+    #@property
+    #def amount_of_sales(self, start_date: date, end_date: date) -> float:  # or double?
+    #    # TODO: consider quantity
+    #    # I can aggregate quantities maybe?
+    #    sales = Venta.objects.filter(
+    #        producto=self, fecha__gte=start_date, fecha__lte=end_date
+    #    )
+    #    return 0
