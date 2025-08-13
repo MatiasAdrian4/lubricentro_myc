@@ -56,25 +56,20 @@
             {% if forloop.counter0|divisibleby:3 %}
             <tr>
                 <td>{{ client.nombre|title }}</td>
-                {% elif forloop.counter0|add:"2"|divisibleby:3 %}
-                <td>{{ client.nombre|title }}</td>
                 {% else %}
                 <td>{{ client.nombre|title }}</td>
+                {% endif %}
+
+                {% if forloop.counter|divisibleby:3 or forloop.last %}
+                {% if forloop.last and not forloop.counter|divisibleby:3 %}
+                {% if forloop.counter0|add:"1"|divisibleby:3 %}
+                <td></td>
+                <td></td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                {% endif %}
             </tr>
-            {% endif %}
-            {% if forloop.last %}
-            {% with remainder=forloop.counter0|add:"1"|divisibleby:3 %}
-            {% if not remainder %}
-            {% if forloop.counter0|add:"2"|divisibleby:3 %}
-            <td></td>
-            </tr>
-            {% else %}
-            <td></td>
-            <td></td>
-            </tr>
-            {% endif %}
-            {% endif %}
-            {% endwith %}
             {% endif %}
             {% endfor %}
         </tbody>
