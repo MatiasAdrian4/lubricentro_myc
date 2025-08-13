@@ -16,7 +16,7 @@
         table td,
         table th {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 4px;
             text-align: left;
         }
 
@@ -45,24 +45,36 @@
         <!--
         <thead>
             <tr>
-                <th style="width: 50%">Nombre</th>
-                <th style="width: 50%">Nombre</th>
+                <th style="width: 33.33%">Nombre</th>
+                <th style="width: 33.33%">Nombre</th>
+                <th style="width: 33.33%">Nombre</th>
             </tr>
         </thead>
         -->
         <tbody>
             {% for client in clients %}
-            {% if forloop.counter0|divisibleby:2 %}
+            {% if forloop.counter0|divisibleby:3 %}
             <tr>
                 <td>{{ client.nombre|title }}</td>
-                {% endif %}
-                {% if not forloop.counter0|divisibleby:2 %}
+                {% elif forloop.counter0|add:"2"|divisibleby:3 %}
+                <td>{{ client.nombre|title }}</td>
+                {% else %}
                 <td>{{ client.nombre|title }}</td>
             </tr>
             {% endif %}
-            {% if forloop.last and forloop.counter0|divisibleby:2 %}
+            {% if forloop.last %}
+            {% with remainder=forloop.counter0|add:"1"|divisibleby:3 %}
+            {% if not remainder %}
+            {% if forloop.counter0|add:"2"|divisibleby:3 %}
             <td></td>
             </tr>
+            {% else %}
+            <td></td>
+            <td></td>
+            </tr>
+            {% endif %}
+            {% endif %}
+            {% endwith %}
             {% endif %}
             {% endfor %}
         </tbody>
