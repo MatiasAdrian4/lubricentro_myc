@@ -1,11 +1,15 @@
 from django.db.models import Q
+from django.http import HttpResponse
+from rest_framework import viewsets
+from rest_framework.decorators import action
+
 from lubricentro_myc.models.client import Cliente
 from lubricentro_myc.serializers.client import (
     ClienteSerializer,
     SingleClienteSerializer,
 )
+from lubricentro_myc.utils import render_to_pdf
 from lubricentro_myc.views.pagination import CustomPageNumberPagination
-from rest_framework import viewsets
 
 
 class ClienteViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
@@ -29,3 +33,21 @@ class ClienteViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
                 Q(id__contains=query) | Q(nombre__icontains=query)
             ).order_by("id")
         return super().list(request)
+
+    @action(detail=False, methods=["get"])
+    def generate_pdf(self, request):
+        context = {
+            "clients": self.queryset.order_by("nombre"),
+        }
+        pdf = render_to_pdf("pdf/client_pdf.html", context)
+        if not pdf:
+            return HttpResponse(status=500)
+
+        response = HttpResponse(pdf, content_type="application/pdf")
+        filename = "listado_de_cliente.pdf"
+        content = f"inline; filename='{filename}'"
+        download = request.GET.get("download")
+        if download:
+            content = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content
+        return response

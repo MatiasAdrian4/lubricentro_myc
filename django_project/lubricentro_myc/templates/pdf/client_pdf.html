@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <title>Listado de Clientes</title>
+    <style type="text/css">
+        body {
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-info {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-info">
+        <h1>Listado de clientes ({% now "d/m/Y" %})</h1>
+    </div>
+
+    <table>
+        <!--
+        <thead>
+            <tr>
+                <th style="width: 50%">Nombre</th>
+                <th style="width: 50%">Nombre</th>
+            </tr>
+        </thead>
+        -->
+        <tbody>
+            {% for client in clients %}
+            {% if forloop.counter0|divisibleby:2 %}
+            <tr>
+                <td>{{ client.nombre|title }}</td>
+                {% endif %}
+                {% if not forloop.counter0|divisibleby:2 %}
+                <td>{{ client.nombre|title }}</td>
+            </tr>
+            {% endif %}
+            {% if forloop.last and forloop.counter0|divisibleby:2 %}
+            <td></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

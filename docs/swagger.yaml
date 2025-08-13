@@ -175,6 +175,14 @@ paths:
           description: "Client updated"
         404:
           description: "Client not found"
+  /clientes/generate_pdf/:
+    get:
+      tags:
+        - Clients
+      summary: "Get a PDF containing a list of all the clients"
+      responses:
+        200:
+          description: "PDF containing the list of clients"
   /generar_stock_pdf/:
     get:
       tags:
