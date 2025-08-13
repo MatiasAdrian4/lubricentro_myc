@@ -52,25 +52,14 @@
         </thead>
         -->
         <tbody>
-            {% for client in clients %}
-            {% if forloop.counter0|divisibleby:3 %}
+            {% for row in client_rows %}
             <tr>
-                <td>{{ client.nombre|title }}</td>
-                {% else %}
-                <td>{{ client.nombre|title }}</td>
-                {% endif %}
-
-                {% if forloop.counter|divisibleby:3 or forloop.last %}
-                {% if forloop.last and not forloop.counter|divisibleby:3 %}
-                {% if forloop.counter0|add:"1"|divisibleby:3 %}
-                <td></td>
-                <td></td>
-                {% else %}
-                <td></td>
-                {% endif %}
-                {% endif %}
+                {% for client in row %}
+                <td>
+                    {% if client %}{{ client.nombre|title }}{% endif %}
+                </td>
+                {% endfor %}
             </tr>
-            {% endif %}
             {% endfor %}
         </tbody>
     </table>

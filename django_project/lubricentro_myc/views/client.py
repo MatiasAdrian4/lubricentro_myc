@@ -36,8 +36,19 @@ class ClienteViewSet(viewsets.ModelViewSet, CustomPageNumberPagination):
 
     @action(detail=False, methods=["get"])
     def generate_pdf(self, request):
+        clients = list(self.queryset.order_by("nombre"))
+        
+        # Group clients into rows of 3
+        client_rows = []
+        for i in range(0, len(clients), 3):
+            row = clients[i:i+3]
+            # Pad the last row with None if needed
+            while len(row) < 3:
+                row.append(None)
+            client_rows.append(row)
+        
         context = {
-            "clients": self.queryset.order_by("nombre"),
+            "client_rows": client_rows,
         }
         pdf = render_to_pdf("pdf/client_pdf.html", context)
         if not pdf:
