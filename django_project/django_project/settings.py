@@ -180,3 +180,5 @@ LOGGING = {
 }
 
 TESTING_MODE = int(os.environ.get("TESTING_MODE", 0))
+
+DATE_FORMAT = "%d/%m/%Y"

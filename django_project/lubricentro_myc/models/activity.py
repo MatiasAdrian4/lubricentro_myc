@@ -13,7 +13,9 @@ TYPE_CHOICES = [
 
 
 class Activity(models.Model):
-    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        "auth.User", on_delete=models.CASCADE
+    )  # TODO: make it optional
     request = models.CharField(max_length=100)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     title = models.TextField()
