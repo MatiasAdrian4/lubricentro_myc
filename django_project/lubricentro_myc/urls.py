@@ -13,6 +13,7 @@ from lubricentro_myc.views.invoice import RemitoViewSet
 from lubricentro_myc.views.invoice_item import ElementoRemitoViewSet
 from lubricentro_myc.views.product import ProductoViewSet
 from lubricentro_myc.views.sale import VentaViewSet
+from lubricentro_myc.views.statistics import best_and_worst_selling_products
 from lubricentro_myc.views.user import LoginView, LogoutView, SignupView, UserView
 from rest_framework.routers import DefaultRouter
 
@@ -43,6 +44,11 @@ urlpatterns = [
         r"admin/export_models_backup/",
         export_models_backup,
         name="export-models-backup",
+    ),
+    re_path(
+        r"statistics/best_and_worst_selling_products/",
+        best_and_worst_selling_products,
+        name="statistics-best-and-worst-selling-products",
     ),
     re_path("", include(router.urls)),
 ]
